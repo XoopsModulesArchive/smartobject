@@ -1,4 +1,9 @@
 <?php
+// $Id: captcha.php,v 1.3 2012/03/31 10:35:31 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+
 /**
  * CAPTCHA class For XOOPS
  *
@@ -30,7 +35,13 @@ class XoopsCaptcha {
 	{
 		static $instance;
 		if(!isset($instance)) {
-			$instance =& new XoopsCaptcha();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//			$instance =& new XoopsCaptcha();
+			$instance =  new XoopsCaptcha();
+// ---
+
 		}
 		return $instance;
 	}
@@ -157,7 +168,13 @@ class XoopsCaptcha {
 	{
 		require_once dirname(__FILE__)."/".$this->mode.".php";
 		$class = "XoopsCaptcha".ucfirst($this->mode);
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//		$captcha_handler =  new $class();
 		$captcha_handler =& new $class();
+// ---
+
 		if(method_exists($captcha_handler, "destroyGarbage")) {
 			$captcha_handler->loadConfig($this->config);
 			$captcha_handler->destroyGarbage();
@@ -206,7 +223,13 @@ class XoopsCaptcha {
 	{
 		require_once dirname(__FILE__)."/".$this->mode.".php";
 		$class = "XoopsCaptcha".ucfirst($this->mode);
-		$captcha_handler =& new $class();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//		$captcha_handler =& new $class();
+		$captcha_handler =  new $class();
+// ---
+
 		$captcha_handler->loadConfig($this->config);
 
 		$form = $captcha_handler->render();

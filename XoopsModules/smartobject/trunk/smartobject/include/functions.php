@@ -1,6 +1,11 @@
 <?php
+// $Id: functions.php,v 1.3 2012/03/31 11:13:39 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+
 /**
-* $Id: functions.php 3442 2008-07-05 11:45:59Z malanciault $
+* Id: functions.php 3442 2008-07-05 11:45:59Z malanciault 
 * Module: SmartRental
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -476,7 +481,13 @@ function smart_adminMenu($currentoption = 0, $breadcrumb = '', $submenus = false
 		include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/language/english/admin.php';
 	}
 	include XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/admin/menu.php';
-	$tpl = & new XoopsTpl();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//	$tpl = & new XoopsTpl();
+	$tpl =   new XoopsTpl();
+// ---
+
 	$tpl->assign(array (
 		'headermenu' => $headermenu,
 		'adminmenu' => $adminmenu,
@@ -613,7 +624,7 @@ function smart_getCurrentPage() {
 function smart_seo_title($title='', $withExt=true)
 {
   // Transformation de la chaine en minuscule
-  // Codage de la chaine afin d'�viter les erreurs 500 en cas de caract�res impr�vus
+  // Codage de la chaine afin d'?viter les erreurs 500 en cas de caract?res impr?vus
   $title   = rawurlencode(strtolower($title));
 
   // Transformation des ponctuations
@@ -622,8 +633,8 @@ function smart_seo_title($title='', $withExt=true)
   $rep_pat = array(  "-"  ,   "-"  ,   ""   ,   ""   ,   ""   , "-100" ,   ""   ,   "-"  ,   ""   ,   ""   ,   ""   ,   "-"  ,   ""   ,   ""   ,   ""   ,   "-"  ,   ""   ,   ""   , "-at-" ,   ""   ,   "-"   ,  ""   ,   "-"  ,   ""   ,   "-"  ,   ""   ,   "-"  ,  ""  );
   $title   = preg_replace($pattern, $rep_pat, $title);
 
-  // Transformation des caract�res accentu�s
-  //                  �        �        �        �        �        �        �        �        �        �        �        �        �        �        �
+  // Transformation des caract?res accentu?s
+  //                  ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?
   $pattern = array("/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
   $rep_pat = array(  "e"  ,   "e"  ,   "e"  ,   "e"  ,   "c"  ,   "a"  ,   "a"  ,   "a"  ,   "i"  ,   "i"  ,   "u"  ,   "u"  ,   "u"  ,   "o"  ,   "o"  );
   $title   = preg_replace($pattern, $rep_pat, $title);
@@ -643,7 +654,12 @@ function smart_modFooter() {
 	global $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
 
 	include_once XOOPS_ROOT_PATH . '/class/template.php';
-	$tpl =& new XoopsTpl();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//	$tpl =& new XoopsTpl();
+	$tpl =  new XoopsTpl();
+// ---
 
 	$hModule = & xoops_gethandler('module');
 	$versioninfo = & $hModule->get($xoopsModule->getVar('mid'));
@@ -737,7 +753,13 @@ function & smart_getcorehandler($name, $optional = false) {
 		}
 		$class = 'Xoops' . ucfirst($name) . 'Handler';
 		if (class_exists($class)) {
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//			$handlers[$name] =   new $class ($GLOBALS['xoopsDB'], 'xoops');
 			$handlers[$name] = & new $class ($GLOBALS['xoopsDB'], 'xoops');
+// ---
+
 		}
 	}
 	if (!isset ($handlers[$name]) && !$optional) {

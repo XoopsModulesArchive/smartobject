@@ -1,4 +1,12 @@
 <?php
+// $Id: smartobjecttable.php,v 1.3 2012/03/31 11:04:54 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+
+// 2008-10-01 K.OHWADA
+// BUG: Undefined variable: qs_param
+// http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2506&post_id=23622
 
 /**
  * Contains the classes responsible for displaying a simple table filled with records of SmartObjects
@@ -6,7 +14,7 @@
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
 
- * @version $Id: smartobjecttable.php 2067 2008-05-08 16:12:18Z fx2024 $
+ * @version $Id: smartobjecttable.php,v 1.3 2012/03/31 11:04:54 ohwada Exp $
 
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
@@ -507,9 +515,19 @@ class SmartObjectTable {
 
 	function render($fetchOnly=false, $debug=false)
 	{
+
+//-----	
+// BUG: Undefined variable: qs_param
+		$qs_param = null;
+//-----	
+
 		include_once XOOPS_ROOT_PATH . '/class/template.php';
 
-		$this->_tpl =& new XoopsTpl();
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//		$this->_tpl =& new XoopsTpl();
+		$this->_tpl =  new XoopsTpl();
+// ---
 
 		/**
 		 * We need access to the vars of the SmartObject for a few things in the table creation.
