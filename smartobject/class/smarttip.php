@@ -1,7 +1,11 @@
 <?php
+// $Id: smarttip.php,v 1.3 2012/03/31 11:04:54 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
 
 /**
-* $Id: smarttip.php 159 2007-12-17 16:44:05Z malanciault $
+* Id: smarttip.php 159 2007-12-17 16:44:05Z malanciault 
 * Module: SmartObject
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -25,7 +29,13 @@ class SmartTip
 		$this->caption = $caption;
 		$this->message = $message;
 		$this->visible = $visible;
-		$this->_tpl =& new XoopsTpl();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//		$this->_tpl =& new XoopsTpl();
+		$this->_tpl =  new XoopsTpl();
+// ---
+
 	}
 
 	function render($outputNow=true) {

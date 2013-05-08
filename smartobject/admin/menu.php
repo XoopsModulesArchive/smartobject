@@ -1,6 +1,14 @@
 <?php
+// $Id: menu.php,v 1.3 2012/03/31 10:55:09 ohwada Exp $
+
+// 2008-10-01 K.OHWADA
+// BUG : undefined constant _AM_SOBJECT_ABOUT SMARTOBJECT_URL in "Modules Administration"
+// http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2506&post_id=23622
+// for Xoops Cube Legacy
+// http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2509&post_id=23627
+
 /**
-* $Id: menu.php 2341 2008-05-21 16:34:21Z malanciault $
+* Id: menu.php 2341 2008-05-21 16:34:21Z malanciault 
 * Module: SmartObject
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -46,14 +54,42 @@ if (isset($xoopsModule)) {
 	
 	$i++;
 	$headermenu[$i]['title'] = _PREFERENCES;
-	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid');
-	
+
+// --- for XCL ---	
+//	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid');
+	$mid = $xoopsModule->getVar('mid') ;
+	if ( defined( 'XOOPS_CUBE_LEGACY' ) ) {
+		$link_pref = XOOPS_URL.'/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id='.$mid; 
+	} else {
+		$link_pref = XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$mid ;
+	}
+	$headermenu[$i]['link'] = $link_pref ;
+// -----
+
 	$i++;
 	$headermenu[$i]['title'] = _CO_SOBJECT_UPDATE_MODULE;
 	$headermenu[$i]['link'] = XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=update&module=" . $xoopsModule->getVar('dirname');
-	
+
+// --- for XCL ---	
+//	$headermenu[$i]['link'] = XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=update&module=" . $xoopsModule->getVar('dirname');
+	$dirname = $xoopsModule->getVar('dirname') ;
+	if ( defined( 'XOOPS_CUBE_LEGACY' ) ) {
+		$link_module = XOOPS_URL.'/modules/legacy/admin/index.php?action=ModuleUpdate&dirname='.$dirname;
+	} else {
+		$link_module = XOOPS_URL.'/modules/system/admin.php?fct=modulesadmin&op=update&module='.$dirname;
+	}
+	$headermenu[$i]['link'] = $link_module ;
+// -----
+
 	$i++;
-	$headermenu[$i]['title'] = _AM_SOBJECT_ABOUT;
-	$headermenu[$i]['link'] = SMARTOBJECT_URL . "admin/about.php";
+
+// -----
+// BUG : undefined constant _AM_SOBJECT_ABOUT SMARTOBJECT_URL in "Modules Administration"
+//	$headermenu[$i]['title'] = _AM_SOBJECT_ABOUT;
+//	$headermenu[$i]['link'] = SMARTOBJECT_URL . "admin/about.php";
+	$headermenu[$i]['title'] = _MI_SOBJECT_ABOUT;
+	$headermenu[$i]['link'] = XOOPS_URL . "/modules/smartobject/admin/about.php";
+// -----
+
 }
 ?>

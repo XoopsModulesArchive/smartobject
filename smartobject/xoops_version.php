@@ -1,7 +1,16 @@
 <?php
+// $Id: xoops_version.php,v 1.3 2012/03/31 10:41:39 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// version 1.10
+
+// 2008-10-01 K.OHWADA
+// BUG: not read other language file
+// BUG: undefined customtag table
+// http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2506&post_id=23622
 
 /**
-* $Id: xoops_version.php 3439 2008-07-05 11:40:55Z malanciault $
+* Id: xoops_version.php 3439 2008-07-05 11:40:55Z malanciault
 
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
@@ -13,7 +22,13 @@ if (!defined("XOOPS_ROOT_PATH")) {
 }
 
 $modversion['name'] = "SmartObject Framework";
-$modversion['version'] = '1.0.1';
+
+// ---
+// version 1.10
+// $modversion['version'] = '1.0.1';
+$modversion['version'] = '1.10';
+// ---
+
 $modversion['description'] = "Framework providing functionnalities to SmartModules";
 $modversion['author'] = "The SmartFactory [www.smartfactory.ca]";
 $modversion['credits'] = "INBOX International, Mithrandir, Sudhaker, Ampersand Design, Technigrafa";
@@ -29,24 +44,41 @@ $modversion['developer_website_name'] = "The SmartFactory";
 $modversion['developer_email'] = "info@smartfactory.ca";
 $modversion['status_version'] = "Final";
 $modversion['status'] = "Final";
-$modversion['date'] = "2008-07-05";
 
-$modversion['people']['developers'][] = "marcan (Marc-André Lanciault)";
+// ---
+// version 1.10
+// $modversion['date'] = "2008-07-05";
+$modversion['date'] = "2012-01-01";
+// ---
+
+$modversion['people']['developers'][] = "marcan (Marc-Andre Lanciault)";
 $modversion['people']['developers'][] = "Mithrandir (Jan Keller Pedersen)";
 $modversion['people']['developers'][] = "Sudhaker (Sudhaker Raj)";
 $modversion['people']['developers'][] = "stranger";
 
 $modversion['people']['testers'][] = "Andy Cleff";
-$modversion['people']['testers'][] = "Félix Tousignant";
-$modversion['people']['testers'][] = "Frédéric Tousignant";
-$modversion['people']['testers'][] = "Pier-André Roy";
+$modversion['people']['testers'][] = "Felix Tousignant";
+$modversion['people']['testers'][] = "Frederic Tousignant";
+$modversion['people']['testers'][] = "Pier-Andre Roy";
 
 //$modversion['people']['translators'][] = "translator 1";
 
 //$modversion['people']['documenters'][] = "documenter 1";
 
 //$modversion['people']['other'][] = "other 1";
-include_once(XOOPS_ROOT_PATH.'/modules/smartobject/language/english/common.php');
+
+// ----- BUG: not read other language file -----
+//include_once(XOOPS_ROOT_PATH.'/modules/smartobject/language/english/common.php');
+global $xoopsConfig;
+$common_file = XOOPS_ROOT_PATH.'/modules/smartobject/language/'.$xoopsConfig['language'].'/common.php';
+if ( file_exists($common_file) ) {
+	$flag_common = true;
+	include_once $common_file;
+} else {
+	include_once(XOOPS_ROOT_PATH.'/modules/smartobject/language/english/common.php');
+}
+// -----
+
 $modversion['warning'] = _CO_SOBJECT_WARNING_BETA;
 
 $modversion['demo_site_url'] = "";
@@ -73,7 +105,11 @@ $modversion['tables'][3] = "smartobject_tag_text";
 $modversion['tables'][4] = "smartobject_rating";
 $modversion['tables'][5] = "smartobject_adsense";
 $modversion['tables'][6] = "smartobject_currency";
-$modversion['tables'][7] = "smartobject_customtag";
+
+// ----- BUG: undefined customtag table -----
+//$modversion['tables'][7] = "smartobject_customtag";
+// -----
+
 $modversion['tables'][8] = "smartobject_file";
 $modversion['tables'][9] = "smartobject_urllink";
 

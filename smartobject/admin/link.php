@@ -1,7 +1,11 @@
 <?php
+// $Id: link.php,v 1.3 2012/03/31 10:55:09 ohwada Exp $
+
+// 2012-01-01 K.OHWADA
+// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
 
 /**
-* $Id: link.php 159 2007-12-17 16:44:05Z malanciault $
+* Id: link.php 159 2007-12-17 16:44:05Z malanciault 
 * Module: SmartShop
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -42,7 +46,13 @@ switch ($op) {
 		smart_collapsableBar('sentlinks', _AM_SOBJECT_SENT_LINK_DISPLAY, _AM_SOBJECT_SENT_LINK_DISPLAY_INFO);
 
 		include_once XOOPS_ROOT_PATH . '/class/template.php';
-		$xoopsTpl =& new XoopsTpl();
+
+// ---
+// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
+//		$xoopsTpl =& new XoopsTpl();
+		$xoopsTpl =  new XoopsTpl();
+//---
+
 		$xoopsTpl->assign('link', $linkObj->toArray());
 		$xoopsTpl->display( 'db:smartobject_sentlink_display.html' );
 

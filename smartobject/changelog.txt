@@ -1,3 +1,25 @@
+<!-- $Id: changelog.txt,v 1.4 2012/03/31 10:43:00 ohwada Exp $ -->
+
+<b><u>=> Version 1.1.0 (2012-03-31)</u></b>
+
+This version adds the following changes to 1.0.1
+because the offical development site was lost.
+<a href="http://linux2.ohwada.net/" target="_blank">K.OHWADA - Happy Linux</a>
+
+- Improved : <a href="http://www.php.net/manual/en/migration53.deprecated.php" target="_blank">Migrating to PHP 5.3</a>
+(1) ereg
+(2) Assigning the return value of new by reference is now deprecated.
+
+- Improved : Migrating to MySQL 5.5
+(1) TYPE=MyISAM -> ENGINE=MyISAM
+
+- Added : Japanaese language pack 
+- Added : Japanaese UTF-8 (ja_uft8) in fpdf
+- Improved : <a href="http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2509&post_id=23627" target="_blank">SmartObject 1.0.1 patch for XOOPS Cube Legacy</a> ( Impresscms fourm )
+- Fixed : <a href="http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2506&post_id=23622" target="_blank">SmartObject 1.0.1 bugs and patchs</a> ( Impresscms fourm )
+- Fixed : <a href="http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2510&post_id=23635" target="_blank">SmartObject 1.0.1 bug and patch for PDF</a> ( Impresscms fourm )
+
+
 <b><u>=> Version 1.0.1 Final (2008-07-05)</u></b>
 
 - Fixed : XOOPS logo removed from admin footer
