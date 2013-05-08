@@ -16,7 +16,7 @@ function editclass($showmenu = false, $ratingid = 0)
 	if (!$ratingObj->isNew()){
 
 		if ($showmenu) {
-			smart_adminMenu(4, _AM_SOBJECT_RATINGS . " > " . _AM_SOBJECT_EDITING);
+			//smart_adminMenu(4, _AM_SOBJECT_RATINGS . " > " . _AM_SOBJECT_EDITING);
 		}
 		smart_collapsableBar('ratingedit', _AM_SOBJECT_RATINGS_EDIT, _AM_SOBJECT_RATINGS_EDIT_INFO);
 
@@ -40,7 +40,7 @@ function editclass($showmenu = false, $ratingid = 0)
 		}
 
 		if ($showmenu) {
-			smart_adminMenu(4, _AM_SOBJECT_RATINGS . " > " . _CO_SOBJECT_CREATINGNEW);
+			//smart_adminMenu(4, _AM_SOBJECT_RATINGS . " > " . _CO_SOBJECT_CREATINGNEW);
 		}
 
 		smart_collapsableBar('ratingcreate', _AM_SOBJECT_RATINGS_CREATE, _AM_SOBJECT_RATINGS_CREATE_INFO);
@@ -56,7 +56,7 @@ include_once("admin_header.php");
 include_once SMARTOBJECT_ROOT_PATH."class/smartobjecttable.php";
 include_once SMARTOBJECT_ROOT_PATH."class/rating.php";
 $smartobject_rating_handler = xoops_getmodulehandler('rating');
-
+$indexAdmin = new ModuleAdmin();
 
 $op = '';
 
@@ -70,6 +70,7 @@ switch ($op) {
 		$ratingid = isset($_GET['ratingid']) ? intval($_GET['ratingid']) : 0 ;
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('rating.php');
 
 		editclass(true, $ratingid);
 		break;
@@ -91,8 +92,9 @@ switch ($op) {
 	default:
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('rating.php');
 
-		smart_adminMenu(4, _AM_SOBJECT_RATINGS);
+		//smart_adminMenu(4, _AM_SOBJECT_RATINGS);
 
 		smart_collapsableBar('createdratings', _AM_SOBJECT_RATINGS, _AM_SOBJECT_RATINGS_DSC);
 
@@ -142,7 +144,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';

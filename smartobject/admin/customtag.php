@@ -16,7 +16,7 @@ function editcustomtag($showmenu = false, $customtagid = 0, $clone=false)
 	if (!$clone && !$customtagObj->isNew()){
 
 		if ($showmenu) {
-			smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS . " > " . _AM_SOBJECT_EDITING);
+			//smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS . " > " . _AM_SOBJECT_EDITING);
 		}
 		smart_collapsableBar('customtagedit', _AM_SOBJECT_CUSTOMTAGS_EDIT, _AM_SOBJECT_CUSTOMTAGS_EDIT_INFO);
 
@@ -28,7 +28,7 @@ function editcustomtag($showmenu = false, $customtagid = 0, $clone=false)
 		$customtagObj->setVar('tag', '');
 
 		if ($showmenu) {
-			smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS . " > " . _CO_SOBJECT_CREATINGNEW);
+			//smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS . " > " . _CO_SOBJECT_CREATINGNEW);
 		}
 
 		smart_collapsableBar('customtagcreate', _AM_SOBJECT_CUSTOMTAGS_CREATE, _AM_SOBJECT_CUSTOMTAGS_CREATE_INFO);
@@ -45,6 +45,8 @@ include_once SMARTOBJECT_ROOT_PATH."class/smartobjecttable.php";
 include_once SMARTOBJECT_ROOT_PATH."class/customtag.php";
 $smartobject_customtag_handler = xoops_getmodulehandler('customtag');
 
+$indexAdmin = new ModuleAdmin();
+
 
 $op = '';
 
@@ -57,6 +59,7 @@ switch ($op) {
 		$customtagid = isset($_GET['customtagid']) ? intval($_GET['customtagid']) : 0 ;
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('customtag.php');
 
 		editcustomtag(true, $customtagid);
 		break;
@@ -66,6 +69,7 @@ switch ($op) {
 		$customtagid = isset($_GET['customtagid']) ? intval($_GET['customtagid']) : 0 ;
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('customtag.php');
 
 		editcustomtag(true, $customtagid, true);
 		break;
@@ -87,8 +91,11 @@ switch ($op) {
 	default:
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('customtag.php');
+        $indexAdmin->addItemButton(_AM_SOBJECT_CUSTOMTAGS_CREATE, 'customtag.php?op=mod', 'add' , '');
+        echo $indexAdmin->renderButton('left', '');
 
-		smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS);
+		//smart_adminMenu(2, _AM_SOBJECT_CUSTOMTAGS);
 
 		smart_collapsableBar('createdcustomtags', _AM_SOBJECT_CUSTOMTAGS, _AM_SOBJECT_CUSTOMTAGS_DSC);
 
@@ -101,7 +108,9 @@ switch ($op) {
 //		$objectTable->addCustomAction('getCreateItemLink');
 //		$objectTable->addCustomAction('getCreateAttributLink');
 
-		$objectTable->addIntroButton('addcustomtag', 'customtag.php?op=mod', _AM_SOBJECT_CUSTOMTAGS_CREATE);
+//		$objectTable->addIntroButton('addcustomtag', 'customtag.php?op=mod', _AM_SOBJECT_CUSTOMTAGS_CREATE); //mb button
+
+
 /*
 		$criteria_upcoming = new CriteriaCompo();
 		$criteria_upcoming->add(new Criteria('start_date', time(), '>'));
@@ -138,7 +147,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';

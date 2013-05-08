@@ -41,7 +41,7 @@ function edittag($tagid = 0, $language=false, $fct=false)
     	}
     }
 
-    smart_adminMenu(2, $breadcrumb);
+    //smart_adminMenu(2, $breadcrumb);
 
     smart_collapsableBar($collaps_name, $title, $info);
 
@@ -100,7 +100,7 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(2, _AM_SOBJECT_TAGS);
+		//smart_adminMenu(2, _AM_SOBJECT_TAGS);
 
 		smart_collapsableBar('tags', _AM_SOBJECT_TAGS, _AM_SOBJECT_TAGS_INFO);
 
@@ -129,7 +129,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';

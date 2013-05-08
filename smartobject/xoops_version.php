@@ -1,14 +1,6 @@
 <?php
 // $Id: xoops_version.php,v 1.3 2012/03/31 10:41:39 ohwada Exp $
 
-// 2012-01-01 K.OHWADA
-// version 1.10
-
-// 2008-10-01 K.OHWADA
-// BUG: not read other language file
-// BUG: undefined customtag table
-// http://community.impresscms.org/modules/newbb/viewtopic.php?topic_id=2506&post_id=23622
-
 /**
 * Id: xoops_version.php 3439 2008-07-05 11:40:55Z malanciault
 
@@ -22,28 +14,40 @@ if (!defined("XOOPS_ROOT_PATH")) {
 }
 
 $modversion['name'] = "SmartObject Framework";
+$modversion['version'] = '1.11';
 
-// ---
-// version 1.10
-// $modversion['version'] = '1.0.1';
-$modversion['version'] = '1.10';
-// ---
-
-$modversion['description'] = "Framework providing functionnalities to SmartModules";
-$modversion['author'] = "The SmartFactory [www.smartfactory.ca]";
+$modversion['description'] = "Framework providing extra functionality to SmartModules";
+$modversion['author'] = "The SmartFactory";
 $modversion['credits'] = "INBOX International, Mithrandir, Sudhaker, Ampersand Design, Technigrafa";
-$modversion['help'] = "";
-$modversion['license'] = "GNU General Public License (GPL)";
+$modversion['help']        = 'page=help';
+$modversion['license']     = 'GNU GPL 2.0 or later';
+$modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html";
 $modversion['official'] = 0;
-$modversion['image'] = "images/module_logo.gif";
+$modversion['image'] = "images/module_logo.png";
 $modversion['dirname'] = "smartobject";
 
 // Added by marcan for the About page in admin section
-$modversion['developer_website_url'] = "http://smartfactory.ca";
-$modversion['developer_website_name'] = "The SmartFactory";
-$modversion['developer_email'] = "info@smartfactory.ca";
-$modversion['status_version'] = "Final";
-$modversion['status'] = "Final";
+$modversion['developer_website_url'] = "http://xoops.org";
+$modversion['developer_website_name'] = "XOOPS";
+$modversion['developer_email'] = "";
+//$modversion['status_version'] = "Final";
+//$modversion['status'] = "Final";
+
+$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
+$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
+$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
+//about
+$modversion['release_date']        = '2013/04/30';
+$modversion["module_website_url"] = "www.xoops.org";
+$modversion["module_website_name"] = "XOOPS";
+$modversion["module_status"]       = "Beta 2";
+$modversion['min_php']             = '5.2';
+$modversion['min_xoops']           = "2.5.6";
+$modversion['min_admin']           = '1.1';
+$modversion['min_db']              = array(
+    'mysql'  => '5.0.7',
+    'mysqli' => '5.0.7'
+);
 
 // ---
 // version 1.10
@@ -83,13 +87,14 @@ $modversion['warning'] = _CO_SOBJECT_WARNING_BETA;
 
 $modversion['demo_site_url'] = "";
 $modversion['demo_site_name'] = "";
-$modversion['support_site_url'] = "http://community.impresscms.org/modules/newbb/viewforum.php?forum=71";
-$modversion['support_site_name'] = "The ImpressCMS Community";
+$modversion['support_site_url'] = "http://xoops.org";
+$modversion['support_site_name'] = "XOOPS";
 $modversion['submit_bug'] = "";
 $modversion['submit_feature'] = "";
 
 
 $modversion['hasAdmin'] = 1;
+$modversion['system_menu'] = 1;
 $modversion['adminindex'] = "admin/index.php";
 $modversion['adminmenu'] = "admin/menu.php";
 
@@ -105,11 +110,7 @@ $modversion['tables'][3] = "smartobject_tag_text";
 $modversion['tables'][4] = "smartobject_rating";
 $modversion['tables'][5] = "smartobject_adsense";
 $modversion['tables'][6] = "smartobject_currency";
-
-// ----- BUG: undefined customtag table -----
-//$modversion['tables'][7] = "smartobject_customtag";
-// -----
-
+$modversion['tables'][7] = "smartobject_customtag";
 $modversion['tables'][8] = "smartobject_file";
 $modversion['tables'][9] = "smartobject_urllink";
 

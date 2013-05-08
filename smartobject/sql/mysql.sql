@@ -1,7 +1,3 @@
-# $Id: mysql.sql,v 1.3 2012/03/31 10:39:43 ohwada Exp $
-# 2012-01-01 K.OHWADA
-# TYPE=MyISAM -> ENGINE=MyISAM
-
 CREATE TABLE `smartobject_meta` (
   `metakey` varchar(50) NOT NULL default '',
   `metavalue` varchar(255) NOT NULL default '',
@@ -72,17 +68,17 @@ CREATE TABLE `smartobject_currency` (
   `currencyid` int(11) NOT NULL auto_increment,
   `iso4217` VARCHAR(15) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
-  `symbol` VARCHAR(15) NOT NULL,
+  `symbol`  VARCHAR(15) NOT NULL,
   `rate` float NOT NULL,
   `default_currency` int(1) NOT NULL,
   PRIMARY KEY  (`currencyid`)
 ) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
 
-INSERT INTO `smartobject_currency` VALUES (2, 'EUR', 'Euro', ' ', 0.65, 0);
+INSERT INTO `smartobject_currency` VALUES (2, 'EUR', 'Euro', '€', 0.65, 0);
 INSERT INTO `smartobject_currency` VALUES (3, 'USD', 'American dollar', '$', 0.9, 0);
 INSERT INTO `smartobject_currency` VALUES (1, 'CAD', 'Canadian dollar', '$', 1, 1);
 
- CREATE TABLE `smartobject_file` (
+CREATE TABLE `smartobject_file` (
 `fileid` INT( 11 ) NOT NULL auto_increment,
 `caption` VARCHAR( 255 ) NOT NULL ,
 `url` VARCHAR( 255 ) NOT NULL ,
@@ -92,7 +88,7 @@ INSERT INTO `smartobject_currency` VALUES (1, 'CAD', 'Canadian dollar', '$', 1, 
 `itemid` INT( 11 ) NOT NULL ,
 `item` VARCHAR( 255 ) NOT NULL ,
 PRIMARY KEY  (`fileid`)
-) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
+)  ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
 
 CREATE TABLE `smartobject_urllink` (
 `urllinkid` INT( 11 ) NOT NULL auto_increment,
@@ -107,3 +103,11 @@ CREATE TABLE `smartobject_urllink` (
 PRIMARY KEY  (`urllinkid`)
 ) ENGINE = MYISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
 
+CREATE TABLE `smartobject_customtag` (
+  `customtagid` int(11) NOT NULL auto_increment,
+	`name` VARCHAR(255) NOT NULL,
+	`description` TEXT NOT NULL,
+	`content` TEXT NOT NULL,
+	`language` TEXT NOT NULL,
+  PRIMARY KEY  (`customtagid`)
+) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;

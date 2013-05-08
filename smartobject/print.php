@@ -1,11 +1,11 @@
 <?php
 
 /**
-* $Id: print.php 159 2007-12-17 16:44:05Z malanciault $
-* Module: SmartContent
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * $Id: print.php 159 2007-12-17 16:44:05Z malanciault $
+ * Module: SmartObject
+ * Author: The SmartFactory 
+ * Licence: GNU
+ */
 
 include_once("header.php");
 require_once SMARTOBJECT_ROOT_PATH.'class/smartloader.php';

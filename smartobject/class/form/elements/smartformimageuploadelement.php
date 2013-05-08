@@ -17,11 +17,11 @@ class SmartFormImageUploadElement extends SmartFormUploadElement {
         // Override name for upload purposes
         $this->setName('upload_'.$key);
     }
-/**
-	 * prepare HTML for output
-	 *
-	 * @return	string	HTML
-	 */
+    /**
+     * prepare HTML for output
+     *
+     * @return	string	HTML
+     */
     function render(){
         return "<input type='hidden' name='MAX_FILE_SIZE' value='".$this->getMaxFileSize()."' />
         <input type='file' name='".$this->getName()."' id='".$this->getName()."'".$this->getExtra()." />
