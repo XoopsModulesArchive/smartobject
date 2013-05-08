@@ -77,3 +77,29 @@ CREATE TABLE `smartobject_currency` (
 INSERT INTO `smartobject_currency` VALUES (2, 'EUR', 'Euro', '€', 0.65, 0);
 INSERT INTO `smartobject_currency` VALUES (3, 'USD', 'American dollar', '$', 0.9, 0);
 INSERT INTO `smartobject_currency` VALUES (1, 'CAD', 'Canadian dollar', '$', 1, 1);
+
+ CREATE TABLE `smartobject_file` (
+`fileid` INT( 11 ) NOT NULL auto_increment,
+`caption` VARCHAR( 255 ) NOT NULL ,
+`url` VARCHAR( 255 ) NOT NULL ,
+`description` TEXT NOT NULL,
+`moduleid` INT( 11 ) NOT NULL ,
+`name` VARCHAR( 255 ) NOT NULL ,
+`itemid` INT( 11 ) NOT NULL ,
+`item` VARCHAR( 255 ) NOT NULL ,
+PRIMARY KEY  (`fileid`)
+)  TYPE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
+
+CREATE TABLE `smartobject_urllink` (
+`urllinkid` INT( 11 ) NOT NULL auto_increment,
+`caption` VARCHAR( 255 ) NOT NULL ,
+`url` VARCHAR( 255 ) NOT NULL ,
+`description` TEXT NOT NULL ,
+`moduleid` INT( 11 ) NOT NULL ,
+`name` VARCHAR( 255 ) NOT NULL ,
+`itemid` INT( 11 ) NOT NULL ,
+`item` VARCHAR( 255 ) NOT NULL ,
+`target` VARCHAR( 10 ) NOT NULL,
+PRIMARY KEY  (`urllinkid`)
+) ENGINE = MYISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;
+

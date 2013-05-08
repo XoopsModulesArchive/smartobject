@@ -18,11 +18,13 @@
 			</form>
 		</div>
 	<{/if}>
+	
+<{if $smartobject_showFilterAndLimit || $smartobject_quicksearch}>
 <form name="pick" id="pick" action="<{$smartobject_optionssel_action}>" method="POST" style="margin: 0;">
 	<{if $smartobject_quicksearch}>
-		<div style="float: right; border: 2px solid #C2CDD6; padding: 5px; background-color: #E6E6E6;">
-			<b><{$smartobject_quicksearch}> :</b> <input type="text" id="quicksearch_<{$smartobject_id}>" name="quicksearch_<{$smartobject_id}>" size="20" maxlength="255"/>
-			<input type="submit" name="button_quicksearch_<{$smartobject_id}>" value="<{$smarty.const._SEARCH}>" />
+		<div style="vertical-align: middle; float: right; border: 2px solid #C2CDD6; padding: 5px; background-color: #E6E6E6;">
+			<b><{$smartobject_quicksearch}> :</b> <input style="vertical-align: middle;" type="text" id="quicksearch_<{$smartobject_id}>" name="quicksearch_<{$smartobject_id}>" size="20" maxlength="255"/>
+			<input style="vertical-align: middle;" type="submit" name="button_quicksearch_<{$smartobject_id}>" value="<{$smarty.const._SEARCH}>" />
 		</div>
 	<{/if}>
 </div>
@@ -37,6 +39,9 @@
 <{/if}>
 //-->
 <!-- Why this If Else... ?? //-->
+
+
+<{if $smartobject_showFilterAndLimit}>
 <{if $smartobject_pagenav}>
 	<div style="text-align:right; padding-bottom: 3px;"><{$smartobject_pagenav}></div>
 <{/if}>
@@ -83,9 +88,12 @@
 			</td>
 		</tr>
 	</table>
-</form>
 
-<{if $smartobject_actionButtons}>
+<{/if}>
+</form>
+<{/if}>
+
+<{if $smartobject_actionButtons || $smartobject_withSelectedActions}>
 	<form name="form_<{$smartobject_id}>" id="form_<{$smartobject_id}>" method="POST">
 <{/if}>
 <table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>
@@ -126,13 +134,27 @@
 		</tr>
 	<{/if}>
 </table>
-<{if $smartobject_actionButtons}> 
-	<div style="padding: 5px;text-align: right; border-left: 1px solid silver; border-bottom: 1px solid silver; border-right: 1px solid silver;">
-		<input type='hidden' name='op' id='op' value='' />
-		<{foreach from=$smartobject_actionButtons item=actionButton}>
-			<input type="submit" name="<{$actionButton.op}>" onclick="this.form.elements.op.value='<{$actionButton.op}>'" value="<{$actionButton.text}>" />
-		<{/foreach}>
-	</div>
+<{if  $smartobject_actionButtons || $smartobject_withSelectedActions}> 
+	<input type='hidden' name='op' id='op' value='' />
+	<{if $smartobject_withSelectedActions}> 
+		<div style="padding: 5px;text-align: left; border-left: 1px solid silver; border-bottom: 1px solid silver; border-right: 1px solid silver;">
+		<{$smarty.const._CO_SOBJECT_WITH_SELECTED}>
+		<select name='selected_action'>
+			<option value = ''>---</option>
+			<{foreach from=$smartobject_withSelectedActions key=key item=action}>
+				<option value = <{$key}>><{$action}></option>
+			<{/foreach}>
+		</select>
+		<input type="submit" name="<{$actionButton.op}>" onclick="this.form.elements.op.value='with_selected_actions'" value="<{$smarty.const._CO_SOBJECT_SUBMIT}>" />
+		</div>
+	<{/if}>
+	<{if $smartobject_actionButtons}> 
+		<div style="padding: 5px;text-align: right; border-left: 1px solid silver; border-bottom: 1px solid silver; border-right: 1px solid silver;">
+			<{foreach from=$smartobject_actionButtons item=actionButton}>
+				<input type="submit" name="<{$actionButton.op}>" onclick="this.form.elements.op.value='<{$actionButton.op}>'" value="<{$actionButton.text}>" />
+			<{/foreach}>
+		</div>
+	<{/if}>
 </form>
 <{/if}>
 <{if $smartobject_pagenav}>

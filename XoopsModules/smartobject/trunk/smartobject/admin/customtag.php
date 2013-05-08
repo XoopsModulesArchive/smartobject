@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: customtag.php,v 1.2 2007/08/10 11:27:12 marcan Exp $
+* $Id: customtag.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: Class_Booking
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

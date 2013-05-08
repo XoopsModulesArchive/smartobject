@@ -1,5 +1,5 @@
 <?php
-// $Id: update.php,v 1.2 2007/09/21 18:44:22 marcan Exp $
+// $Id: update.php 1414 2008-04-02 21:07:16Z malanciault $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -246,6 +246,47 @@ function xoops_module_update_smartobject($module) {
 
     }
 
+  	$newDbVersion = 7;
+ 	if ($dbVersion < $newDbVersion) {
+    	echo "Database migrate to version " . $newDbVersion . "<br />";
+
+		// Create table smartobject_link
+	    $table = new SmartDbTable('smartobject_file');
+	    if (!$table->exists()) {
+		    $table->setStructure("
+			  `fileid` int(11) NOT NULL auto_increment,
+			  `caption` varchar(255) collate latin1_general_ci NOT NULL,
+			  `url` varchar(255) collate latin1_general_ci NOT NULL,
+			  `description` text collate latin1_general_ci NOT NULL,
+			   PRIMARY KEY  (`fileid`)
+			");
+		if (!$dbupdater->updateTable($table)) {
+		        /**
+		         * @todo trap the errors
+		         */
+		    }
+	    }
+	    unset($table);
+
+		$table = new SmartDbTable('smartobject_urllink');
+	    if (!$table->exists()) {
+		    $table->setStructure("
+			  `urllinkid` int(11) NOT NULL auto_increment,
+			  `caption` varchar(255) collate latin1_general_ci NOT NULL,
+			  `url` varchar(255) collate latin1_general_ci NOT NULL,
+			  `description` text collate latin1_general_ci NOT NULL,
+			  `target` varchar(10) collate latin1_general_ci NOT NULL,
+ 			   PRIMARY KEY  (`urllinkid`)
+			");
+		if (!$dbupdater->updateTable($table)) {
+		        /**
+		         * @todo trap the errors
+		         */
+		    }
+	    }
+	    unset($table);
+
+ 	}
 	echo "</code>";
 
     $feedback = ob_get_clean();
@@ -259,4 +300,11 @@ function xoops_module_update_smartobject($module) {
     return true;
 }
 
+function xoops_module_install_smartobject($module) {
+	ob_start();
+	
+	echo "Using the ImpressCMS onInstall event";
+    $feedback = ob_get_clean();
+    return $feedback;
+}
 ?>

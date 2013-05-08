@@ -6,7 +6,7 @@
  * @license		http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author		Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
  * @since		1.00
- * @version		$Id: xoops_version.php,v 1.1 2007/06/05 18:32:10 marcan Exp $
+ * @version		$Id: xoops_version.php 159 2007-12-17 16:44:05Z malanciault $
  * @package		Frameworks::captcha
  */
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: currency.php,v 1.2 2007/08/08 11:53:37 marcan Exp $
+// $Id: currency.php 159 2007-12-17 16:44:05Z malanciault $
 // ------------------------------------------------------------------------ //
 // 				 XOOPS - PHP Content Management System                      //
 //					 Copyright (c) 2000 XOOPS.org                           //

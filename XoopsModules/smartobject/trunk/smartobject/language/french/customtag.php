@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: customtag.php,v 1.1 2007/08/10 11:27:18 marcan Exp $
+* $Id: customtag.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

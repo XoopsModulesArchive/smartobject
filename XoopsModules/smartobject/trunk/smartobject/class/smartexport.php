@@ -4,7 +4,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartexport.php,v 1.3 2007/09/21 19:32:22 marcan Exp $
+ * @version $Id: smartexport.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://www.smartfactory.ca The SmartFactory
  * @package SmartObject
  */
@@ -28,13 +28,14 @@ class SmartObjectExport {
 	var $filepath;
 	var	$options;
 	var $outputMethods=false;
+	var $notDisplayFields;
 
 	/**
 	 * Constructor
 	 *
 	 * @param object $objectHandler SmartObjectHandler handling the data we want to export
 	 * @param object $criteria containing the criteria of the query fetching the objects to be exported
-	 * @param array $fields fields to be exported. If FALS then all fields will be exported
+	 * @param array $fields fields to be exported. If FALSE then all fields will be exported
 	 * @param string $filename name of the file to be created
 	 * @param string $filepath path where the file will be saved
 	 * @param string $format format of the ouputed export. Currently only supports CSV
@@ -47,6 +48,7 @@ class SmartObjectExport {
 		$this->filename = $filename;
 		$this->format = $format;
 		$this->options = $options;
+		$this->notDisplayFields = false;
 	}
 
 	/**
@@ -63,7 +65,7 @@ class SmartObjectExport {
 		foreach ($objects as $object) {
 			$row = array();
 			foreach ($object->vars as $key=>$var) {
-				if (!$this->fields || in_array($key, $this->fields)) {
+				if ((!$this->fields || in_array($key, $this->fields)) && !in_array($key, $this->notDisplayFields)) {
 					if ($this->outputMethods && (isset($this->outputMethods[$key])) && (method_exists($object, $this->outputMethods[$key]))) {
 						$method = $this->outputMethods[$key];
 						$row[$key] = $object->$method();
@@ -95,6 +97,25 @@ class SmartObjectExport {
 	function setOuptutMethods($outputMethods) {
 		$this->outputMethods = $outputMethods;
 	}
+
+	/*
+	 * Set an array of fields that we don't want in export
+	 */
+	 function setNotDisplayFields($fields){
+	 	if(!$this->notDisplayFields){
+	 		if(is_array($fields)){
+	 			$this->notDisplayFields = $fields;
+	 		}else{
+	 			$this->notDisplayFields = array($fields);
+	 		}
+	 	}else{
+	 		if(is_array($fields)){
+	 			$this->notDisplayFields = array_merge($this->notDisplayFields, $fields);
+	 		}else{
+	 			$this->notDisplayFields[] = $fields;
+	 		}
+	 	}
+	 }
 }
 
 /**

@@ -19,12 +19,11 @@ function smartobject_addto_edit($options)
 
 	$form = '';
 
-	$layout_select = new XoopsFormSelect(_CO_SOBJECT_BLOCKS_ADDTO_LAYOUT, 'options[]', $options[0]);
-	$layout_select->addOption(0, _CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION0);
-	$layout_select->addOption(1, _CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION1);
-	$layout_select->addOption(2, _CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION2);
-	$layout_select->addOption(3, _CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION3);
-
+	$layout_select = new XoopsFormSelect(_MB_SOBJECT_BLOCKS_ADDTO_LAYOUT, 'options[]', $options[0]);
+	$layout_select->addOption(0, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION0);
+	$layout_select->addOption(1, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION1);
+	$layout_select->addOption(2, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION2);
+	$layout_select->addOption(3, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION3);
 	$form .= $layout_select->getCaption() . ' ' . $layout_select->render() . '<br />';
 
 	return $form;

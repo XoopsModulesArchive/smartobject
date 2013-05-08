@@ -6,7 +6,7 @@
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
 
- * @version $Id: smartobjectsingleview.php,v 1.2 2007/08/13 13:28:54 marcan Exp $
+ * @version $Id: smartobjectsingleview.php 839 2008-02-10 02:40:13Z malanciault $
 
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
@@ -61,21 +61,18 @@ class SmartObjectSingleView {
 	var $_userSide;
 	var $_tpl;
 	var $_rows;
+	var $_actions;
+	var $_headerAsRow=true;
 
 	/**
     * Constructor
-    *
-    * @param object $objectHandler {@link SmartPersistableObjectHandler}
-    * @param array $columns array representing the columns to display in the table
-    * @param object $criteria
-    * @param array $actions array representing the actions to offer
-    *
-    * @return array
     */
-	function SmartObjectSingleView(&$object, $userSide=false)
+	function SmartObjectSingleView(&$object, $userSide=false, $actions=array(), $headerAsRow=true)
 	{
 		$this->_object = $object;
 		$this->_userSide = $userSide;
+		$this->_actions = $actions;
+		$this->_headerAsRow = $headerAsRow;
 	}
 
 	function addRow($rowObj) {
@@ -107,7 +104,19 @@ class SmartObjectSingleView {
 				$smartobject_object_array[$key]['caption'] = $this->_object->vars[$key]['form_caption'];
 			}
 		}
+		$action_row = '';
+		if (in_array('edit', $this->_actions)) {
+			$action_row .= $this->_object->getEditItemLink(false, true, true);
+		}
+		if (in_array('delete', $this->_actions)) {
+			$action_row .= $this->_object->getDeleteItemLink(false, true, true);
+		}
+		if ($action_row) {
+			$smartobject_object_array['zaction']['value'] = $action_row;
+			$smartobject_object_array['zaction']['caption'] = _CO_SOBJECT_ACTIONS;
+		}
 
+		$this->_tpl->assign('smartobject_header_as_row', $this->_headerAsRow);
 		$this->_tpl->assign('smartobject_object_array', $smartobject_object_array);
 
 		if ($fetchOnly) {

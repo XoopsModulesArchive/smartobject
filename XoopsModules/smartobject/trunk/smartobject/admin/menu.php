@@ -1,6 +1,6 @@
 <?php
 /**
-* $Id: menu.php,v 1.1 2007/06/05 18:31:42 marcan Exp $
+* $Id: menu.php 2341 2008-05-21 16:34:21Z malanciault $
 * Module: SmartObject
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -40,18 +40,18 @@ if (isset($smartobject_config['enable_currencyman']) && $smartobject_config['ena
 	$adminmenu[$i]['link'] = "admin/currency.php";
 }
 
-if (isset($xoopsModule)) {
-
+global $xoopsModule;
+if (isset($xoopsModule)) { 
 	$i = -1;
-
+	
 	$i++;
 	$headermenu[$i]['title'] = _PREFERENCES;
 	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid');
-
+	
 	$i++;
 	$headermenu[$i]['title'] = _CO_SOBJECT_UPDATE_MODULE;
 	$headermenu[$i]['link'] = XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=update&module=" . $xoopsModule->getVar('dirname');
-
+	
 	$i++;
 	$headermenu[$i]['title'] = _AM_SOBJECT_ABOUT;
 	$headermenu[$i]['link'] = SMARTOBJECT_URL . "admin/about.php";

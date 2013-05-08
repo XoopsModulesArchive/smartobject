@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: modinfo.php,v 1.2 2007/09/21 16:31:22 marcan Exp $
+* $Id: modinfo.php 1593 2008-04-14 14:39:53Z malanciault $
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -23,5 +23,8 @@ define('_MI_SOBJECT_CURRMANDSC', '');
 
 define('_MI_SOBJECT_ADDTO_TITLE', 'AddTo Social bookmarking block');
 define('_MI_SOBJECT_ADDTO_DESC', '');
+
+define('_MI_SOBJECT_ADMFOOTER', 'Enabling admin footer for SmartModules');
+define('_MI_SOBJECT_ADMFOOTERDSC', 'By default SmartModules displays a footer in administrative pages to link on professionnal services available for this module. You can turn off the display of this footer here.');
 
 ?>

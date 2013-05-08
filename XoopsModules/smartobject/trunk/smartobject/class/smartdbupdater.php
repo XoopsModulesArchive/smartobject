@@ -4,7 +4,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartdbupdater.php,v 1.1 2007/06/05 18:31:42 marcan Exp $
+ * @version $Id: smartdbupdater.php 799 2008-02-04 22:14:27Z malanciault $
  * @link http://www.smartfactory.ca The SmartFactory
  * @package SmartObject
  */
@@ -77,6 +77,8 @@ class SmartDbTable {
 	 */ //felix
 	var $_updatedWhere;
 
+	var $_existingFieldsArray=false;
+
 	/**
 	 * Constructor
 	 *
@@ -110,6 +112,7 @@ class SmartDbTable {
 	}
 
 	function getExistingFieldsArray() {
+
 		global $xoopsDB;
 		$result = $xoopsDB->query("SHOW COLUMNS FROM " . $this->name());
 		while ($existing_field = $xoopsDB->fetchArray($result)) {
@@ -119,6 +122,9 @@ class SmartDbTable {
 			}
 			if ($existing_field['Extra']) {
 				$fields[$existing_field['Field']] .= " " . $existing_field['Extra'];
+			}
+			if (!($existing_field['Default'] === NULL) && ($existing_field['Default'] || $existing_field['Default'] == '' || $existing_field['Default'] == 0)) {
+				$fields[$existing_field['Field']] .= " default '" . $existing_field['Default'] . "'";
 			}
 		}
 		return $fields;
@@ -466,7 +472,28 @@ class SmartDbTable {
  * @link http://www.smartfactory.ca The SmartFactory
  */
 class SmartobjectDbupdater {
+
+	var $_dbTypesArray;
+
 	function SmartobjectDbupdater() {
+		$this->_dbTypesArray[XOBJ_DTYPE_TXTBOX] = 'varchar(255)';
+		$this->_dbTypesArray[XOBJ_DTYPE_TXTAREA] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_INT] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_URL] = 'varchar(255)';
+		$this->_dbTypesArray[XOBJ_DTYPE_EMAIL] = 'varchar(255)';
+		$this->_dbTypesArray[XOBJ_DTYPE_ARRAY] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_OTHER] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_SOURCE] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_STIME] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_MTIME] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_LTIME] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_SIMPLE_ARRAY] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_CURRENCY] = 'text';
+		$this->_dbTypesArray[XOBJ_DTYPE_FLOAT] = 'float';
+		$this->_dbTypesArray[XOBJ_DTYPE_TIME_ONLY] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_URLLINK] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_FILE] = 'int(11)';
+		$this->_dbTypesArray[XOBJ_DTYPE_IMAGE] = 'varchar(255)';
 	}
 	/**
 	 * Use to execute a general query
@@ -557,6 +584,173 @@ class SmartobjectDbupdater {
 			$ret = $table->UpdateWhereValues($table) && $ret;
 		}
 		return $ret;
+	}
+
+	function automaticUpgrade($module, $item) {
+		if (is_array($item)) {
+			foreach($item as $v) {
+				$this->upgradeObjectItem($module, $v);
+			}
+		} else {
+			$this->upgradeObjectItem($module, $item);
+		}
+	}
+
+	function getFieldTypeFromVar($var) {
+		$ret = isset($this->_dbTypesArray[$var['data_type']]) ? $this->_dbTypesArray[$var['data_type']] : 'text';
+		return $ret;
+	}
+
+	function getFieldDefaultFromVar($var, $key = false) {
+		if ($var['value']) {
+			return $var['value'];
+		} else {
+			if (in_array($var['data_type'], array(
+							XOBJ_DTYPE_INT,
+							XOBJ_DTYPE_STIME,
+							XOBJ_DTYPE_MTIME,
+							XOBJ_DTYPE_LTIME,
+							XOBJ_DTYPE_TIME_ONLY,
+							XOBJ_DTYPE_URLLINK,
+							XOBJ_DTYPE_FILE
+						))) {
+				return '0';
+			} else {
+				return '';
+			}
+		}
+	}
+
+	function upgradeObjectItem($module, $item) {
+		$module_handler = xoops_getModuleHandler($item, $module);
+		if (!$module_handler) {
+			return false;
+		}
+
+		$table = new SmartDbTable($module . '_' . $item);
+		$object = $module_handler->create();
+		$objectVars = $object->getVars();
+
+		if (!$table->exists()) {
+			// table was never created, let's do it
+			$structure = "";
+			foreach($objectVars as $key=>$var) {
+				if ($var['persistent']) {
+					$type = $this->getFieldTypeFromVar($var);
+					if ($key == $module_handler->keyName) {
+						$extra = "auto_increment";
+					} else {
+						$default =  $this->getFieldDefaultFromVar($var);
+						$extra = "default '$default'
+";
+					}
+					$structure .= "`$key` $type not null $extra,
+";
+				}
+			}
+			$structure .= "PRIMARY KEY  (`" . $module_handler->keyName . "`)
+";
+			$table->setStructure($structure);
+			if (!$this->updateTable($table)) {
+		        /**
+		         * @todo trap the errors
+		         */
+		    }
+		} else {
+			$existingFieldsArray = $table->getExistingFieldsArray();
+			foreach($objectVars as $key=>$var) {
+				if ($var['persistent']) {
+					if (!isset($existingFieldsArray[$key])) {
+						// the fiels does not exist, let's create it
+						$type = $this->getFieldTypeFromVar($var);
+						$default =  $this->getFieldDefaultFromVar($var);
+						$table->addNewField($key, "$type not null default '$default'");
+					} else {
+						// if field already exists, let's check if the definition is correct
+						$definition =  strtolower($existingFieldsArray[$key]);
+						$type = $this->getFieldTypeFromVar($var);
+						if ($key == $module_handler->keyName) {
+							$extra = "auto_increment";
+						} else {
+							$default =  $this->getFieldDefaultFromVar($var, $key);
+							$extra = "default '$default'";
+						}
+						$actual_definition = "$type not null $extra";
+						if ($definition != $actual_definition) {
+							$table->addAlteredField($key, $actual_definition);
+						}
+					}
+				}
+			}
+
+			// check to see if there are some unused fields left in the table
+			foreach ($existingFieldsArray as $key=>$v) {
+				if (!isset($objectVars[$key]) || !$objectVars[$key]['persistent']) {
+					$table->addDropedField($key);
+				}
+			}
+
+			if (!$this->updateTable($table)) {
+		        /**
+		         * @todo trap the errors
+		         */
+		    }
+		}
+	}
+	function moduleUpgrade(&$module) {
+		$dirname = $module->getVar('dirname');
+
+	    ob_start();
+
+		$table = new SmartDbTable($dirname . '_meta');
+	    if (!$table->exists()) {
+		    $table->setStructure("
+			  `metakey` varchar(50) NOT NULL default '',
+			  `metavalue` varchar(255) NOT NULL default '',
+			  PRIMARY KEY (`metakey`)");
+			$table->setData("'version',0");
+			if (!$this->updateTable($table)) {
+		        /**
+		         * @todo trap the errors
+		         */
+		    }
+	    }
+
+	    $dbVersion  = smart_GetMeta('version', $dirname);
+	    if (!$dbVersion) {
+	    	$dbVersion = 0;
+	    }
+	    $newDbVersion = constant(strtoupper($dirname . '_db_version')) ? constant(strtoupper($dirname . '_db_version')) : 0;
+		echo 'Database version : ' . $dbVersion . '<br />';
+		echo 'New database version : ' . $newDbVersion . '<br />';
+
+	    if ($newDbVersion > $dbVersion) {
+	    	for($i=$dbVersion+1;$i<=$newDbVersion; $i++) {
+				$upgrade_function = $dirname . '_db_upgrade_' . $i;
+				if (function_exists($upgrade_function)) {
+					$upgrade_function();
+				}
+	    	}
+	    }
+
+		echo "<code>" . _SDU_UPDATE_UPDATING_DATABASE . "<br />";
+
+		// if there is a function to execute for this DB version, let's do it
+		//$function_
+
+		$module_info = smart_getModuleInfo($dirname);
+		$this->automaticUpgrade($dirname, $module_info->modinfo['object_items']);
+
+		echo "</code>";
+
+	    $feedback = ob_get_clean();
+	    if (method_exists($module, "setMessage")) {
+	        $module->setMessage($feedback);
+	    } else {
+	        echo $feedback;
+	    }
+	    smart_SetMeta("version", $newDbVersion, $dirname); //Set meta version to current
+	    return true;
 	}
 }
 ?>

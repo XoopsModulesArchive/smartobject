@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: xoops_core_common_functions.php,v 1.1 2007/06/05 18:31:44 marcan Exp $
+* $Id: xoops_core_common_functions.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartRental
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

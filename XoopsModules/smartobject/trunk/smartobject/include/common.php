@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: common.php,v 1.1 2007/06/05 18:31:43 marcan Exp $
+* $Id: common.php 3432 2008-07-05 10:16:49Z malanciault $
 * Module: SmartRental
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -38,7 +38,6 @@ if (!defined('SMARTOBJECT_IMAGES_ACTIONS_ROOT_PATH')) {
  * Version of the SmartObject Framework
  */
 include_once(SMARTOBJECT_ROOT_PATH . "include/version.php");
-
 include_once(SMARTOBJECT_ROOT_PATH . "include/functions.php");
 include_once(SMARTOBJECT_ROOT_PATH . "include/xoops_core_common_functions.php");
 

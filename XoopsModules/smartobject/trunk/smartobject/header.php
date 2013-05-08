@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: header.php,v 1.1 2007/06/05 18:28:22 marcan Exp $
+* $Id: header.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartShop
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
