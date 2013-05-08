@@ -1,6 +1,6 @@
 <?php
 
-// $Id: smartformhidden.php,v 1.1 2007/09/18 14:11:03 marcan Exp $
+// $Id: smartformhidden.php 159 2007-12-17 16:44:05Z malanciault $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

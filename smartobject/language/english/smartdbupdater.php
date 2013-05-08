@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: smartdbupdater.php,v 1.2 2007/06/27 10:44:16 marcan Exp $
+* $Id: smartdbupdater.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

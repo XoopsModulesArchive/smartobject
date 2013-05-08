@@ -1,3 +1,14 @@
+<b><u>=> Version 1.0.1 Final (2008-07-05)</u></b>
+
+- Fixed : XOOPS logo removed from admin footer
+- Fixed : INBOX logo in admin footer changed to used an image inside SmartObject images folder instead of linking to an image on the web
+- Added : Addition of a preference to turn off all SmartModules admin footer
+
+
+<b><u>=> Version 1.0 Final (2008-04-13)</u></b>
+
+- Fixed : a few bugs fixed throughout the module
+
 <b><u>=> Version 0.92 RC (2007-09-21)</u></b>
 
 - Added : Rating system feature

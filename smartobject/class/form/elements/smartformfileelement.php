@@ -1,17 +1,11 @@
 <?php
 
-/**
- * Contains the SmartObjectControl class
- *
- * @license GNU
- * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartformfileelement.php,v 1.1 2007/06/05 18:31:49 marcan Exp $
- * @link http://smartfactory.ca The SmartFactory
- * @package SmartObject
- * @subpackage SmartObjectForm
- */
 class SmartFormFileElement extends XoopsFormFile {
+	var $object;
+	var $key;
     function SmartFormFileElement($object, $key) {
+        $this->object = $object;
+       	$this->key = $key;
         $this->XoopsFormFile($object->vars[$key]['form_caption'], $key, isset($object->vars[$key]['form_maxfilesize']) ? $object->vars[$key]['form_maxfilesize'] : 0);
         $this->setExtra(" size=50");
     }
@@ -21,9 +15,17 @@ class SmartFormFileElement extends XoopsFormFile {
 	 * @return	string	HTML
 	 */
 	function render(){
-		return "<input type='hidden' name='MAX_FILE_SIZE' value='".$this->getMaxFileSize()."' />
+		$ret = '';
+		if($this->object->getVar($this->key) != '' ){
+       		$ret .=	"<div>"._CO_SOBJECT_CURRENT_FILE.$this->object->getVar($this->key) ."</div>" ;
+        }
+
+
+		$ret .= "<div><input type='hidden' name='MAX_FILE_SIZE' value='".$this->getMaxFileSize()."' />
 		        <input type='file' name='".$this->getName()."' id='".$this->getName()."'".$this->getExtra()." />
-		        <input type='hidden' name='smart_upload_file[]' id='smart_upload_file[]' value='".$this->getName()."' />";
+		        <input type='hidden' name='smart_upload_file[]' id='smart_upload_file[]' value='".$this->getName()."' /></div>";
+
+	return $ret;
 	}
 }
 ?>

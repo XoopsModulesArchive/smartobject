@@ -6,7 +6,7 @@
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
 
- * @version $Id: smartobject.php,v 1.7 2007/09/21 19:32:22 marcan Exp $
+ * @version $Id: smartobject.php 1409 2008-04-02 20:48:27Z malanciault $
 
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
@@ -17,13 +17,19 @@ if (!defined("XOOPS_ROOT_PATH")) {
     die("XOOPS root path not defined");
 }
 
+include_once XOOPS_ROOT_PATH . "/modules/smartobject/include/common.php";
+
 include_once SMARTOBJECT_ROOT_PATH . "class/smartobjectcontroller.php";
 
-define('XOBJ_DTYPE_SIMPLE_ARRAY', 101);
-define('XOBJ_DTYPE_CURRENCY', 200);
-define('XOBJ_DTYPE_FLOAT', 201);
-define('XOBJ_DTYPE_TIME_ONLY', 202);
-
+if (!defined('XOBJ_DTYPE_SIMPLE_ARRAY')) define('XOBJ_DTYPE_SIMPLE_ARRAY', 101);
+if (!defined('XOBJ_DTYPE_CURRENCY')) define('XOBJ_DTYPE_CURRENCY', 200);
+if (!defined('XOBJ_DTYPE_FLOAT')) define('XOBJ_DTYPE_FLOAT', 201);
+if (!defined('XOBJ_DTYPE_TIME_ONLY')) define('XOBJ_DTYPE_TIME_ONLY', 202);
+if (!defined('XOBJ_DTYPE_URLLINK')) define('XOBJ_DTYPE_URLLINK', 203);
+if (!defined('XOBJ_DTYPE_FILE')) define('XOBJ_DTYPE_FILE', 204);
+if (!defined('XOBJ_DTYPE_IMAGE')) define('XOBJ_DTYPE_IMAGE', 205);
+if (!defined('XOBJ_DTYPE_FORM_SECTION')) define('XOBJ_DTYPE_FORM_SECTION', 210);
+if (!defined('XOBJ_DTYPE_FORM_SECTION_CLOSE')) define('XOBJ_DTYPE_FORM_SECTION_CLOSE', 211);
 
 /**
  * SmartObject base class
@@ -55,6 +61,10 @@ class SmartObject extends XoopsObject {
 	 */
     var $controls = array();
 
+    function SmartObject(&$handler) {
+    	$this->handler = $handler;
+    }
+
 	/**
 	* Checks if the user has a specific access on this object
 	*
@@ -64,6 +74,13 @@ class SmartObject extends XoopsObject {
 	function accessGranted($perm_name) {
 		$smartpermissions_handler = new SmartobjectPermissionHandler($this->handler);
 		return $smartpermissions_handler->accessGranted($perm_name, $this->id());
+	}
+	function addFormSection($section_name, $value=false, $hide=false) {
+		$this->initVar($section_name, XOBJ_DTYPE_FORM_SECTION, $value, false, null, '', false, '', '', false, false, true);
+		$this->vars[$section_name]['hide'] = $hide;
+	}
+	function closeSection($section_name) {
+		$this->initVar('close_section_' . $section_name, XOBJ_DTYPE_FORM_SECTION_CLOSE, '', false, null, '', false, '', '', false, false, true);
 	}
 
     /**
@@ -81,7 +98,25 @@ class SmartObject extends XoopsObject {
     * @param bool $persistent set to FALSE if this field is not to be saved in the database
     */
     function initVar($key, $data_type, $value = null, $required = false, $maxlength = null, $options = '', $multilingual=false, $form_caption='', $form_dsc='', $sortby=false, $persistent=true, $displayOnForm=true) {
+        //url_ is reserved for files.
+        if (substr($key, 0,4) == 'url_' ) {
+	        trigger_error("Cannot use variable starting with 'url_'.");
+	    }
         parent::initVar($key, $data_type, $value, $required, $maxlength, $options);
+        if ($this->handler && (!$form_caption || $form_caption == '')) {
+        	$dyn_form_caption = strtoupper('_CO_' . $this->handler->_moduleName . '_' . $this->handler->_itemname . '_' . $key);
+        	if (defined($dyn_form_caption)) {
+				$form_caption = constant($dyn_form_caption);
+        	}
+        }
+        if ($this->handler && (!$form_dsc || $form_dsc == '')) {
+        	$dyn_form_dsc = strtoupper('_CO_' . $this->handler->_moduleName . '_' . $this->handler->_itemname . '_' . $key . '_DSC');
+        	if (defined($dyn_form_dsc)) {
+				$form_dsc = constant($dyn_form_dsc);
+        	}
+        }
+
+
         $this->vars[$key] = array_merge($this->vars[$key], array('multilingual' => $multilingual,
         'form_caption' => $form_caption,
         'form_dsc' => $form_dsc,
@@ -112,7 +147,7 @@ class SmartObject extends XoopsObject {
     * @param string $form_dsc description of this variable in a {@link SmartobjectForm}
     * @param mixed $value default value of this variable
     */
-	function quickInitVar($key, $data_type, $required, $form_caption='', $form_dsc='', $value = null) {
+	function quickInitVar($key, $data_type, $required=false, $form_caption='', $form_dsc='', $value = null) {
 		$maxlength = $data_type == 'XOBJ_DTYPE_TXTBOX' ? 255 : null;
 		$this->initVar($key, $data_type, $value, $required, $maxlength, '', false, $form_caption, $form_dsc, false, true, true);
 	}
@@ -153,15 +188,19 @@ class SmartObject extends XoopsObject {
             case "meta_keywords":
             	$value = $default != 'notdefined' ? $default : '';
                 $this->initVar($varname, XOBJ_DTYPE_TXTAREA, $value, false, null, '', false, _CO_SOBJECT_META_KEYWORDS, _CO_SOBJECT_META_KEYWORDS_DSC, false, true, $displayOnForm);
-        		$this->setControl('meta_keywords', array('name' => 'textarea',
-                                        'options' => array('form_editor'=>'formtextarea')));
+        		$this->setControl('meta_keywords', array(
+										'name' => 'textarea',
+                                        'form_editor'=>'textarea'
+                                        ));
                 break;
 
             case "meta_description":
             	$value = $default != 'notdefined' ? $default : '';
                 $this->initVar($varname, XOBJ_DTYPE_TXTAREA, $value, false, null, '', false, _CO_SOBJECT_META_DESCRIPTION, _CO_SOBJECT_META_DESCRIPTION_DSC, false, true, $displayOnForm);
-        		$this->setControl('meta_description', array('name' => 'textarea',
-                                        'options' => array('form_editor'=>'formtextarea')));
+        		$this->setControl('meta_description', array(
+										'name' => 'textarea',
+                                        'form_editor'=>'textarea'
+                                        ));
                 break;
 
             case "short_url":
@@ -186,8 +225,10 @@ class SmartObject extends XoopsObject {
             case "custom_css":
             	$value = $default != 'notdefined' ? $default : '';
                 $this->initVar($varname, XOBJ_DTYPE_TXTAREA, $value, false, null, '', false, _CO_SOBJECT_CUSTOM_CSS, _CO_SOBJECT_CUSTOM_CSS_DSC, false, true, $displayOnForm);
-        		$this->setControl('custom_css', array('name' => 'textarea',
-                                        'form_editor'=>'formtextarea'));
+        		$this->setControl('custom_css', array(
+									'name' => 'textarea',
+									'form_editor'=>'textarea',
+									));
                 break;
         }
 		$this->hideFieldFromSingleView($varname);
@@ -429,6 +470,25 @@ class SmartObject extends XoopsObject {
         }
     }
 
+	function getUploadDir($path=false)
+    {
+        if ($path) {
+            return $this->_image_path;
+        } else {
+            return $this->_image_url;
+        }
+    }
+
+    function getVarInfo($key = '', $info = '') {
+		if (isset($this->vars[$key][$info])) {
+			return $this->vars[$key][$info];
+		}elseif ($info == '' && isset($this->vars[$key])) {
+			return $this->vars[$key];
+		}  else {
+			return $this->vars;
+		}
+	}
+
     /**
      * Get the id of the object
      *
@@ -550,17 +610,15 @@ class SmartObject extends XoopsObject {
 			$form_editor = isset($xoopsModuleConfig['default_editor']) ? $xoopsModuleConfig['default_editor'] : 'textarea';
 		}
 
-		if (defined('XOOPS_EDITOR_IS_HTML')) {
-			$br = false;
-			$formatML = !$editor;
-		} elseif (in_array($form_editor, array('formtextarea', 'textarea', 'dhtmltextarea'))) {
-			if ($editor) {
+		if ($editor) {
+			if (defined('XOOPS_EDITOR_IS_HTML') && !(in_array($form_editor, array('formtextarea', 'textarea', 'dhtmltextarea')))) {
+				$br = false;
+				$formatML = !$editor;
+			} else {
 				return htmlspecialchars($ret, ENT_QUOTES);
 			}
-		} elseif ($form_editor == 'fckeditor') {
-			$br = false;
-			$formatML = $editor;
 		}
+
 		if (method_exists($myts, 'formatForML')) {
 			return $myts->displayTarea($ret, $html, $smiley, $xcode, $image, $br, $formatML);
 		} else {
@@ -624,7 +682,6 @@ class SmartObject extends XoopsObject {
                     }
                     break;
                 case XOBJ_DTYPE_INT:
-                case XOBJ_DTYPE_DATE:
                 case XOBJ_DTYPE_TIME_ONLY:
                     $cleanv = intval($cleanv);
                     break;
@@ -1011,9 +1068,9 @@ class SmartObject extends XoopsObject {
 	 * @param bool $userSide for futur use, to do something different on the user side
 	 * @return content of the template if $fetchOnly or nothing if !$fetchOnly
 	 */
-    function displaySingleObject($fetchOnly=false, $userSide=false) {
+    function displaySingleObject($fetchOnly=false, $userSide=false, $actions=array(), $headerAsRow=true) {
 		include_once SMARTOBJECT_ROOT_PATH."class/smartobjectsingleview.php";
-		$singleview = new SmartObjectSingleView($this, $userSide);
+		$singleview = new SmartObjectSingleView($this, $userSide, $actions, $headerAsRow);
 		// add all fields mark as displayOnSingleView except the keyid
 		foreach($this->vars as $key=>$var) {
 			if ($key != $this->handler->keyName && $var['displayOnSingleView']) {
@@ -1080,6 +1137,35 @@ class SmartObject extends XoopsObject {
 		}
 	}
 
+	function getUrlLinkObj($key){
+		$smartobject_linkurl_handler = xoops_getModuleHandler('urllink', 'smartobject');
+		$urllinkid = $this->getVar($key) != null ? $this->getVar($key) : 0;
+		if($urllinkid != 0){
+			return  $smartobject_linkurl_handler->get($urllinkid);
+		}else{
+			return $smartobject_linkurl_handler->create();
+		}
+	}
+
+	function &storeUrlLinkObj($urlLinkObj){
+		$smartobject_linkurl_handler = xoops_getModuleHandler('urllink', 'smartobject');
+		return $smartobject_linkurl_handler->insert($urlLinkObj);
+	}
+
+	function getFileObj($key){
+		$smartobject_file_handler = xoops_getModuleHandler('file', 'smartobject');
+		$fileid = $this->getVar($key) != null ? $this->getVar($key) : 0;
+		if($fileid != 0){
+			return  $smartobject_file_handler->get($fileid);
+		}else{
+			return $smartobject_file_handler->create();
+		}
+	}
+
+	function &storeFileObj($fileObj){
+		$smartobject_file_handler = xoops_getModuleHandler('file', 'smartobject');
+		return $smartobject_file_handler->insert($fileObj);
+	}
 }
 
 ?>

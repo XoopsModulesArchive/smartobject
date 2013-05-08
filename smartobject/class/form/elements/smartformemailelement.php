@@ -1,5 +1,5 @@
 <?php
-// $Id: smartformemailelement.php,v 1.1 2007/06/05 18:31:48 marcan Exp $
+// $Id: smartformemailelement.php 159 2007-12-17 16:44:05Z malanciault $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: rating.rate.php,v 1.1 2007/06/05 18:31:43 marcan Exp $
+* $Id: rating.rate.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartRental
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

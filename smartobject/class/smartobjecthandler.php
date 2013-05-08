@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartobjecthandler.php,v 1.4 2007/08/08 11:53:37 marcan Exp $
+ * @version $Id: smartobjecthandler.php 1190 2008-03-07 20:49:22Z fx2024 $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectCore
@@ -130,6 +130,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     var $generalSQL=false;
 
     var $_eventHooks=array();
+    var $_disabledEvents=array();
 
     /**
     * Constructor - called from child classes
@@ -210,10 +211,12 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return object {@link SmartObject}
      */
     function &create($isNew = true) {
-
-    	$obj =& new $this->className();
+    	$obj =& new $this->className($this);
 		$obj->setImageDir($this->getImageUrl(), $this->getImagePath());
-		$obj->handler =& $this;
+		if (!$obj->handler) {
+			$obj->handler =& $this;
+		}
+
         if ($isNew === true) {
             $obj->setNew();
         }
@@ -266,6 +269,12 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         	$obj_array = $this->getObjectsD($criteria, false, $as_object);
         } else {
         	$obj_array = $this->getObjects($criteria, false, $as_object);
+        	//patch : weird bug of indexing by id even if id_as_key = false;
+        	if(!isset($obj_array[0]) && is_object($obj_array[$id])){
+        		$obj_array[0] = $obj_array[$id];
+        		unset($obj_array[$id]);
+				$obj_array[0]->unsetNew();
+        	}
         }
 
         if (count($obj_array) != 1) {
@@ -323,7 +332,6 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         if (!$result) {
             return $ret;
         }
-
         return $this->convertResultSet($result, $id_as_key, $as_object);
     }
 
@@ -400,6 +408,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     function convertResultSet($result, $id_as_key = false, $as_object = true) {
     	$ret = array();
         while ($myrow = $this->db->fetchArray($result)) {
+
         	$obj =& $this->create(false);
             $obj->assignVars($myrow);
             if (!$id_as_key) {
@@ -451,7 +460,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
             $criteria->setSort($this->getIdentifierName());
         }
 
-        $sql = 'SELECT '.$this->keyName;
+        $sql = 'SELECT '.(is_array($this->keyName) ? implode(', ', $this->keyName) : $this->keyName) ;
         if(!empty($this->identifierName)){
             $sql .= ', '.$this->getIdentifierName();
         }
@@ -575,6 +584,16 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         return true;
     }
 
+    function disableEvent($event) {
+    	if (is_array($event)) {
+    		foreach($event as $v) {
+    			$this->_disabledEvents[] = $v;
+    		}
+    	} else {
+    		$this->_disabledEvents[] = $event;
+    	}
+    }
+
     function getPermissions() {
     	return $this->permissionsArray;
     }
@@ -597,7 +616,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         * @TODO: Change to if (!(class_exists($this->className) && $obj instanceof $this->className)) when going fully PHP5
         */
             if (!is_a($obj, $this->className)) {
-                $obj->setError(get_class($obj)." Differs from ".$this->className);
+            	$obj->setError(get_class($obj)." Differs from ".$this->className);
                 return false;
             }
             if (!$obj->isDirty()) {
@@ -833,21 +852,24 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return mixed result of the execution of the function or FALSE if the function was not executed
      */
     function executeEvent($event, &$executeEventObj) {
-    	if (method_exists($this, $event)) {
-    		$ret = $this->$event($executeEventObj);
-    	} else {
-    		// check to see if there is a hook for this event
-    		if (isset($this->_eventHooks[$event])) {
-    			$method = $this->_eventHooks[$event];
-    			// check to see if the method specified by this hook exists
-    			if (method_exists($this, $method)) {
-    				$ret = $this->$method($executeEventObj);
+    	if (!in_array($event, $this->_disabledEvents)) {
+	    	if (method_exists($this, $event)) {
+	    		$ret = $this->$event($executeEventObj);
+	    	} else {
+	    		// check to see if there is a hook for this event
+	    		if (isset($this->_eventHooks[$event])) {
+	    			$method = $this->_eventHooks[$event];
+	    			// check to see if the method specified by this hook exists
+	    			if (method_exists($this, $method)) {
+	    				$ret = $this->$method($executeEventObj);
 
-    			}
-    		}
-    		$ret = true;
+	    			}
+	    		}
+	    		$ret = true;
+	    	}
+	    	return $ret;
     	}
-    	return $ret;
+    	return true;
     }
 
     function getIdentifierName($withprefix=true) {

@@ -1,5 +1,5 @@
 <?php
-// $Id: adsense.php,v 1.1 2007/06/05 18:31:42 marcan Exp $
+// $Id: adsense.php 159 2007-12-17 16:44:05Z malanciault $
 // ------------------------------------------------------------------------ //
 // 				 XOOPS - PHP Content Management System                      //
 //					 Copyright (c) 2000 XOOPS.org                           //

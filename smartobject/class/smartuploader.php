@@ -1,5 +1,5 @@
 <?php
-// $Id: smartuploader.php,v 1.1 2007/06/05 18:31:43 marcan Exp $
+// $Id: smartuploader.php 159 2007-12-17 16:44:05Z malanciault $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -77,7 +77,7 @@
  *
  * @license GNU
  * @author Kazumi Ono <onokazu@xoops.org>
- * @version $Id: smartuploader.php,v 1.1 2007/06/05 18:31:43 marcan Exp $
+ * @version $Id: smartuploader.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  */

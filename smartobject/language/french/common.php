@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: common.php,v 1.3 2007/08/08 11:53:40 marcan Exp $
+* $Id: common.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -180,4 +180,5 @@ define('_CO_SOBJECT_NO_RECORDS_UPDATED', "Les objets ont été mis à jour avec suc
 define('_CO_SOBJECT_CLONE', "Dupliquer cet objet");
 
 define('_AM_SCONTENT_CATEGORY_VIEW', "Catégorie");
+define('_CO_SOBJECT_CURRENT_FILE', "Fichier courant: ");
 ?>

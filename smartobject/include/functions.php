@@ -1,6 +1,6 @@
 <?php
 /**
-* $Id: functions.php,v 1.6 2007/09/18 14:11:01 marcan Exp $
+* $Id: functions.php 3442 2008-07-05 11:45:59Z malanciault $
 * Module: SmartRental
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -363,6 +363,7 @@ function &smart_getModuleInfo($moduleName = false) {
 			$hModule = & xoops_gethandler('module');
 			if ($moduleName != 'xoops') {
 				$smartModules[$moduleName] = & $hModule->getByDirname($moduleName);
+
 			} else {
 				$smartModules[$moduleName] = & $hModule->getByDirname('system');
 			}
@@ -372,7 +373,7 @@ function &smart_getModuleInfo($moduleName = false) {
 }
 function &smart_getModuleConfig($moduleName = false) {
 	static $smartConfigs;
-	if (isset ($smartConfigs[$moduleName])) {
+		if (isset ($smartConfigs[$moduleName])) {
 		$ret = & $smartConfigs[$moduleName];
 		return $ret;
 	}
@@ -392,7 +393,7 @@ function &smart_getModuleConfig($moduleName = false) {
 		$smartConfigs[$moduleName] = & $xoopsModuleConfig;
 	} else {
 		$module = & smart_getModuleInfo($moduleName);
-		if (!is_object($moduleName)) {
+		if (!is_object($module)) {
 			$ret = false;
 			return $ret;
 		}
@@ -553,6 +554,7 @@ function smart_openclose_collapsable($name) {
 function smart_close_collapsable($name) {
 	echo "</div>";
 	smart_openclose_collapsable($name);
+	echo "<br />";
 }
 function smart_setCookieVar($name, $value, $time = 0) {
 	if ($time == 0) {
@@ -569,29 +571,28 @@ function smart_getCookieVar($name, $default = '') {
 		return $default;
 	}
 }
-function smart_getCurrentUrls() {
-	static $urls;
 
-	if (!isset($urls)) {
-		$http = ((strpos(XOOPS_URL, "https://")) === false) ? ("http://") : ("https://");
-		$phpself = $_SERVER['PHP_SELF'];
-		$httphost = $_SERVER['HTTP_HOST'];
-		$querystring = $_SERVER['QUERY_STRING'];
-		if ($querystring != '') {
-			$querystring = '?' . $querystring;
-		}
-		$currenturl = $http . $httphost . $phpself . $querystring;
-		$urls = array ();
-		$urls['http'] = $http;
-		$urls['httphost'] = $httphost;
-		$urls['phpself'] = $phpself;
-		$urls['querystring'] = $querystring;
-		$urls['full_phpself'] = $http . $httphost . $phpself;
-		$urls['full'] = $currenturl;
-		$urls['isHomePage'] = (XOOPS_URL . "/index.php") == ($http . $httphost . $phpself);
+function smart_getCurrentUrls() {
+	$urls = array();
+	$http = ((strpos(XOOPS_URL, "https://")) === false) ? ("http://") : ("https://");
+	$phpself = $_SERVER['PHP_SELF'];
+	$httphost = $_SERVER['HTTP_HOST'];
+	$querystring = $_SERVER['QUERY_STRING'];
+	if ($querystring != '') {
+		$querystring = '?' . $querystring;
 	}
+	$currenturl = $http . $httphost . $phpself . $querystring;
+	$urls = array ();
+	$urls['http'] = $http;
+	$urls['httphost'] = $httphost;
+	$urls['phpself'] = $phpself;
+	$urls['querystring'] = $querystring;
+	$urls['full_phpself'] = $http . $httphost . $phpself;
+	$urls['full'] = $currenturl;
+	$urls['isHomePage'] = (XOOPS_URL . "/index.php") == ($http . $httphost . $phpself);
 	return $urls;
 }
+
 function smart_getCurrentPage() {
 	$urls = smart_getCurrentUrls();
 	return $urls['full'];
@@ -612,7 +613,7 @@ function smart_getCurrentPage() {
 function smart_seo_title($title='', $withExt=true)
 {
   // Transformation de la chaine en minuscule
-  // Codage de la chaine afin d'éviter les erreurs 500 en cas de caractères imprévus
+  // Codage de la chaine afin d'ï¿½viter les erreurs 500 en cas de caractï¿½res imprï¿½vus
   $title   = rawurlencode(strtolower($title));
 
   // Transformation des ponctuations
@@ -621,8 +622,8 @@ function smart_seo_title($title='', $withExt=true)
   $rep_pat = array(  "-"  ,   "-"  ,   ""   ,   ""   ,   ""   , "-100" ,   ""   ,   "-"  ,   ""   ,   ""   ,   ""   ,   "-"  ,   ""   ,   ""   ,   ""   ,   "-"  ,   ""   ,   ""   , "-at-" ,   ""   ,   "-"   ,  ""   ,   "-"  ,   ""   ,   "-"  ,   ""   ,   "-"  ,  ""  );
   $title   = preg_replace($pattern, $rep_pat, $title);
 
-  // Transformation des caractères accentués
-  //                  è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
+  // Transformation des caractï¿½res accentuï¿½s
+  //                  ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½        ï¿½
   $pattern = array("/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
   $rep_pat = array(  "e"  ,   "e"  ,   "e"  ,   "e"  ,   "c"  ,   "a"  ,   "a"  ,   "a"  ,   "i"  ,   "i"  ,   "u"  ,   "u"  ,   "u"  ,   "o"  ,   "o"  );
   $title   = preg_replace($pattern, $rep_pat, $title);
@@ -640,24 +641,22 @@ function smart_seo_title($title='', $withExt=true)
 */
 function smart_modFooter() {
 	global $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
+
+	include_once XOOPS_ROOT_PATH . '/class/template.php';
+	$tpl =& new XoopsTpl();
+
 	$hModule = & xoops_gethandler('module');
 	$versioninfo = & $hModule->get($xoopsModule->getVar('mid'));
 	$modfootertxt = "Module " . $versioninfo->getInfo('name') . " - Version " . $versioninfo->getInfo('version') . "";
 	$modfooter = "<a href='" . $versioninfo->getInfo('support_site_url') . "' target='_blank'><img src='" . XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname') . "/images/cssbutton.gif' title='" . $modfootertxt . "' alt='" . $modfootertxt . "'/></a>";
+	$tpl->assign('modfooter', $modfooter);
 
 	if (!defined('_AM_SOBJECT_XOOPS_PRO')) {
-		define("_AM_SOBJECT_XOOPS_PRO", "Do you need help with this module ?<br />Do you need new features not yet availale ?");
+		define("_AM_SOBJECT_XOOPS_PRO", "Do you need help with this module ?<br />Do you need new features not yet available ?");
 	}
-
-	echo "<div style='padding-top: 8px; padding-bottom: 10px; text-align: center;'>" . $modfooter . "</div>";
-	echo '<div style="border: 2px solid #C2CDD6">';
-	echo '<div style="font-weight:bold; padding-top: 5px; text-align: center;">' . _AM_SOBJECT_XOOPS_PRO . '<br /><a href="http://inboxinternational.com/modules/smartcontent/page.php?pageid=10"><img src="http://inboxinternational.com/images/INBOXsign150_noslogan.gif" alt="Need XOOPS Professional Services?" title="Need XOOPS Professional Services?"></a>
-<a href="http://inboxinternational.com/modules/smartcontent/page.php?pageid=10"><img src="http://inboxinternational.com/images/xoops_services_pro_english.gif" alt="Need XOOPS Professional Services?" title="Need XOOPS Professional Services?"></a>
-</div>';
-	echo '</div>';
-
-
-	return $modfooter;
+	$smartobject_config = smart_getModuleConfig('smartobject');
+	$tpl->assign('smartobject_enable_admin_footer', $smartobject_config['enable_admin_footer']);
+	$tpl->display(SMARTOBJECT_ROOT_PATH . 'templates/smartobject_admin_footer.html');
 }
 function smart_xoops_cp_footer() {
 	smart_modFooter();
@@ -933,7 +932,43 @@ function smart_currency($var, $currencyObj=false) {
    	return $ret;
 }
 
-   	function smart_float($var) {
-   		return smart_currency($var);
-   	}
+function smart_float($var) {
+	return smart_currency($var);
+}
+
+function smart_getModuleAdminLink($moduleName=false) {
+	global $xoopsModule;
+	if (!$moduleName && (isset ($xoopsModule) && is_object($xoopsModule))) {
+		$moduleName = $xoopsModule->getVar('dirname');
+	}
+	$ret = '';
+	if ($moduleName) {
+		$ret = "<a href='" . XOOPS_URL . "/modules/$moduleName/admin/index.php'>" ._CO_SOBJECT_ADMIN_PAGE . "</a>";
+	}
+	return $ret;
+}
+
+function smart_getEditors() {
+	$filename = XOOPS_ROOT_PATH . '/class/xoopseditor/xoopseditor.php';
+	if (!file_exists($filename)) {
+		return false;
+	}
+	include_once $filename;
+	$xoopseditor_handler = XoopsEditorHandler::getInstance();
+	$aList = $xoopseditor_handler->getList();
+	$ret = array();
+	foreach($aList as $k=>$v) {
+		$ret[$v] = $k;
+	}
+	return $ret;
+}
+
+function smart_getTablesArray($moduleName, $items) {
+	$ret = array();
+	foreach ($items as $item) {
+		$ret[] = $moduleName . '_' . $item;
+	}
+	$ret[] = $moduleName . '_meta';
+	return $ret;
+}
 ?>

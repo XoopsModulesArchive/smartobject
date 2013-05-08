@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: xoops_version.php,v 1.6 2007/09/21 19:32:22 marcan Exp $
+* $Id: xoops_version.php 3439 2008-07-05 11:40:55Z malanciault $
 
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
@@ -13,10 +13,10 @@ if (!defined("XOOPS_ROOT_PATH")) {
 }
 
 $modversion['name'] = "SmartObject Framework";
-$modversion['version'] = 0.92;
+$modversion['version'] = '1.0.1';
 $modversion['description'] = "Framework providing functionnalities to SmartModules";
 $modversion['author'] = "The SmartFactory [www.smartfactory.ca]";
-$modversion['credits'] = "INBOX Solutions, Mithrandir, Sudhaker, Ampersand Design, Technigrafa";
+$modversion['credits'] = "INBOX International, Mithrandir, Sudhaker, Ampersand Design, Technigrafa";
 $modversion['help'] = "";
 $modversion['license'] = "GNU General Public License (GPL)";
 $modversion['official'] = 0;
@@ -29,16 +29,17 @@ $modversion['developer_website_name'] = "The SmartFactory";
 $modversion['developer_email'] = "info@smartfactory.ca";
 $modversion['status_version'] = "Final";
 $modversion['status'] = "Final";
-$modversion['date'] = "2007-09-21";
+$modversion['date'] = "2008-07-05";
 
-$modversion['people']['developers'][] = "marcan (Marc-André Lanciault)";
+$modversion['people']['developers'][] = "marcan (Marc-AndrÃ© Lanciault)";
 $modversion['people']['developers'][] = "Mithrandir (Jan Keller Pedersen)";
 $modversion['people']['developers'][] = "Sudhaker (Sudhaker Raj)";
+$modversion['people']['developers'][] = "stranger";
 
 $modversion['people']['testers'][] = "Andy Cleff";
-$modversion['people']['testers'][] = "Félix Tousignant";
-$modversion['people']['testers'][] = "Frédéric Tousignant";
-$modversion['people']['testers'][] = "Pier-André Roy";
+$modversion['people']['testers'][] = "FÃ©lix Tousignant";
+$modversion['people']['testers'][] = "FrÃ©dÃ©ric Tousignant";
+$modversion['people']['testers'][] = "Pier-AndrÃ© Roy";
 
 //$modversion['people']['translators'][] = "translator 1";
 
@@ -50,8 +51,8 @@ $modversion['warning'] = _CO_SOBJECT_WARNING_BETA;
 
 $modversion['demo_site_url'] = "";
 $modversion['demo_site_name'] = "";
-$modversion['support_site_url'] = "";
-$modversion['support_site_name'] = "";
+$modversion['support_site_url'] = "http://community.impresscms.org/modules/newbb/viewforum.php?forum=71";
+$modversion['support_site_name'] = "The ImpressCMS Community";
 $modversion['submit_bug'] = "";
 $modversion['submit_feature'] = "";
 
@@ -73,6 +74,8 @@ $modversion['tables'][4] = "smartobject_rating";
 $modversion['tables'][5] = "smartobject_adsense";
 $modversion['tables'][6] = "smartobject_currency";
 $modversion['tables'][7] = "smartobject_customtag";
+$modversion['tables'][8] = "smartobject_file";
+$modversion['tables'][9] = "smartobject_urllink";
 
 // Blocks
 $i = 0;
@@ -157,6 +160,13 @@ $modversion['config'][$i]['formtype'] = 'yesno';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = 0;
 
+$i++;
+$modversion['config'][$i]['name'] = 'enable_admin_footer';
+$modversion['config'][$i]['title'] = '_MI_SOBJECT_ADMFOOTER';
+$modversion['config'][$i]['description'] = '_MI_SOBJECT_ADMFOOTERDSC';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = 1;
 
 /*
 $i++;

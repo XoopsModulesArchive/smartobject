@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartautocompleteelement.php,v 1.2 2007/06/26 18:51:35 marcan Exp $
+ * @version $Id: smartautocompleteelement.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectForm

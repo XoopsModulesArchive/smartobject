@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartmetagen.php,v 1.2 2007/08/08 11:53:37 marcan Exp $
+ * @version $Id: smartmetagen.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectCore

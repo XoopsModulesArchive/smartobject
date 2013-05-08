@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: common.php,v 1.5 2007/09/21 19:32:28 marcan Exp $
+* $Id: common.php 1778 2008-04-24 17:48:56Z fx2024 $
 * Module: SmartContent
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -21,7 +21,7 @@ define('_CO_SOBJECT_ADMIN_PAGE', ':: Admin page ::');
 define('_CO_SOBJECT_ALL', "All");
 define('_CO_SOBJECT_APPROVE', 'Approve');
 define('_CO_SOBJECT_AUTHOR_WORD', "The Author's Word");
-define('_CO_SOBJECT_BODY_DEFAULT', "Here is an interesting link I found on %s :%s");
+define('_CO_SOBJECT_BODY_DEFAULT', "Here is an interesting link I found on %s : %s");
 define('_CO_SOBJECT_CANCEL', 'Cancel');
 define('_CO_SOBJECT_CURRENCY_ISO4217', 'ISO 4217 Code');
 define('_CO_SOBJECT_CURRENCY_ISO4217_DSC', 'Official currency code. More info: <a href="http://en.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217 on Wikipedia</a>');
@@ -175,5 +175,21 @@ define('_CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION0', "Horizontal 1 row");
 define('_CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION1', "Horizontal 2 rows");
 define('_CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION2', "Vertical with icons");
 define('_CO_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION3', "Vertical no icon");
+define('_CO_SOBJECT_CURRENT_FILE', "Current file: ");
+define('_CO_SOBJECT_URL_FILE_DSC', "Alternatively, you can use an URL. If you select a file via 'Browse' button, URL will be ignored. You can use the tag {XOOPS_URL} to print ".XOOPS_URL);
+define('_CO_SOBJECT_URL_FILE', "URL: ");
+define('_CO_SOBJECT_UPLOAD', "Select a file to upload: ");
+
+define('_CO_SOBJECT_CHANGE_FILE', "<hr/><b>Change File</b><br/>");
+define('_CO_SOBJECT_CAPTION', "Caption: ");
+define('_CO_SOBJECT_URLLINK_URL', "URL: ");
+define('_CO_SOBJECT_DESC', "Description");
+define('_CO_SOBJECT_URLLINK_TARGET', "Open link in:");
+define('_CO_SOBJECT_URLLINK_SELF', "Same window");
+define('_CO_SOBJECT_URLLINK_BLANK', "new window");
+
+define('_CO_SOBJECT_ANY', "Any");
+define('_CO_SOBJECT_EDITOR', "Prefered text editor");
+define('_CO_SOBJECT_WITH_SELECTED', "With selected: ");
 
 ?>

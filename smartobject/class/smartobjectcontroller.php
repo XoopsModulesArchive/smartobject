@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartobjectcontroller.php,v 1.4 2007/08/23 21:17:46 marcan Exp $
+ * @version $Id: smartobjectcontroller.php 2357 2008-05-22 19:01:44Z fx2024 $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectCore
@@ -38,16 +38,75 @@ class SmartObjectController {
 
     function postDataToObject(&$smartObj) {
     	foreach(array_keys($smartObj->vars) as $key) {
-    		// check if this field's value is available in the POST array
-    		// However, we don't need this value if it's the key field as the object has already been created
-    		if (isset($_POST[$key]) && ($key != $this->handler->keyName)) {
-    			// check to see of it's a value sent by a xoopsformdatetime
-    			if (is_array($_POST[$key]) && isset($_POST[$key]['date']))  {
-    				$value = strtotime($_POST[$key]['date']) + $_POST[$key]['time'];
-    			} else {
-    				$value = $_POST[$key];
-    			}
-    			$smartObj->setVar($key, $value);
+    		switch ($smartObj->vars[$key]['data_type']) {
+    			case XOBJ_DTYPE_IMAGE:
+	    			if(isset($_POST['url_'.$key]) && $_POST['url_'.$key] !=''){
+	    				$oldFile = $smartObj->getUploadDir(true).$smartObj->getVar($key, 'e');
+	    				$smartObj->setVar($key, $_POST['url_'.$key]);
+	    				if(file_exists($oldFile)){
+		    				unlink($oldFile);
+		    			}
+	    			}
+	    			if(isset($_POST['delete_'.$key]) && $_POST['delete_'.$key] == '1'){
+	    				$oldFile = $smartObj->getUploadDir(true).$smartObj->getVar($key, 'e');
+	    				$smartObj->setVar($key, '');
+	    				if(file_exists($oldFile)){
+		    				unlink($oldFile);
+		    			}
+	    			}
+    			break;
+
+    			case XOBJ_DTYPE_URLLINK:
+	    			$linkObj = $smartObj->getUrlLinkObj($key);
+	    			$linkObj->setVar('caption', $_POST['caption_'.$key]);
+	    			$linkObj->setVar('description', $_POST['desc_'.$key]);
+	    			$linkObj->setVar('target', $_POST['target_'.$key]);
+	    			$linkObj->setVar('url', $_POST['url_'.$key]);
+	    			if($linkObj->getVar('url') != '' ){
+	    				$smartObj->storeUrlLinkObj($linkObj);
+	    			}
+	    			//todo: catch errors
+	    			$smartObj->setVar($key, $linkObj->getVar('urllinkid'));
+    			break;
+
+    			case XOBJ_DTYPE_FILE:
+	    			if(!isset($_FILES['upload_'.$key]['name']) || $_FILES['upload_'.$key]['name'] == ''){
+	    				$fileObj = $smartObj->getFileObj($key);
+		    			$fileObj->setVar('caption', $_POST['caption_'.$key]);
+		    			$fileObj->setVar('description', $_POST['desc_'.$key]);
+		    			$fileObj->setVar('url', $_POST['url_'.$key]);
+		    			if(!($fileObj->getVar('url') == '' && $fileObj->getVar('url') == '' && $fileObj->getVar('url') == '')){
+		    				$res = $smartObj->storeFileObj($fileObj);
+							if($res){
+			    				$smartObj->setVar($key, $fileObj->getVar('fileid'));
+							}else{
+								//error setted, but no error message (to be improved)
+								$smartObj->setErrors($fileObj->getErrors());
+							}
+		    			}
+	    			}
+    			break;
+
+    			case XOBJ_DTYPE_STIME:
+    			case XOBJ_DTYPE_MTIME:
+    			case XOBJ_DTYPE_LTIME:
+	    			// check if this field's value is available in the POST array
+	    			if (is_array($_POST[$key]) && isset($_POST[$key]['date']))  {
+	    				$value = strtotime($_POST[$key]['date']) + $_POST[$key]['time'];
+	    			}else {
+	    				$value = strtotime($_POST[$key]);
+	    				//if strtotime returns false, the value is already a time stamp
+	    				if(!$value){
+	    					$value = intval($_POST[$key]);
+	    				}
+	    			}	
+	    			$smartObj->setVar($key, $value);
+	     			
+    			break;
+
+    			default:
+					$smartObj->setVar($key, $_POST[$key]);
+    			break;
     		}
     	}
     }
@@ -64,24 +123,34 @@ class SmartObjectController {
 			$redirect_msg = $modified_success_msg;
 		}
 
-		// Check if there were uploaded images
-
-		/**
-		 * @TODO This is a problem as it only takes care of images. We need to also manage files
-		 * tahat would be uploaded via the "file" control
-		 */
-
-		if (isset($_POST['smart_upload_image'])) {
+		// Check if there were uploaded files
+		if (isset($_POST['smart_upload_image']) || isset($_POST['smart_upload_file'])) {
 		    include_once XOOPS_ROOT_PATH."/modules/smartobject/class/smartuploader.php";
 			$uploaderObj = new SmartUploader($smartObj->getImageDir(true), $this->handler->_allowedMimeTypes, $this->handler->_maxFileSize, $this->handler->_maxWidth, $this->handler->_maxHeight);
 			foreach ($_FILES as $name=>$file_array) {
-				if (isset ($file_array['name']) && $file_array['name'] != "" ) {
+				if (isset ($file_array['name']) && $file_array['name'] != "" && in_array(str_replace('upload_', '', $name), array_keys($smartObj->vars))) {
 					if ($uploaderObj->fetchMedia($name)) {
 						$uploaderObj->setTargetFileName(time()."_". $uploaderObj->getMediaName());
 						if ($uploaderObj->upload()) {
 							// Find the related field in the SmartObject
 							$related_field = str_replace('upload_', '', $name);
-							$smartObj->setVar($related_field, $uploaderObj->getSavedFileName());
+							$uploadedArray[] = $related_field;
+							//si c'est un fichier Rich
+							if($smartObj->vars[$related_field]['data_type'] == XOBJ_DTYPE_FILE) {
+				    			$object_fileurl = $smartObj->getUploadDir();
+				    			$fileObj = $smartObj->getFileObj($related_field);
+				    			$fileObj->setVar('url', $object_fileurl.$uploaderObj->getSavedFileName());
+				    			$fileObj->setVar('caption', $_POST['caption_'.$related_field]);
+	    						$fileObj->setVar('description', $_POST['desc_'.$related_field]);
+	    			   			$smartObj->storeFileObj($fileObj);
+    							//todo : catch errors
+				    			$smartObj->setVar($related_field, $fileObj->getVar('fileid'));
+
+				    		}else{
+								$old_file = $smartObj->getUploadDir(true).$smartObj->getVar($related_field);
+								unlink($old_file);
+								$smartObj->setVar($related_field, $uploaderObj->getSavedFileName());
+							}
 						} else {
 							$smartObj->setErrors($uploaderObj->getErrors(false));
 						}
@@ -89,6 +158,7 @@ class SmartObjectController {
 						$smartObj->setErrors($uploaderObj->getErrors(false));
 					}
 				}
+
 			}
 		}
 
@@ -109,7 +179,7 @@ class SmartObjectController {
 			return $smartObj;
 		} else {
 			if ( !$storeResult ) {
-				redirect_header($smart_previous_page, 3, _CO_OBJ_SAVE_ERROR . $smartObj->getHtmlErrors());
+				redirect_header($smart_previous_page, 3, _CO_SOBJECT_SAVE_ERROR . $smartObj->getHtmlErrors());
 			}
 
 			$redirect_page = $redirect_page ? $redirect_page : smart_get_page_before_form();
@@ -129,13 +199,22 @@ class SmartObjectController {
      * @param bool $exit if set to TRUE then the script ends
      * @return bool
      */
-    function &storeFromDefaultForm($created_success_msg, $modified_success_msg, $redirect_page=false, $debug=false)
+    function &storeFromDefaultForm($created_success_msg, $modified_success_msg, $redirect_page=false, $debug=false, $x_param = false)
     {
     	$objectid = (isset($_POST[$this->handler->keyName])) ? intval($_POST[$this->handler->keyName]) : 0;
     	if ($debug) {
-    		$smartObj = $this->handler->getD($objectid);
+    		if($x_param){
+    			$smartObj = $this->handler->getD($objectid, true,  $x_param);
+    		}else{
+    			$smartObj = $this->handler->getD($objectid);
+    		}
+
     	} else {
-    		$smartObj = $this->handler->get($objectid);
+    		if($x_param){
+    			$smartObj = $this->handler->get($objectid, true, false, false, $x_param);
+    		}else{
+    			$smartObj = $this->handler->get($objectid);
+    		}
     	}
 
 
@@ -172,9 +251,9 @@ class SmartObjectController {
     	return $this->storeSmartObject(true);
     }
 
-    function &storeSmartObject($debug=false)
+    function &storeSmartObject($debug=false, $xparam = false)
     {
-    	$ret =& $this->storeFromDefaultForm('', '', null, $debug);
+    	$ret =& $this->storeFromDefaultForm('', '', null, $debug, $xparam);
 
     	return $ret;
     }
@@ -185,7 +264,7 @@ class SmartObjectController {
      * @param string $redir_page redirect page after deleting the object
      * @return bool
      */
-    function handleObjectDeletion($confirm_msg = false, $op='del')
+    function handleObjectDeletion($confirm_msg = false, $op='del', $userSide=false)
     {
 		global $smart_previous_page;
 
@@ -209,7 +288,7 @@ class SmartObjectController {
 		} else {
 			// no confirm: show deletion condition
 
-				xoops_cp_header();
+			xoops_cp_header();
 
 			if (!$confirm_msg) {
 				$confirm_msg = _CO_SOBJECT_DELETE_CONFIRM;
@@ -217,10 +296,43 @@ class SmartObjectController {
 
 			xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'), sprintf($confirm_msg , $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
 
-				xoops_cp_footer();
+			xoops_cp_footer();
 
 		}
 		exit();
+    }
+
+    function handleObjectDeletionFromUserSide($confirm_msg = false, $op='del') {
+		global $smart_previous_page, $xoopsTpl;
+
+    	$objectid = (isset($_REQUEST[$this->handler->keyName])) ? intval($_REQUEST[$this->handler->keyName]) : 0;
+    	$smartObj = $this->handler->get($objectid);
+
+		if ($smartObj->isNew()) {
+			redirect_header("javascript:history.go(-1)", 3, _CO_SOBJECT_NOT_SELECTED);
+			exit();
+		}
+
+		$confirm = (isset($_POST['confirm'])) ? $_POST['confirm'] : 0;
+		if ($confirm) {
+			if( !$this->handler->delete($smartObj)) {
+				redirect_header($_POST['redirect_page'], 3, _CO_SOBJECT_DELETE_ERROR . $smartObj->getHtmlErrors());
+				exit;
+			}
+
+			redirect_header($_POST['redirect_page'], 3, _CO_SOBJECT_DELETE_SUCCESS);
+			exit();
+		} else {
+			// no confirm: show deletion condition
+			if (!$confirm_msg) {
+				$confirm_msg = _CO_SOBJECT_DELETE_CONFIRM;
+			}
+
+			ob_start();
+			xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'), sprintf($confirm_msg , $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
+			$smartobject_delete_confirm = ob_get_clean();
+			$xoopsTpl->assign('smartobject_delete_confirm', $smartobject_delete_confirm);
+		}
     }
 
     /**
@@ -292,9 +404,10 @@ class SmartObjectController {
     	return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . "</a>";
     }
 
-    function getEditItemLink($smartObj, $onlyUrl=false, $withimage=true)
+    function getEditItemLink($smartObj, $onlyUrl=false, $withimage=true, $userSide=false)
     {
-    	$ret = $this->handler->_moduleUrl . "admin/" . $this->handler->_page . "?op=mod&" . $this->handler->keyName . "=" . $smartObj->getVar($this->handler->keyName);
+    	$admin_side = $userSide ? '' : 'admin/';
+    	$ret = $this->handler->_moduleUrl . $admin_side . $this->handler->_page . "?op=mod&" . $this->handler->keyName . "=" . $smartObj->getVar($this->handler->keyName);
 		if ($onlyUrl) {
 			return $ret;
 		}
@@ -305,9 +418,10 @@ class SmartObjectController {
     	return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . "</a>";
     }
 
-    function getDeleteItemLink($smartObj, $onlyUrl=false, $withimage=true)
+    function getDeleteItemLink($smartObj, $onlyUrl=false, $withimage=true, $userSide=false)
     {
-    	$ret = $this->handler->_moduleUrl . "admin/" . $this->handler->_page . "?op=del&" . $this->handler->keyName . "=" . $smartObj->getVar($this->handler->keyName);
+    	$admin_side = $userSide ? '' : 'admin/';
+    	$ret = $this->handler->_moduleUrl . $admin_side . $this->handler->_page . "?op=del&" . $this->handler->keyName . "=" . $smartObj->getVar($this->handler->keyName);
 		if ($onlyUrl) {
 			return $ret;
 		}
@@ -328,7 +442,7 @@ class SmartObjectController {
 		$smartModule = smart_getModuleInfo($smartObj->handler->_moduleName);
 		$link = smart_getCurrentPage();
 		$mid = $smartModule->getVar('mid');
-		$friendlink = "<a href=\"javascript:openWithSelfMain('".SMARTOBJECT_URL."sendlink.php?link=" . $link . "&amp;mid=" . $mid . "', 'sendmessage', 674, 500);\"><img src=\"".SMARTOBJECT_IMAGES_ACTIONS_URL . "mail_send.png\"  alt=\"" . _CO_SOBJECT_EMAIL . "\" title=\"" . _CO_SOBJECT_EMAIL . "\" style=\"vertical-align: middle;\"/></a>";
+		$friendlink = "<a href=\"javascript:openWithSelfMain('".SMARTOBJECT_URL."sendlink.php?link=" . $link . "&amp;mid=" . $mid . "', ',',',',',','sendmessage', 674, 500);\"><img src=\"".SMARTOBJECT_IMAGES_ACTIONS_URL . "mail_send.png\"  alt=\"" . _CO_SOBJECT_EMAIL . "\" title=\"" . _CO_SOBJECT_EMAIL . "\" style=\"vertical-align: middle;\"/></a>";
 
 		$ret = '<span id="smartobject_print_button">' . $printlink . "&nbsp;</span>" . '<span id="smartobject_mail_button">' . $friendlink . '</span>';
 		return $ret;

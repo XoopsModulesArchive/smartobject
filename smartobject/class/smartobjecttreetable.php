@@ -4,7 +4,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartobjecttreetable.php,v 1.1 2007/06/05 18:31:42 marcan Exp $
+ * @version $Id: smartobjecttreetable.php 799 2008-02-04 22:14:27Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectTable
@@ -74,9 +74,11 @@ class SmartObjectTreeTable extends SmartObjectTable {
 			}
 
 			$space = '';
-			for ($i = 0; $i < $level; $i++) {
-				$space = $space . '--';
-			}
+			if($column->getKeyName() == $this->_objectHandler->identifierName){
+				for ($i = 0; $i < $level; $i++) {
+					$space = $space . '--';
+				}
+		}
 
 			if ($space != '') {
 				$space .= '&nbsp;';
@@ -118,7 +120,7 @@ class SmartObjectTreeTable extends SmartObjectTable {
 		$aObject['actions'] = $actions;
 
 		$this->_tpl->assign('smartobject_actions_column_width', count($actions) * 30);
-
+		$aObject['id'] = $object->id();
 		$this->_aObjects[] = $aObject;
 
 		$childrenObjects = $this->getChildrenOf($object->id());
@@ -150,7 +152,9 @@ class SmartObjectTreeTable extends SmartObjectTable {
 	}
 
 	function fetchObjects() {
-		return $this->_objectHandler->getObjects($this->_criteria, 'parentid');
+		$ret = $this->_objectHandler->getObjects($this->_criteria, 'parentid');
+		return $ret;
+
 	}
 }
 

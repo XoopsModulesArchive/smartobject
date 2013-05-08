@@ -6,7 +6,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartloader.php,v 1.4 2007/09/21 19:32:22 marcan Exp $
+ * @version $Id: smartloader.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectCore
@@ -35,5 +35,5 @@ $smarthook_handler = SmartHookHandler::getInstance();
 if (!class_exists('smartmetagen')) {
 	include_once(SMARTOBJECT_ROOT_PATH . "class/smartmetagen.php");
 }
-$smartobject_config = smart_getModuleConfig('smartobject');
+//$smartobject_config = smart_getModuleConfig('smartobject');
 ?>

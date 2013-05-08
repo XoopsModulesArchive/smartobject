@@ -5,11 +5,13 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartformselect_multielement.php,v 1.1 2007/06/05 18:31:49 marcan Exp $
+ * @version $Id: smartformselect_multielement.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectForm
  */
+include_once (SMARTOBJECT_ROOT_PATH . "class/form/elements/smartformselectelement.php");
+
 class SmartFormSelect_multiElement extends SmartFormSelectElement  {
     function SmartFormSelect_multiElement($object, $key) {
         $this->multiple = true;

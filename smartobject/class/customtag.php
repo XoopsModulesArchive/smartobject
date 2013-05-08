@@ -1,5 +1,5 @@
 <?php
-// $Id: customtag.php,v 1.2 2007/06/26 18:51:34 marcan Exp $
+// $Id: customtag.php 159 2007-12-17 16:44:05Z malanciault $
 // ------------------------------------------------------------------------ //
 // 				 XOOPS - PHP Content Management System                      //
 //					 Copyright (c) 2000 XOOPS.org                           //

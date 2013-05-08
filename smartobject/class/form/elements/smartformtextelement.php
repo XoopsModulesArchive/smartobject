@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartformtextelement.php,v 1.3 2007/09/19 19:18:53 marcan Exp $
+ * @version $Id: smartformtextelement.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectForm

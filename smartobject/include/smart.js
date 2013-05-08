@@ -19,6 +19,29 @@ function selectAll(formObj, fieldname, isInverse)
     }
 }
 
+function smartobject_checkall(formObj, fieldname)
+{
+
+    isInverse = formObj.checkall_smartobjects.checked;
+
+    if (fieldname.length == 0) {
+        for (var i=0;i < formObj.length;i++) {
+            fldObj = formObj.elements[i];
+            if (fldObj.type == 'checkbox') {
+                fldObj.checked = isInverse;
+            }
+        }
+    } else {
+        for (var i=0; i < formObj.length;i++) {
+            fldObj = formObj.elements[i];
+            if (fldObj.type == 'checkbox') {
+                if (fldObj.name.indexOf(fieldname) > -1) {
+                    fldObj.checked = isInverse;
+                }
+            }
+        }
+    }
+}
 function goto_URL(object)
 {
 	window.location.href = object.options[object.selectedIndex].value;

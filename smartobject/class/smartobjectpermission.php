@@ -1,7 +1,7 @@
 <?php
 
 /**
-* $Id: smartobjectpermission.php,v 1.2 2007/06/26 18:51:34 marcan Exp $
+* $Id: smartobjectpermission.php 159 2007-12-17 16:44:05Z malanciault $
 * Module: SmartObject
 * Author: The SmartFactory <www.smartfactory.ca>
 * Credits: Mithrandir

@@ -5,7 +5,7 @@
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version $Id: smartformselectelement.php,v 1.1 2007/06/05 18:31:49 marcan Exp $
+ * @version $Id: smartformselectelement.php 159 2007-12-17 16:44:05Z malanciault $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectForm
@@ -16,11 +16,13 @@ class SmartFormSelectElement extends XoopsFormSelect {
         $var = $object->vars[$key];
         $size = isset($var['size']) ? $var['size'] : ($this->multiple ? 5 : 1);
 
-		$this->XoopsFormSelect($var['form_caption'], $key, $object->getVar($key, 'e'), $size, $this->multiple);
-
 		// Adding the options inside this SelectBox
 		// If the custom method is not from a module, than it's from the core
 		$control = $object->getControl($key);
+
+		$value = isset($control['value']) ? $control['value'] : $object->getVar($key, 'e');
+
+		$this->XoopsFormSelect($var['form_caption'], $key, $value, $size, $this->multiple);
 
 		if (isset($control['options'])) {
 			$this->addOptionArray($control['options']);

@@ -1,11 +1,10 @@
-
 <{if $smartobject_css}>
 	<{$smartobject_css}>
 <{/if}>
 <div id="smartobject_rating_container">
 	<div class="item">
 		<{if $smartobject_rated}>
-			<div class="itemHead"><{$smarty.const._SOBJECT_RATING_ALREADY_RATED}><{$smartobject_user_rate}></div>
+			<div class="itemHead"><b><{$smarty.const._SOBJECT_RATING_ALREADY_RATED}><{$smartobject_user_rate}></b></div>
 		<{elseif $smartobject_user_can_rate}>
 			<div class="itemHead"><{$smarty.const._SOBJECT_RATING_RATE_THIS}></div>
 			<div class="odd">
@@ -26,8 +25,8 @@
 
 		<{/if}>
 		<div class="odd" style="display: block;">
-			<div><b>Voters total : </b><{$smartobject_rating_stats_total}></div>
-			<div><b>Average : </b><{$smartobject_rating_stats_average}></div>
+			<div><b><{$smarty.const._SOBJECT_RATING_VOTERS_TOTAL}></b><{$smartobject_rating_stats_total}></div>
+			<div><b><{$smarty.const._SOBJECT_RATING_AVERAGE}></b><{$smartobject_rating_stats_average}></div>
 		</div>
 
 	</div>
