@@ -1,14 +1,14 @@
 <?php
 
 /**
-* $Id: common.php 1778 2008-04-24 17:48:56Z fx2024 $
-* Module: SmartContent
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * $Id: common.php 1778 2008-04-24 17:48:56Z fx2024 $
+ * Module: SmartContent
+ * Author: The SmartFactory <www.smartfactory.ca>
+ * Licence: GNU
+ */
 
 if (!defined("XOOPS_ROOT_PATH")) {
- 	die("XOOPS root path not defined");
+    die("XOOPS root path not defined");
 }
 
 define('_CO_OBJ_ALL', "All"); // deprecated

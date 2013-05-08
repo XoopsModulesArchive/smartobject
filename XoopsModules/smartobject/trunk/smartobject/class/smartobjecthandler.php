@@ -1,22 +1,18 @@
 <?php
-// $Id: smartobjecthandler.php,v 1.3 2012/03/31 11:04:54 ohwada Exp $
-
-// 2012-01-01 K.OHWADA
-// PHP 5.3 : Assigning the return value of new by reference is now deprecated.
 
 /**
  * Contains the basis classes for managing any objects derived from SmartObjects
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
- * @version Id: smartobjecthandler.php 1190 2008-03-07 20:49:22Z fx2024 
+ * @version $Id: smartobjecthandler.php 1190 2008-03-07 20:49:22Z fx2024 $
  * @link http://smartfactory.ca The SmartFactory
  * @package SmartObject
  * @subpackage SmartObjectCore
  */
 
 if (!defined("XOOPS_ROOT_PATH")) {
-	die("XOOPS root path not defined");
+    die("XOOPS root path not defined");
 }
 
 
@@ -34,74 +30,74 @@ if (!defined("XOOPS_ROOT_PATH")) {
 
 class SmartPersistableObjectHandler extends XoopsObjectHandler {
 
-	var $_itemname;
+    var $_itemname;
 
-	/**
-	 * Name of the table use to store this {@link SmartObject}
-	 *
-	 * Note that the name of the table needs to be free of the database prefix.
-	 * For example "smartsection_categories"
-	 * @var string
-	 */
+    /**
+     * Name of the table use to store this {@link SmartObject}
+     *
+     * Note that the name of the table needs to be free of the database prefix.
+     * For example "smartsection_categories"
+     * @var string
+     */
     var $table;
 
-	/**
-	 * Name of the table key that uniquely identify each {@link SmartObject}
-	 *
-	 * For example : "categoryid"
-	 * @var string
-	 */
+    /**
+     * Name of the table key that uniquely identify each {@link SmartObject}
+     *
+     * For example : "categoryid"
+     * @var string
+     */
     var $keyName;
 
     /**
-	 * Name of the class derived from {@link SmartObject} and which this handler is handling
-	 *
-	 * Note that this string needs to be lowercase
-	 *
-	 * For example : "smartsectioncategory"
-	 * @var string
-	 */
+     * Name of the class derived from {@link SmartObject} and which this handler is handling
+     *
+     * Note that this string needs to be lowercase
+     *
+     * For example : "smartsectioncategory"
+     * @var string
+     */
     var $className;
 
     /**
-	 * Name of the field which properly identify the {@link SmartObject}
-	 *
-	 * For example : "name" (this will be the category's name)
-	 * @var string
-	 */
+     * Name of the field which properly identify the {@link SmartObject}
+     *
+     * For example : "name" (this will be the category's name)
+     * @var string
+     */
     var $identifierName;
 
     /**
-	 * Name of the field which will be use as a summary for the object
-	 *
-	 * For example : "summary"
-	 * @var string
-	 */
+     * Name of the field which will be use as a summary for the object
+     *
+     * For example : "summary"
+     * @var string
+     */
     var $summaryName;
 
     /**
-	 * Page name use to basically manage and display the {@link SmartObject}
-	 *
-	 * This page needs to be the same in user side and admin side
-	 *
-	 * For example category.php - we will deduct smartsection/category.php as well as smartsection/admin/category.php
-	 * @todo this could probably be automatically deducted from the class name - for example, the class SmartsectionCategory will have "category.php" as it's managing page
-	 * @var string
-	 */
+     * Page name use to basically manage and display the {@link SmartObject}
+     *
+     * This page needs to be the same in user side and admin side
+     *
+     * For example category.php - we will deduct smartsection/category.php as well as smartsection/admin/category.php
+     * @todo this could probably be automatically deducted from the class name - for example, the class SmartsectionCategory will have "category.php" as it's managing page
+     * @var string
+     */
     var $_page;
 
     /**
-	 * Full path of the module using this {@link SmartObject}
-	 *
-	 * <code>XOOPS_URL . "/modules/smartsection/"</code>
-	 * @todo this could probably be automatically deducted from the class name as it is always prefixed with the module name
-	 * @var string
-	 */
-	var $_modulePath;
+     * Full path of the module using this {@link SmartObject}
+     *
+     * <code>XOOPS_URL . "/modules/smartsection/"</code>
+     * @todo this could probably be automatically deducted from the class name as it is always prefixed with the module name
+     * @var string
+     */
+    var $_modulePath;
 
-	var $_moduleUrl;
+    var $_moduleUrl;
 
-	var $_moduleName;
+    var $_moduleName;
 
     var $_uploadUrl;
 
@@ -137,19 +133,19 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     var $_disabledEvents=array();
 
     /**
-    * Constructor - called from child classes
-    *
-    * @param object $db {@link XoopsDatabase} object
-    * @param string $tablename Name of the table use to store this {@link SmartObject}
-    * @param string Name of the class derived from {@link SmartObject} and which this handler is handling
-    * @param string $keyname Name of the table key that uniquely identify each {@link SmartObject}
-    * @param string $idenfierName Name of the field which properly identify the {@link SmartObject}
-    * @param string $page Page name use to basically manage and display the {@link SmartObject}
-    * @param string $moduleName name of the module
-    */
+     * Constructor - called from child classes
+     *
+     * @param object $db {@link XoopsDatabase} object
+     * @param string $tablename Name of the table use to store this {@link SmartObject}
+     * @param string Name of the class derived from {@link SmartObject} and which this handler is handling
+     * @param string $keyname Name of the table key that uniquely identify each {@link SmartObject}
+     * @param string $idenfierName Name of the field which properly identify the {@link SmartObject}
+     * @param string $page Page name use to basically manage and display the {@link SmartObject}
+     * @param string $moduleName name of the module
+     */
     function SmartPersistableObjectHandler(&$db, $itemname, $keyname, $idenfierName, $summaryName, $modulename) {
 
-    	$this->XoopsObjectHandler($db);
+        $this->XoopsObjectHandler($db);
 
         $this->_itemname = $itemname;
         $this->_moduleName = $modulename;
@@ -165,46 +161,46 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         $this->_uploadUrl = XOOPS_UPLOAD_URL . "/" . $this->_moduleName . "/";
     }
 
-	function addEventHook($event, $method) {
-		$this->_eventHooks[$event] = $method;
-	}
+    function addEventHook($event, $method) {
+        $this->_eventHooks[$event] = $method;
+    }
 
     /**
-    * Add a permission that this handler will manage for its objects
-    *
-    * Example : $this->addPermission('view', _AM_SSHOP_CAT_PERM_READ, _AM_SSHOP_CAT_PERM_READ_DSC);
-    *
-    * @param string $perm_name name of the permission
-    * @param string $caption caption of the control that will be displayed in the form
-    * @param string $description description of the control that will be displayed in the form
-    */
+     * Add a permission that this handler will manage for its objects
+     *
+     * Example : $this->addPermission('view', _AM_SSHOP_CAT_PERM_READ, _AM_SSHOP_CAT_PERM_READ_DSC);
+     *
+     * @param string $perm_name name of the permission
+     * @param string $caption caption of the control that will be displayed in the form
+     * @param string $description description of the control that will be displayed in the form
+     */
     function addPermission($perm_name, $caption, $description=false) {
-    	include_once(SMARTOBJECT_ROOT_PATH . 'class/smartobjectpermission.php');
+        include_once(SMARTOBJECT_ROOT_PATH . 'class/smartobjectpermission.php');
 
-   		$this->permissionsArray[] = array(
+        $this->permissionsArray[] = array(
    			'perm_name' => $perm_name,
    			'caption' => $caption,
    			'description' => $description
-   		);
+        );
     }
 
     function setGrantedObjectsCriteria(&$criteria, $perm_name) {
-		$smartpermissions_handler = new SmartobjectPermissionHandler($this);
-		$grantedItems = $smartpermissions_handler->getGrantedItems($perm_name);
-		if (count($grantedItems) > 0) {
-			$criteria->add(new Criteria($this->keyName, '(' . implode(', ', $grantedItems) . ')', 'IN'));
-			return true;
-		} else {
-			return false;
-		}
+        $smartpermissions_handler = new SmartobjectPermissionHandler($this);
+        $grantedItems = $smartpermissions_handler->getGrantedItems($perm_name);
+        if (count($grantedItems) > 0) {
+            $criteria->add(new Criteria($this->keyName, '(' . implode(', ', $grantedItems) . ')', 'IN'));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function setUploaderConfig($_uploadPath=false, $_allowedMimeTypes=false, $_maxFileSize=false, $_maxWidth=false, $_maxHeight=false) {
-    	$this->_uploadPath = $_uploadPath ? $_uploadPath : $this->_uploadPath;
-    	$this->_allowedMimeTypes = $_allowedMimeTypes ? $_allowedMimeTypes : $this->_allowedMimeTypes;
-    	$this->_maxFileSize = $_maxFileSize ? $_maxFileSize : $this->_maxFileSize;
-    	$this->_maxWidth = $_maxWidth ? $_maxWidth : $this->_maxWidth;
-    	$this->_maxHeight = $_maxHeight ? $_maxHeight : $this->_maxHeight;
+        $this->_uploadPath = $_uploadPath ? $_uploadPath : $this->_uploadPath;
+        $this->_allowedMimeTypes = $_allowedMimeTypes ? $_allowedMimeTypes : $this->_allowedMimeTypes;
+        $this->_maxFileSize = $_maxFileSize ? $_maxFileSize : $this->_maxFileSize;
+        $this->_maxWidth = $_maxWidth ? $_maxWidth : $this->_maxWidth;
+        $this->_maxHeight = $_maxHeight ? $_maxHeight : $this->_maxHeight;
     }
 
     /**
@@ -215,17 +211,11 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return object {@link SmartObject}
      */
     function &create($isNew = true) {
-
-// ---
-// 2012-01-01 PHP 5.3 : Assigning the return value of new by reference is now deprecated.
-//    	$obj =  new $this->className($this);
-    	$obj =& new $this->className($this);
-// ---
-
-		$obj->setImageDir($this->getImageUrl(), $this->getImagePath());
-		if (!$obj->handler) {
-			$obj->handler =& $this;
-		}
+        $obj = new $this->className($this);
+        $obj->setImageDir($this->getImageUrl(), $this->getImagePath());
+        if (!$obj->handler) {
+            $obj->handler =& $this;
+        }
 
         if ($isNew === true) {
             $obj->setNew();
@@ -234,15 +224,15 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     }
 
     function getImageUrl() {
-		return $this->_uploadUrl . $this->_itemname . "/";
+        return $this->_uploadUrl . $this->_itemname . "/";
     }
 
     function getImagePath() {
-    	$dir = $this->_uploadPath . $this->_itemname;
-    	if (!file_exists($dir)) {
-    		smart_admin_mkdir($dir);
-    	}
-    	return $dir . "/";
+        $dir = $this->_uploadPath . $this->_itemname;
+        if (!file_exists($dir)) {
+            smart_admin_mkdir($dir);
+        }
+        return $dir . "/";
     }
 
     /**
@@ -254,14 +244,14 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      */
     function &get($id, $as_object = true, $debug=false, $criteria=false) {
         if (!$criteria) {
-        	$criteria = new CriteriaCompo();
+            $criteria = new CriteriaCompo();
         }
         if (is_array($this->keyName)) {
             for ($i = 0; $i < count($this->keyName); $i++) {
-	            /**
-	             * In some situations, the $id is not an INTEGER. SmartObjectTag is an example.
-	             * Is the fact that we removed the intval() represents a security risk ?
-	             */
+                /**
+                 * In some situations, the $id is not an INTEGER. SmartObjectTag is an example.
+                 * Is the fact that we removed the intval() represents a security risk ?
+                 */
                 //$criteria->add(new Criteria($this->keyName[$i], ($id[$i]), '=', $this->_itemname));
                 $criteria->add(new Criteria($this->keyName[$i], $id[$i], '=', $this->_itemname));
             }
@@ -269,22 +259,22 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         else {
             //$criteria = new Criteria($this->keyName, intval($id), '=', $this->_itemname);
             /**
-             * In some situations, the $id is not an INTEGER. SmartObjectTag is an example.
-             * Is the fact that we removed the intval() represents a security risk ?
-             */
+            * In some situations, the $id is not an INTEGER. SmartObjectTag is an example.
+            * Is the fact that we removed the intval() represents a security risk ?
+            */
             $criteria->add(new Criteria($this->keyName, $id, '=', $this->_itemname));
         }
         $criteria->setLimit(1);
         if ($debug) {
-        	$obj_array = $this->getObjectsD($criteria, false, $as_object);
+            $obj_array = $this->getObjectsD($criteria, false, $as_object);
         } else {
-        	$obj_array = $this->getObjects($criteria, false, $as_object);
-        	//patch : weird bug of indexing by id even if id_as_key = false;
-        	if(!isset($obj_array[0]) && is_object($obj_array[$id])){
-        		$obj_array[0] = $obj_array[$id];
-        		unset($obj_array[$id]);
-				$obj_array[0]->unsetNew();
-        	}
+            $obj_array = $this->getObjects($criteria, false, $as_object);
+            //patch : weird bug of indexing by id even if id_as_key = false;
+            if(!isset($obj_array[0]) && is_object($obj_array[$id])){
+                $obj_array[0] = $obj_array[$id];
+                unset($obj_array[$id]);
+                $obj_array[0]->unsetNew();
+            }
         }
 
         if (count($obj_array) != 1) {
@@ -303,7 +293,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return mixed reference to the {@link SmartObject}, FALSE if failed
      */
     function &getD($id, $as_object = true) {
-		return $this->get($id, $as_object, true);
+        return $this->get($id, $as_object, true);
     }
 
     /**
@@ -317,13 +307,13 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      */
     function getObjects($criteria = null, $id_as_key = false, $as_object = true, $sql=false, $debug=false)
     {
-    	$ret = array();
+        $ret = array();
         $limit = $start = 0;
 
         if ($this->generalSQL) {
-        	$sql = $this->generalSQL;
+            $sql = $this->generalSQL;
         } elseif(!$sql) {
-	        $sql = 'SELECT * FROM '.$this->table . " AS " . $this->_itemname;
+            $sql = 'SELECT * FROM '.$this->table . " AS " . $this->_itemname;
         }
 
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -335,7 +325,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
             $start = $criteria->getStart();
         }
         if ($debug) {
-        	xoops_debug($sql);
+            xoops_debug($sql);
         }
 
         $result = $this->db->query($sql, $limit, $start);
@@ -347,12 +337,12 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
 
     function query($sql, $criteria, $force=false, $debug=false)
     {
-    	$ret = array();
+        $ret = array();
 
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->groupby) {
-				 $sql .= $criteria->getGroupby();
+                $sql .= $criteria->getGroupby();
             }
             if ($criteria->getSort() != '') {
                 $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
@@ -360,27 +350,27 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
 
         }
         if ($debug) {
-        	xoops_debug($sql);
+            xoops_debug($sql);
         }
 
-		if ($force) {
-			$result = $this->db->queryF($sql);
-		} else {
-			$result = $this->db->query($sql);
-		}
+        if ($force) {
+            $result = $this->db->queryF($sql);
+        } else {
+            $result = $this->db->query($sql);
+        }
 
         if (!$result) {
             return $ret;
         }
 
         while ($myrow = $this->db->fetchArray($result)) {
-        	$ret[] = $myrow;
+            $ret[] = $myrow;
         }
 
         return $ret;
     }
 
-/**
+    /**
      * retrieve objects with debug mode - so will show the query
      *
      * @param object $criteria {@link CriteriaElement} conditions to be met
@@ -395,15 +385,15 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     }
 
     function getObjectsAsArray($arrayObjects) {
-    	$ret = array();
-    	foreach ($arrayObjects as $key => $object) {
-    		$ret[$key] = $object->toArray();
-    	}
-    	if (count($ret > 0)) {
-    		return $ret;
-    	} else {
-    		return false;
-    	}
+        $ret = array();
+        foreach ($arrayObjects as $key => $object) {
+            $ret[$key] = $object->toArray();
+        }
+        if (count($ret > 0)) {
+            return $ret;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -416,17 +406,17 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return array
      */
     function convertResultSet($result, $id_as_key = false, $as_object = true) {
-    	$ret = array();
+        $ret = array();
         while ($myrow = $this->db->fetchArray($result)) {
 
-        	$obj =& $this->create(false);
+            $obj =& $this->create(false);
             $obj->assignVars($myrow);
             if (!$id_as_key) {
                 if ($as_object) {
                     $ret[] =& $obj;
                 }
                 else {
-					$ret[] = $obj->toArray();
+                    $ret[] = $obj->toArray();
                 }
             } else {
                 if ($as_object) {
@@ -436,9 +426,9 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
                     $value = $obj->toArray();
                 }
                 if ($id_as_key === 'parentid') {
-					$ret[$obj->getVar('parentid', 'e')][$obj->getVar($this->keyName)] =& $value;
+                    $ret[$obj->getVar('parentid', 'e')][$obj->getVar($this->keyName)] =& $value;
                 } else {
-                	$ret[$obj->getVar($this->keyName)] = $value;
+                    $ret[$obj->getVar($this->keyName)] = $value;
                 }
             }
             unset($obj);
@@ -447,19 +437,19 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         return $ret;
     }
 
- 	function getListD($criteria = null, $limit = 0, $start = 0) {
- 		return $this->getList($criteria, $limit, $start, true);
- 	}
+    function getListD($criteria = null, $limit = 0, $start = 0) {
+        return $this->getList($criteria, $limit, $start, true);
+    }
 
     /**
-    * Retrieve a list of objects as arrays - DON'T USE WITH JOINT KEYS
-    *
-    * @param object $criteria {@link CriteriaElement} conditions to be met
-    * @param int   $limit      Max number of objects to fetch
-    * @param int   $start      Which record to start at
-    *
-    * @return array
-    */
+     * Retrieve a list of objects as arrays - DON'T USE WITH JOINT KEYS
+     *
+     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param int   $limit      Max number of objects to fetch
+     * @param int   $start      Which record to start at
+     *
+     * @return array
+     */
     function getList($criteria = null, $limit = 0, $start = 0, $debug=false) {
         $ret = array();
         if ($criteria == null) {
@@ -485,7 +475,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         }
 
         if ($debug) {
-        	xoops_debug($sql);
+            xoops_debug($sql);
         }
 
         $result = $this->db->query($sql, $limit, $start);
@@ -522,10 +512,10 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
          * This needs to be improved...
          */
         if ($this->generalSQL) {
-        	$sql = $this->generalSQL;
-        	$sql = str_replace('SELECT *', 'SELECT COUNT(*)', $sql);
+            $sql = $this->generalSQL;
+            $sql = str_replace('SELECT *', 'SELECT COUNT(*)', $sql);
         } else {
-	    	$sql = 'SELECT '.$field.'COUNT(*) FROM '.$this->table . ' AS ' . $this->_itemname;
+            $sql = 'SELECT '.$field.'COUNT(*) FROM '.$this->table . ' AS ' . $this->_itemname;
         }
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
@@ -561,15 +551,15 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
     function delete(&$obj, $force = false)
     {
         $eventResult = $this->executeEvent('beforeDelete', $obj);
-    	if (!$eventResult) {
-        	$obj->setErrors("An error occured during the BeforeDelete event");
-        	return false;
+        if (!$eventResult) {
+            $obj->setErrors("An error occured during the BeforeDelete event");
+            return false;
         }
 
-    	if (is_array($this->keyName)) {
+        if (is_array($this->keyName)) {
             $clause = array();
             for ($i = 0; $i < count($this->keyName); $i++) {
-	            $clause[] = $this->keyName[$i]." = ".$obj->getVar($this->keyName[$i]);
+                $clause[] = $this->keyName[$i]." = ".$obj->getVar($this->keyName[$i]);
             }
             $whereclause = implode(" AND ", $clause);
         }
@@ -587,25 +577,25 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         }
 
         $eventResult = $this->executeEvent('afterDelete', $obj);
-    	if (!$eventResult) {
-        	$obj->setErrors("An error occured during the AfterDelete event");
-        	return false;
+        if (!$eventResult) {
+            $obj->setErrors("An error occured during the AfterDelete event");
+            return false;
         }
         return true;
     }
 
     function disableEvent($event) {
-    	if (is_array($event)) {
-    		foreach($event as $v) {
-    			$this->_disabledEvents[] = $v;
-    		}
-    	} else {
-    		$this->_disabledEvents[] = $event;
-    	}
+        if (is_array($event)) {
+            foreach($event as $v) {
+                $this->_disabledEvents[] = $v;
+            }
+        } else {
+            $this->_disabledEvents[] = $event;
+        }
     }
 
     function getPermissions() {
-    	return $this->permissionsArray;
+        return $this->permissionsArray;
     }
 
     /**
@@ -618,15 +608,15 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      */
     function insert(&$obj, $force = false, $checkObject = true, $debug=false)
     {
-    	if ($checkObject != false) {
+        if ($checkObject != false) {
             if (!is_object($obj)) {
                 return false;
             }
             /**
-        * @TODO: Change to if (!(class_exists($this->className) && $obj instanceof $this->className)) when going fully PHP5
-        */
+             * @TODO: Change to if (!(class_exists($this->className) && $obj instanceof $this->className)) when going fully PHP5
+             */
             if (!is_a($obj, $this->className)) {
-            	$obj->setError(get_class($obj)." Differs from ".$this->className);
+                $obj->setError(get_class($obj)." Differs from ".$this->className);
                 return false;
             }
             if (!$obj->isDirty()) {
@@ -635,62 +625,62 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
             }
         }
 
-		if ($obj->seoEnabled) {
-	        // Auto create meta tags if empty
-		$smartobject_metagen = new SmartMetagen($obj->title(), $obj->getVar('meta_keywords'), $obj->summary());
+        if ($obj->seoEnabled) {
+            // Auto create meta tags if empty
+            $smartobject_metagen = new SmartMetagen($obj->title(), $obj->getVar('meta_keywords'), $obj->summary());
 
-			if (!$obj->getVar('meta_keywords') || !$obj->getVar('meta_description')) {
+            if (!$obj->getVar('meta_keywords') || !$obj->getVar('meta_description')) {
 
-				if (!$obj->meta_keywords()) {
-					$obj->setVar('meta_keywords', $smartobject_metagen->_keywords);
-				}
+                if (!$obj->meta_keywords()) {
+                    $obj->setVar('meta_keywords', $smartobject_metagen->_keywords);
+                }
 
-				if (!$obj->meta_description()) {
-					$obj->setVar('meta_description', $smartobject_metagen->_meta_description);
-				}
-			}
+                if (!$obj->meta_description()) {
+                    $obj->setVar('meta_description', $smartobject_metagen->_meta_description);
+                }
+            }
 
-			// Auto create short_url if empty
-			if (!$obj->short_url()) {
-   				$obj->setVar('short_url', $smartobject_metagen->generateSeoTitle($obj->title('n'), false));
-			}
-		}
+            // Auto create short_url if empty
+            if (!$obj->short_url()) {
+                $obj->setVar('short_url', $smartobject_metagen->generateSeoTitle($obj->title('n'), false));
+            }
+        }
 
         $eventResult = $this->executeEvent('beforeSave', $obj);
-    	if (!$eventResult) {
-        	$obj->setErrors("An error occured during the BeforeSave event");
-        	return false;
+        if (!$eventResult) {
+            $obj->setErrors("An error occured during the BeforeSave event");
+            return false;
         }
 
         if ($obj->isNew()) {
-	        $eventResult = $this->executeEvent('beforeInsert', $obj);
-	    	if (!$eventResult) {
-	        	$obj->setErrors("An error occured during the BeforeInsert event");
-	        	return false;
-	        }
+            $eventResult = $this->executeEvent('beforeInsert', $obj);
+            if (!$eventResult) {
+                $obj->setErrors("An error occured during the BeforeInsert event");
+                return false;
+            }
 
         }	else {
-	        $eventResult = $this->executeEvent('beforeUpdate', $obj);
-	    	if (!$eventResult) {
-	        	$obj->setErrors("An error occured during the BeforeUpdate event");
-	        	return false;
-	        }
+            $eventResult = $this->executeEvent('beforeUpdate', $obj);
+            if (!$eventResult) {
+                $obj->setErrors("An error occured during the BeforeUpdate event");
+                return false;
+            }
         }
         if (!$obj->cleanVars()) {
-        	$obj->setErrors('Variables were not cleaned properly.');
+            $obj->setErrors('Variables were not cleaned properly.');
             return false;
         }
-		$fieldsToStoreInDB = array();
+        $fieldsToStoreInDB = array();
         foreach ($obj->cleanVars as $k => $v) {
             if ($obj->vars[$k]['data_type'] == XOBJ_DTYPE_INT) {
                 $cleanvars[$k] = intval($v);
             } elseif (is_array($v) ) {
-            	$cleanvars[ $k ] = $this->db->quoteString( implode( ',', $v ) );
+                $cleanvars[ $k ] = $this->db->quoteString( implode( ',', $v ) );
             } else {
                 $cleanvars[$k] = $this->db->quoteString($v);
             }
             if ($obj->vars[$k]['persistent']) {
-            	$fieldsToStoreInDB[$k] = $cleanvars[$k];
+                $fieldsToStoreInDB[$k] = $cleanvars[$k];
             }
 
         }
@@ -732,7 +722,7 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         }
 
         if ($debug) {
-        	xoops_debug($sql);
+            xoops_debug($sql);
         }
 
         if (false != $force) {
@@ -742,40 +732,40 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         }
 
         if (!$result) {
-        	$obj->setErrors($this->db->error());
+            $obj->setErrors($this->db->error());
             return false;
         }
 
         if ($obj->isNew() && !is_array($this->keyName)) {
             $obj->assignVar($this->keyName, $this->db->getInsertId());
-    	}
+        }
         $eventResult = $this->executeEvent('afterSave', $obj);
-    	if (!$eventResult) {
-        	$obj->setErrors("An error occured during the AfterSave event");
-        	return false;
+        if (!$eventResult) {
+            $obj->setErrors("An error occured during the AfterSave event");
+            return false;
         }
 
         if ($obj->isNew()) {
-        	$obj->unsetNew();
-	        $eventResult = $this->executeEvent('afterInsert', $obj);
-	    	if (!$eventResult) {
-	        	$obj->setErrors("An error occured during the AfterInsert event");
-	        	return false;
-	        }
+            $obj->unsetNew();
+            $eventResult = $this->executeEvent('afterInsert', $obj);
+            if (!$eventResult) {
+                $obj->setErrors("An error occured during the AfterInsert event");
+                return false;
+            }
         } else {
-	        $eventResult = $this->executeEvent('afterUpdate', $obj);
-	    	if (!$eventResult) {
-	        	$obj->setErrors("An error occured during the AfterUpdate event");
-	        	return false;
-	        }
+            $eventResult = $this->executeEvent('afterUpdate', $obj);
+            if (!$eventResult) {
+                $obj->setErrors("An error occured during the AfterUpdate event");
+                return false;
+            }
         }
         return true;
     }
 
-     function insertD(&$obj, $force = false, $checkObject = true, $debug=false)
-     {
-     	return $this->insert($obj, $force, $checkObject, true);
-     }
+    function insertD(&$obj, $force = false, $checkObject = true, $debug=false)
+    {
+        return $this->insert($obj, $force, $checkObject, true);
+    }
 
     /**
      * Change a value for objects with a certain criteria
@@ -788,14 +778,14 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      **/
     function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false)
     {
-    	$set_clause = $fieldname . ' = ';
-    	if ( is_numeric( $fieldvalue ) ) {
-    		$set_clause .=  $fieldvalue;
-    	} elseif ( is_array( $fieldvalue ) ) {
-    		$set_clause .= $this->db->quoteString( implode( ',', $fieldvalue ) );
-    	} else {
-    		$set_clause .= $this->db->quoteString( $fieldvalue );
-    	}
+        $set_clause = $fieldname . ' = ';
+        if ( is_numeric( $fieldvalue ) ) {
+            $set_clause .=  $fieldvalue;
+        } elseif ( is_array( $fieldvalue ) ) {
+            $set_clause .= $this->db->quoteString( implode( ',', $fieldvalue ) );
+        } else {
+            $set_clause .= $this->db->quoteString( $fieldvalue );
+        }
         $sql = 'UPDATE '.$this->table.' SET '.$set_clause;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
@@ -832,25 +822,25 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
         return false;
     }
 
-	function getModuleInfo() {
-		return smart_getModuleInfo($this->_moduleName);
-	}
+    function getModuleInfo() {
+        return smart_getModuleInfo($this->_moduleName);
+    }
 
-	function getModuleConfig() {
-		return smart_getModuleConfig($this->_moduleName);
-	}
+    function getModuleConfig() {
+        return smart_getModuleConfig($this->_moduleName);
+    }
 
     function getModuleItemString() {
-    	$ret = $this->_moduleName . '_' . $this->_itemname;
-    	return $ret;
+        $ret = $this->_moduleName . '_' . $this->_itemname;
+        return $ret;
     }
 
     function updateCounter($object) {
-    	if (isset($object->vars['counter'])) {
-    		$new_counter = $object->getVar('counter') + 1;
-    		$sql = 'UPDATE ' . $this->table . ' SET counter=' . $new_counter . ' WHERE ' . $this->keyName . '=' . $object->id();
-    		$this->query($sql, null, true);
-    	}
+        if (isset($object->vars['counter'])) {
+            $new_counter = $object->getVar('counter') + 1;
+            $sql = 'UPDATE ' . $this->table . ' SET counter=' . $new_counter . ' WHERE ' . $this->keyName . '=' . $object->id();
+            $this->query($sql, null, true);
+        }
     }
 
     /**
@@ -862,32 +852,32 @@ class SmartPersistableObjectHandler extends XoopsObjectHandler {
      * @return mixed result of the execution of the function or FALSE if the function was not executed
      */
     function executeEvent($event, &$executeEventObj) {
-    	if (!in_array($event, $this->_disabledEvents)) {
-	    	if (method_exists($this, $event)) {
-	    		$ret = $this->$event($executeEventObj);
-	    	} else {
-	    		// check to see if there is a hook for this event
-	    		if (isset($this->_eventHooks[$event])) {
-	    			$method = $this->_eventHooks[$event];
-	    			// check to see if the method specified by this hook exists
-	    			if (method_exists($this, $method)) {
-	    				$ret = $this->$method($executeEventObj);
+        if (!in_array($event, $this->_disabledEvents)) {
+            if (method_exists($this, $event)) {
+                $ret = $this->$event($executeEventObj);
+            } else {
+                // check to see if there is a hook for this event
+                if (isset($this->_eventHooks[$event])) {
+                    $method = $this->_eventHooks[$event];
+                    // check to see if the method specified by this hook exists
+                    if (method_exists($this, $method)) {
+                        $ret = $this->$method($executeEventObj);
 
-	    			}
-	    		}
-	    		$ret = true;
-	    	}
-	    	return $ret;
-    	}
-    	return true;
+                    }
+                }
+                $ret = true;
+            }
+            return $ret;
+        }
+        return true;
     }
 
     function getIdentifierName($withprefix=true) {
-    	if ($withprefix) {
-    		return $this->_itemname . "." . $this->identifierName;
-    	} else {
-    		return $this->identifierName;
-    	}
+        if ($withprefix) {
+            return $this->_itemname . "." . $this->identifierName;
+        } else {
+            return $this->identifierName;
+        }
     }
 }
 

@@ -19,7 +19,7 @@ $config = array(
 
 	"num_chars"			=> 4,  						// Maximum characters
 
-													// For image mode, based on DuGris' SecurityImage
+// For image mode, based on DuGris' SecurityImage
 	"rootpath"			=> dirname(__FILE__),		// __Absolute__ Path to the root of fonts and backgrounds
 	"imagepath"			=> "uploads/captcha",		// Path to temporary image files, __relative__ to XOOPS_ROOT_PATH
 	"imageurl"			=> "modules/smartobject/include/captcha/scripts/img.php",		// Path to the script for creating image, __relative__ to XOOPS_ROOT_PATH
@@ -29,12 +29,12 @@ $config = array(
 	"background_type"	=> 0, 						// Background type in image mode: 0 - bar; 1 - circle; 2 - line; 3 - rectangle; 4 - ellipse; 5 - polygon; 100 - generated from files
 	"background_num"	=> 50,						// Number of background images to generate
 	"polygon_point"		=> 3,
-	);
+);
 
 $language = preg_replace("/[^a-z0-9_\-]/i", "", $GLOBALS["xoopsConfig"]["language"]);
 
 if(! @include_once dirname(__FILE__)."/language/{$language}.php") {
-	require_once dirname(__FILE__)."/language/english.php";
+    require_once dirname(__FILE__)."/language/english.php";
 }
 
 return $config;

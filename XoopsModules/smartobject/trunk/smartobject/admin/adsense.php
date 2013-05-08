@@ -16,7 +16,7 @@ function editclass($showmenu = false, $adsenseid = 0, $clone=false)
 	if (!$clone && !$adsenseObj->isNew()){
 
 		if ($showmenu) {
-			smart_adminMenu(3, _AM_SOBJECT_ADSENSES . " > " . _AM_SOBJECT_EDITING);
+			//smart_adminMenu(3, _AM_SOBJECT_ADSENSES . " > " . _AM_SOBJECT_EDITING);
 		}
 		smart_collapsableBar('adsenseedit', _AM_SOBJECT_ADSENSES_EDIT, _AM_SOBJECT_ADSENSES_EDIT_INFO);
 
@@ -28,7 +28,7 @@ function editclass($showmenu = false, $adsenseid = 0, $clone=false)
 		$adsenseObj->setVar('tag', '');
 
 		if ($showmenu) {
-			smart_adminMenu(3, _AM_SOBJECT_ADSENSES . " > " . _CO_SOBJECT_CREATINGNEW);
+			//smart_adminMenu(3, _AM_SOBJECT_ADSENSES . " > " . _CO_SOBJECT_CREATINGNEW);
 		}
 
 		smart_collapsableBar('adsensecreate', _AM_SOBJECT_ADSENSES_CREATE, _AM_SOBJECT_ADSENSES_CREATE_INFO);
@@ -43,6 +43,7 @@ include_once SMARTOBJECT_ROOT_PATH."class/smartobjecttable.php";
 include_once SMARTOBJECT_ROOT_PATH."class/adsense.php";
 $smartobject_adsense_handler = xoops_getmodulehandler('adsense');
 smart_loadLanguageFile('smartobject', 'adsense');
+$indexAdmin = new ModuleAdmin();
 
 $op = '';
 
@@ -55,6 +56,7 @@ switch ($op) {
 		$adsenseid = isset($_GET['adsenseid']) ? intval($_GET['adsenseid']) : 0 ;
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('adsense.php');
 
 		editclass(true, $adsenseid);
 		break;
@@ -64,6 +66,7 @@ switch ($op) {
 		$adsenseid = isset($_GET['adsenseid']) ? intval($_GET['adsenseid']) : 0 ;
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('adsense.php');
 
 		editclass(true, $adsenseid, true);
 		break;
@@ -92,8 +95,9 @@ switch ($op) {
 	default:
 
 		smart_xoops_cp_header();
+        echo $indexAdmin->addNavigation('adsense.php');
 
-		smart_adminMenu(3, _AM_SOBJECT_ADSENSES);
+		//smart_adminMenu(3, _AM_SOBJECT_ADSENSES);
 
 		smart_collapsableBar('createdadsenses', _AM_SOBJECT_ADSENSES, _AM_SOBJECT_ADSENSES_DSC);
 
@@ -142,7 +146,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';

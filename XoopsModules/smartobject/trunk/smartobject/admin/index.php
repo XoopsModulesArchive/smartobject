@@ -1,18 +1,32 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
-* $Id: index.php 159 2007-12-17 16:44:05Z malanciault $
-* Module: SmartContent
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package
+ * @since
+ * @author     XOOPS Development Team
+ * @version    $Id $
+ */
 
-include_once("admin_header.php");
 
-smart_xoops_cp_header();
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
+include_once dirname(__FILE__) . '/admin_header.php';
 
-smart_adminMenu(0);
+xoops_cp_header();
 
-smart_modFooter();
-xoops_cp_footer();
-?>
+	$indexAdmin = new ModuleAdmin();
+
+    echo $indexAdmin->addNavigation('index.php');
+    echo $indexAdmin->renderIndex();
+
+include "admin_footer.php";

@@ -19,16 +19,22 @@
 	padding-top: 5px;
 	padding-right: 2px;
 }
-#smartobject_rating_container {}
+
+#smartobject_rating_container {
+	
+}
+
 #smartobject_rating_container .itemHead {
 	font-weight: bold;
 }
+
 #smartobject_rating_container .item {
 	width: 300px;
 	margin: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
 #smartobject_rating_container .odd {
 	padding: 6px;
 	height: auto;
@@ -38,11 +44,13 @@
 	border: 1px solid #000;
 	background-color: #fff;
 }
-.smartobject_autocomplete_hint li{
+
+.smartobject_autocomplete_hint li {
 	list-style: none;
 	color: default;
 }
-.smartobject_autocomplete_hint li:hover{
+
+.smartobject_autocomplete_hint li:hover {
 	background-color: #E9E9E9;
 	cursor: pointer;
 }

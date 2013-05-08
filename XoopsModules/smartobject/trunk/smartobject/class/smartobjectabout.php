@@ -96,7 +96,7 @@ class SmartobjectAbout
 		$module_handler = &xoops_gethandler('module');
 		$versioninfo = &$module_handler->get($xoopsModule->getVar('mid'));
 
-		smart_adminMenu(-1, $this->_aboutTitle . " " . $versioninfo->getInfo('name'));
+		//smart_adminMenu(-1, $this->_aboutTitle . " " . $versioninfo->getInfo('name'));
 
 		include_once XOOPS_ROOT_PATH . '/class/template.php';
 

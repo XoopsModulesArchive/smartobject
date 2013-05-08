@@ -1,14 +1,14 @@
 <?php
 
 /**
-* $Id: modinfo.php 1593 2008-04-14 14:39:53Z malanciault $
-* Module: SmartContent
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * $Id: modinfo.php 1593 2008-04-14 14:39:53Z malanciault $
+ * Module: SmartContent
+ * Author: The SmartFactory <www.smartfactory.ca>
+ * Licence: GNU
+ */
 
 if (!defined("XOOPS_ROOT_PATH")) {
- 	die("XOOPS root path not defined");
+    die("XOOPS root path not defined");
 }
 
 define('_MI_SOBJECT_INDEX', 'Index');

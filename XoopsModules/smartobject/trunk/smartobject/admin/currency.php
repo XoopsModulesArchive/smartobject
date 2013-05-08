@@ -16,7 +16,7 @@ function editclass($showmenu = false, $currencyid = 0)
 	if (!$currencyObj->isNew()){
 
 		if ($showmenu) {
-			smart_adminMenu(5, _AM_SOBJECT_CURRENCIES . " > " . _AM_SOBJECT_EDITING);
+			//smart_adminMenu(5, _AM_SOBJECT_CURRENCIES . " > " . _AM_SOBJECT_EDITING);
 		}
 		smart_collapsableBar('currencyedit', _AM_SOBJECT_CURRENCIES_EDIT, _AM_SOBJECT_CURRENCIES_EDIT_INFO);
 
@@ -25,7 +25,7 @@ function editclass($showmenu = false, $currencyid = 0)
 		smart_close_collapsable('currencyedit');
 	} else {
 		if ($showmenu) {
-			smart_adminMenu(5, _AM_SOBJECT_CURRENCIES . " > " . _CO_SOBJECT_CREATINGNEW);
+			//smart_adminMenu(5, _AM_SOBJECT_CURRENCIES . " > " . _CO_SOBJECT_CREATINGNEW);
 		}
 
 		smart_collapsableBar('currencycreate', _AM_SOBJECT_CURRENCIES_CREATE, _AM_SOBJECT_CURRENCIES_CREATE_INFO);
@@ -102,7 +102,7 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(5, _AM_SOBJECT_CURRENCIES);
+		//smart_adminMenu(5, _AM_SOBJECT_CURRENCIES);
 
 		smart_collapsableBar('createdcurrencies', _AM_SOBJECT_CURRENCIES, _AM_SOBJECT_CURRENCIES_DSC);
 
@@ -126,7 +126,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';

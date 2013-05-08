@@ -36,22 +36,22 @@ function xoops_module_update_smartobject($module) {
 
     $dbVersion  = smart_GetMeta('version', 'smartobject');
     if (!$dbVersion) {
-    	$dbVersion = 0;
+        $dbVersion = 0;
     }
 
-	$dbupdater = new SmartobjectDbupdater();
+    $dbupdater = new SmartobjectDbupdater();
 
-	echo "<code>" . _SDU_UPDATE_UPDATING_DATABASE . "<br />";
+    echo "<code>" . _SDU_UPDATE_UPDATING_DATABASE . "<br />";
 
     // db migrate version = 1
     $newDbVersion = 1;
     if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
-		// Create table smartobject_link
-	    $table = new SmartDbTable('smartobject_link');
-	    if (!$table->exists()) {
-		    $table->setStructure("CREATE TABLE %s (
+        // Create table smartobject_link
+        $table = new SmartDbTable('smartobject_link');
+        if (!$table->exists()) {
+            $table->setStructure("CREATE TABLE %s (
 			  `linkid` int(11) NOT NULL auto_increment,
 			  `from_uid` int(11) NOT NULL default '0',
 			  `from_email` varchar(255) NOT NULL default '',
@@ -66,66 +66,66 @@ function xoops_module_update_smartobject($module) {
 			  `mid_name` varchar(255) NOT NULL default '',
 
 			  PRIMARY KEY  (`linkid`)
-			) TYPE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
+			) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
 
-		    if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
-	    }
-	    unset($table);
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
+        }
+        unset($table);
+        // Create table smartobject_link
+        $table = new SmartDbTable('smartobject_link');
+        if (!$table->fieldExists('date')) {
+            $table->addNewField('date', "int(11) NOT NULL default '0'");
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
 
-	    $table = new SmartDbTable('smartobject_link');
-	    if (!$table->fieldExists('date')) {
-	    	$table->addNewField('date', "int(11) NOT NULL default '0'");
-		    if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
+        }
+        unset($table);
 
-	    }
-		unset($table);
-
-		// Create table smartobject_tag
-	    $table = new SmartDbTable('smartobject_tag');
-	    if (!$table->exists()) {
-		    $table->setStructure("CREATE TABLE %s (
+        // Create table smartobject_tag
+        $table = new SmartDbTable('smartobject_tag');
+        if (!$table->exists()) {
+            $table->setStructure("CREATE TABLE %s (
 		      `tagid` int(11) NOT NULL auto_increment,
 			  `name` varchar(255) NOT NULL default '',
 			  `description` TEXT NOT NULL,
 			  PRIMARY KEY  (`id`)
-			) TYPE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
+			) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
 
-		    if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
-	    }
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
+        }
 
-		// Create table smartobject_tag_text
-	    $table = new SmartDbTable('smartobject_tag_text');
-	    if (!$table->exists()) {
-		    $table->setStructure("CREATE TABLE %s (
+        // Create table smartobject_tag_text
+        $table = new SmartDbTable('smartobject_tag_text');
+        if (!$table->exists()) {
+            $table->setStructure("CREATE TABLE %s (
 			  `tagid` int(11) NOT NULL default 0,
 			  `language` varchar(255) NOT NULL default '',
 			  `value` TEXT NOT NULL,
 			  PRIMARY KEY  (`id`, `language`)
-			) TYPE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
+			) ENGINE=MyISAM COMMENT='SmartObject by The SmartFactory <www.smartfactory.ca>' AUTO_INCREMENT=1 ;");
 
-		    if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
-	    }
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
+        }
 
-		// Create table smartobject_adsense
-	    $table = new SmartDbTable('smartobject_adsense');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+        // Create table smartobject_adsense
+        $table = new SmartDbTable('smartobject_adsense');
+        if (!$table->exists()) {
+            $table->setStructure("
   `adsenseid` int(11) NOT NULL auto_increment,
   `format` VARCHAR(100) NOT NULL,
   `description` TEXT NOT NULL,
@@ -139,23 +139,23 @@ function xoops_module_update_smartobject($module) {
   `tag` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`adsenseid`)
 			");
-	    }
+        }
 
-	    if (!$dbupdater->updateTable($table)) {
-	        /**
-	         * @todo trap the errors
-	         */
-	  }
+        if (!$dbupdater->updateTable($table)) {
+            /**
+             * @todo trap the errors
+             */
+        }
     }
     // db migrate version = 2
     $newDbVersion = 2;
     if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
-		// Create table smartobject_adsense
-	    $table = new SmartDbTable('smartobject_rating');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+        // Create table smartobject_rating
+        $table = new SmartDbTable('smartobject_rating');
+        if (!$table->exists()) {
+            $table->setStructure("
   `ratingid` int(11) NOT NULL auto_increment,
   `dirname` VARCHAR(255) NOT NULL,
   `item` VARCHAR(255) NOT NULL,
@@ -166,37 +166,37 @@ function xoops_module_update_smartobject($module) {
   PRIMARY KEY  (`ratingid`),
   UNIQUE (`dirname`, `item`, `itemid`, `uid`)
 			");
-	    }
+        }
 
-	    if (!$dbupdater->updateTable($table)) {
-	        /**
-	         * @todo trap the errors
-	         */
-	  }
+        if (!$dbupdater->updateTable($table)) {
+            /**
+             * @todo trap the errors
+             */
+        }
 
-		// Create table smartobject_adsense
-	    $table = new SmartDbTable('smartobject_currency');
-		$table->setData("2, 'EUR', 'Euro', '€', 0.65, 0");
-		$table->setData("3, 'USD', 'American dollar', '$', 0.9, 0");
-		$table->setData("1, 'CAD', 'Canadian dollar', '$', 1, 1");
+        // Create table smartobject_currency
+        $table = new SmartDbTable('smartobject_currency');
+        $table->setData("2, 'EUR', 'Euro', '€', 0.65, 0");
+        $table->setData("3, 'USD', 'American dollar', '$', 0.9, 0");
+        $table->setData("1, 'CAD', 'Canadian dollar', '$', 1, 1");
 
-	    if (!$dbupdater->updateTable($table)) {
-	        /**
-	         * @todo trap the errors
-	         */
-	  }
+        if (!$dbupdater->updateTable($table)) {
+            /**
+             * @todo trap the errors
+             */
+        }
 
     }
 
     // db migrate version = 3
     $newDbVersion = 3;
     if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
-		// Create table smartobject_adsense
-	    $table = new SmartDbTable('smartobject_customtag');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+        // Create table smartobject_customtag
+        $table = new SmartDbTable('smartobject_customtag');
+        if (!$table->exists()) {
+            $table->setStructure("
 			  `customtagid` int(11) NOT NULL auto_increment,
 			  `name` VARCHAR(255) NOT NULL,
 			  `description` TEXT NOT NULL,
@@ -204,24 +204,24 @@ function xoops_module_update_smartobject($module) {
 			  `language` TEXT NOT NULL,
 			  PRIMARY KEY  (`customtagid`)
 			");
-	    }
+        }
 
-	    if (!$dbupdater->updateTable($table)) {
-	        /**
-	         * @todo trap the errors
-	         */
-	  }
+        if (!$dbupdater->updateTable($table)) {
+            /**
+             * @todo trap the errors
+             */
+        }
     }
 
     // db migrate version = 4
     $newDbVersion = 4;
     if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
-		// Create table smartobject_adsense
-	    $table = new SmartDbTable('smartobject_currency');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+        // Create table smartobject_currency
+        $table = new SmartDbTable('smartobject_currency');
+        if (!$table->exists()) {
+            $table->setStructure("
 			  `currencyid` int(11) NOT NULL auto_increment,
 			  `iso4217` VARCHAR(5) NOT NULL,
 			  `name` VARCHAR(255) NOT NULL,
@@ -230,47 +230,47 @@ function xoops_module_update_smartobject($module) {
 			  `default_currency` int(1) NOT NULL,
 			  PRIMARY KEY  (`currencyid`)
 			");
-	    }
+        }
 
-	    if (!$dbupdater->updateTable($table)) {
-	        /**
-	         * @todo trap the errors
-	         */
-	  }
+        if (!$dbupdater->updateTable($table)) {
+            /**
+             * @todo trap the errors
+             */
+        }
     }
 
     // db migrate version = 6
     $newDbVersion = 6;
     if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
     }
 
-  	$newDbVersion = 7;
- 	if ($dbVersion < $newDbVersion) {
-    	echo "Database migrate to version " . $newDbVersion . "<br />";
+    $newDbVersion = 7;
+    if ($dbVersion < $newDbVersion) {
+        echo "Database migrate to version " . $newDbVersion . "<br />";
 
-		// Create table smartobject_link
-	    $table = new SmartDbTable('smartobject_file');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+        // Create table smartobject_file
+        $table = new SmartDbTable('smartobject_file');
+        if (!$table->exists()) {
+            $table->setStructure("
 			  `fileid` int(11) NOT NULL auto_increment,
 			  `caption` varchar(255) collate latin1_general_ci NOT NULL,
 			  `url` varchar(255) collate latin1_general_ci NOT NULL,
 			  `description` text collate latin1_general_ci NOT NULL,
 			   PRIMARY KEY  (`fileid`)
 			");
-		if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
-	    }
-	    unset($table);
-
-		$table = new SmartDbTable('smartobject_urllink');
-	    if (!$table->exists()) {
-		    $table->setStructure("
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
+        }
+        unset($table);
+        // Create table smartobject_urllink
+        $table = new SmartDbTable('smartobject_urllink');
+        if (!$table->exists()) {
+            $table->setStructure("
 			  `urllinkid` int(11) NOT NULL auto_increment,
 			  `caption` varchar(255) collate latin1_general_ci NOT NULL,
 			  `url` varchar(255) collate latin1_general_ci NOT NULL,
@@ -278,16 +278,16 @@ function xoops_module_update_smartobject($module) {
 			  `target` varchar(10) collate latin1_general_ci NOT NULL,
  			   PRIMARY KEY  (`urllinkid`)
 			");
-		if (!$dbupdater->updateTable($table)) {
-		        /**
-		         * @todo trap the errors
-		         */
-		    }
-	    }
-	    unset($table);
+            if (!$dbupdater->updateTable($table)) {
+                /**
+                 * @todo trap the errors
+                 */
+            }
+        }
+        unset($table);
 
- 	}
-	echo "</code>";
+    }
+    echo "</code>";
 
     $feedback = ob_get_clean();
     if (method_exists($module, "setMessage")) {
@@ -301,9 +301,9 @@ function xoops_module_update_smartobject($module) {
 }
 
 function xoops_module_install_smartobject($module) {
-	ob_start();
-	
-	echo "Using the ImpressCMS onInstall event";
+    ob_start();
+
+    echo "Using the ImpressCMS onInstall event";
     $feedback = ob_get_clean();
     return $feedback;
 }

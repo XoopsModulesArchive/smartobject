@@ -14,6 +14,7 @@
 include_once("admin_header.php");
 include_once SMARTOBJECT_ROOT_PATH."class/smartobjecttable.php";
 include_once SMARTOBJECT_ROOT_PATH."class/smartobjectlink.php";
+$indexAdmin = new ModuleAdmin();
 
 $smartobject_link_handler = xoops_getmodulehandler('link');
 
@@ -41,7 +42,7 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(1, _AM_SOBJECT_SENT_LINK_DISPLAY);
+		//smart_adminMenu(1, _AM_SOBJECT_SENT_LINK_DISPLAY);
 
 		smart_collapsableBar('sentlinks', _AM_SOBJECT_SENT_LINK_DISPLAY, _AM_SOBJECT_SENT_LINK_DISPLAY_INFO);
 
@@ -67,7 +68,10 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(1, _AM_SOBJECT_SENT_LINKS);
+        echo $indexAdmin->addNavigation('link.php');
+
+
+		//smart_adminMenu(1, _AM_SOBJECT_SENT_LINKS);
 
 		smart_collapsableBar('sentlinks', _AM_SOBJECT_SENT_LINKS, _AM_SOBJECT_SENT_LINKS_INFO);
 
@@ -92,7 +96,6 @@ switch ($op) {
 		break;
 }
 
-smart_modFooter();
-xoops_cp_footer();
-
-?>
+//smart_modFooter();
+//xoops_cp_footer();
+include_once 'admin_footer.php';
