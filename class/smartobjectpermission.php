@@ -1,52 +1,67 @@
 <?php
 
 /**
- * $Id: smartobjectpermission.php 159 2007-12-17 16:44:05Z malanciault $
+ *
  * Module: SmartObject
  * Author: The SmartFactory <www.smartfactory.ca>
  * Credits: Mithrandir
  * Licence: GNU
  */
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 class SmartobjectPermissionHandler extends XoopsObjectHandler
 {
-    var $handler;
-    function SmartObjectPermissionHandler($handler) {
-        $this->handler=$handler;
+    public $handler;
+
+    /**
+     * SmartobjectPermissionHandler constructor.
+     * @param XoopsDatabase $handler
+     */
+    public function __construct($handler)
+    {
+        $this->handler = $handler;
     }
 
     /*
      * Returns permissions for a certain type
      *
      * @param string $type "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
-     * @param int $id id of the item (forum, topic or possibly post) to get permissions for
+     * @param int    $id   id of the item (forum, topic or possibly post) to get permissions for
      *
      * @return array
      */
-    function getGrantedGroups($gperm_name, $id = null) {
+    /**
+     * @param       $gperm_name
+     * @param  null $id
+     * @return array
+     */
+    public function getGrantedGroups($gperm_name, $id = null)
+    {
         static $groups;
 
         if (!isset($groups[$gperm_name]) || ($id != null && !isset($groups[$gperm_name][$id]))) {
-            $smartModule =& $this->handler->getModuleInfo();
+            $smartModule = $this->handler->getModuleInfo();
             //Get group permissions handler
-            $gperm_handler =& xoops_gethandler('groupperm');
+            $gpermHandler = xoops_getHandler('groupperm');
 
             //Get groups allowed for an item id
-            $allowedgroups = $gperm_handler->getGroupIds($gperm_name, $id, $smartModule->getVar('mid'));
+            $allowedgroups            = $gpermHandler->getGroupIds($gperm_name, $id, $smartModule->getVar('mid'));
             $groups[$gperm_name][$id] = $allowedgroups;
         }
         //Return the permission array
         return isset($groups[$gperm_name][$id]) ? $groups[$gperm_name][$id] : array();
     }
 
-    function getGrantedGroupsForIds($item_ids_array, $gperm_name=false) {
-
+    /**
+     * @param       $item_ids_array
+     * @param  bool $gperm_name
+     * @return array
+     */
+    public function getGrantedGroupsForIds($item_ids_array, $gperm_name = false)
+    {
         static $groups;
 
-        if ($gperm_name){
+        if ($gperm_name) {
             if (isset($groups[$gperm_name])) {
                 return $groups[$gperm_name];
             }
@@ -55,7 +70,7 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
             return $groups;
         }
 
-        $smartModule =& $this->handler->getModuleInfo();
+        $smartModule = $this->handler->getModuleInfo();
 
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('gperm_modid', $smartModule->getVar('mid')));
@@ -65,9 +80,9 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
         }
 
         //Get group permissions handler
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
-        $permissionsObj = $gperm_handler->getObjects($criteria);
+        $permissionsObj = $gpermHandler->getObjects($criteria);
 
         foreach ($permissionsObj as $permissionObj) {
             $groups[$permissionObj->getVar('gperm_name')][$permissionObj->getVar('gperm_itemid')][] = $permissionObj->getVar('gperm_groupid');
@@ -85,28 +100,33 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      * Returns permissions for a certain type
      *
      * @param string $type "global", "forum" or "topic" (should perhaps have "post" as well - but I don't know)
-     * @param int $id id of the item (forum, topic or possibly post) to get permissions for
+     * @param int    $id   id of the item (forum, topic or possibly post) to get permissions for
      *
      * @return array
      */
-    function getGrantedItems($gperm_name, $id = null) {
+    /**
+     * @param       $gperm_name
+     * @param  null $id
+     * @return array
+     */
+    public function getGrantedItems($gperm_name, $id = null)
+    {
         global $xoopsUser;
         static $permissions;
 
         if (!isset($permissions[$gperm_name]) || ($id != null && !isset($permissions[$gperm_name][$id]))) {
-
-            $smartModule =& $this->handler->getModuleInfo();
+            $smartModule = $this->handler->getModuleInfo();
 
             if (is_object($smartModule)) {
 
                 //Get group permissions handler
-                $gperm_handler =& xoops_gethandler('groupperm');
+                $gpermHandler = xoops_getHandler('groupperm');
 
                 //Get user's groups
                 $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
 
                 //Get all allowed item ids in this module and for this user's groups
-                $userpermissions =& $gperm_handler->getItemIds($gperm_name, $groups, $smartModule->getVar('mid'));
+                $userpermissions          = $gpermHandler->getItemIds($gperm_name, $groups, $smartModule->getVar('mid'));
                 $permissions[$gperm_name] = $userpermissions;
             }
         }
@@ -114,7 +134,11 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
         return isset($permissions[$gperm_name]) ? $permissions[$gperm_name] : array();
     }
 
-    function storeAllPermissionsForId($id) {
+    /**
+     * @param $id
+     */
+    public function storeAllPermissionsForId($id)
+    {
         foreach ($this->handler->getPermissions() as $permission) {
             $this->saveItem_Permissions($_POST[$permission['perm_name']], $id, $permission['perm_name']);
         }
@@ -125,31 +149,33 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      *
      *  saveCategory_Permissions()
      *
-     * @param array $groups : group with granted permission
-     * @param integer $categoryID : categoryID on which we are setting permissions for Categories and Forums
-     * @param string $perm_name : name of the permission
-     * @return boolean : TRUE if the no errors occured
-     **/
+     * @param array   $groups    : group with granted permission
+     * @param         $itemid
+     * @param  string $perm_name : name of the permission
+     * @return bool  : TRUE if the no errors occured
+     * @internal param int $categoryID: categoryID on which we are setting permissions for Categories and Forums
+     */
 
-    function saveItem_Permissions($groups, $itemid, $perm_name)
+    public function saveItem_Permissions($groups, $itemid, $perm_name)
     {
-        $smartModule =& $this->handler->getModuleInfo();
+        $smartModule = $this->handler->getModuleInfo();
 
-        $result = true;
-        $module_id = $smartModule->getVar('mid');
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $result        = true;
+        $module_id     = $smartModule->getVar('mid');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         // First, if the permissions are already there, delete them
-        $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
-        //echo "itemid : $itemid - perm : $perm_name - modid : $module_id";
+        $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
+        //echo "itemid: $itemid - perm: $perm_name - modid: $module_id";
         //exit;
         // Save the new permissions
 
         if (count($groups) > 0) {
             foreach ($groups as $group_id) {
-                $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+                $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
             }
         }
+
         return $result;
     }
 
@@ -159,20 +185,20 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      *  deletePermissions()
      *
      * @param integer $itemid : id of the item for which to delete the permissions
-     * @return boolean : TRUE if the no errors occured
-     **/
-    function deletePermissions($itemid, $gperm_name)
+     * @param         $gperm_name
+     * @return bool: TRUE if the no errors occured
+     */
+    public function deletePermissions($itemid, $gperm_name)
     {
         global $xoopsModule;
 
         $smartModule =& smartsection_getModuleInfo();
 
-        $result = true;
-        $module_id = $smartModule->getVar('mid')   ;
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $result        = true;
+        $module_id     = $smartModule->getVar('mid');
+        $gpermHandler = xoops_getHandler('groupperm');
 
-
-        $gperm_handler->deleteByModule($module_id, $gperm_name, $itemid);
+        $gpermHandler->deleteByModule($module_id, $gperm_name, $itemid);
 
         return $result;
     }
@@ -180,21 +206,21 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
     /**
      * Checks if the user has access to a specific permission on a given object
      *
-     * @param string $gperm_name name of the permission to test
-     * @param int $gperm_itemid id of the object to check
-     * @return boolean : TRUE if user has access, FALSE if not
+     * @param  string $gperm_name   name of the permission to test
+     * @param  int    $gperm_itemid id of the object to check
+     * @return boolean: TRUE if user has access, FALSE if not
      **/
-    function accessGranted($gperm_name, $gperm_itemid) {
+    public function accessGranted($gperm_name, $gperm_itemid)
+    {
         global $xoopsUser;
 
         $gperm_groupid = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
-        $smartModule =& $this->handler->getModuleInfo();
-        $gperm_modid = $smartModule->getVar('mid')   ;
+        $smartModule   = $this->handler->getModuleInfo();
+        $gperm_modid   = $smartModule->getVar('mid');
 
         //Get group permissions handler
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
-        return $gperm_handler->checkRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid);
+        return $gpermHandler->checkRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid);
     }
 }
-?>

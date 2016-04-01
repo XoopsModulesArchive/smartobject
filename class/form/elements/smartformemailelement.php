@@ -1,9 +1,9 @@
 <?php
-// $Id: smartformemailelement.php 159 2007-12-17 16:44:05Z malanciault $
+// 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                  Copyright (c) 2000-2016 XOOPS.org                        //
+//                       <http://xoops.org/>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -25,22 +25,24 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 // Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
+// URL: http://www.myweb.ne.jp/, http://xoops.org/, http://jp.xoops.org/ //
+// Project: XOOPS Project                                                    //
 // ------------------------------------------------------------------------- //
-if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * An email text field
  */
-class SmartFormSelectElement extends XoopsFormElement {
+class SmartFormSelectElement extends XoopsFormElement
+{
+    /**
+     * @param  bool $withtags
+     * @return string
+     */
+    public function renderValidationJS($withtags = true)
+    {
+        $js = '';
 
-	function renderValidationJS( $withtags = true ) {
-		$js = '';
-
-		return $js;
-	}
+        return $js;
+    }
 }
-?>

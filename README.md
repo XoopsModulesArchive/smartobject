@@ -1,11 +1,17 @@
-# XOOPS CMS Module   ![XOOPS CMS](https://avatars2.githubusercontent.com/u/12771439?v=3&s=200)
+![alt XOOPS CMS](http://xoops.org/images/logoXoops4GithubRepository.png)
+## SmartObject for  [XOOPS CMS 2.5.8+](https://xoops.org)
+[![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](LICENSE)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/mambax7/xoopsobject.svg?style=flat)](https://scrutinizer-ci.com/g/mambax7/xoopsobject/?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/2d27c0023ee54f0b9ba2b5d17a68b2a5)](https://www.codacy.com/app/mambax7/xoopsobject)
+[![Code Climate](https://img.shields.io/codeclimate/github/mambax7/xoopsobject.svg?style=flat)](https://codeclimate.com/github/mambax7/xoopsobject)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f892f13b-fe33-454b-8829-91a16eea5de6/mini.png)](https://insight.sensiolabs.com/projects/f892f13b-fe33-454b-8829-91a16eea5de6)
+[![Latest Pre-Resease](https://img.shields.io/github/tag/XoopsModules25x/xoopsobject.svg?style=flat)](https://github.com/XoopsModules25x/xoopsobject/tags/)
+[![Latest Version](https://img.shields.io/github/release/XoopsModules25x/xoopsobject.svg?style=flat)](https://github.com/XoopsModules25x/xoopsobject/releases/)
 
-**SmartObject** is a module framework for XOOPS, used in Smart-modules. 
+SmartObject for [XOOPS CMS](http://xoops.org) is a module framework for XOOPS modules, used in Smart-modules. It is not being further developed, and is being replaced by **[XMF (XOOPS Module Framework)](https://www.gitbook.com/book/xoops/xmf-cookbook/details)**
 
-**XOOPS Module Archive:** Modules in this archive are older modules for XOOPS CMS, and therefore some of them might not work with the latest XOOPS and PHP versions. 
+Please visit us on [http://xoops.org](https://xoops.org)
 
-However, please fork them and if you have any improvements and fixes, please share them back with us. 
+The upcoming "next generation" version of XOOPS CMS is being crafted on GitHub at: https://github.com/XOOPS
 
-Visit us on http://xoops.org
 
-The upcoming "next generation" XOOPS CMS version is being crafted at: https://github.com/XOOPS

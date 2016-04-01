@@ -1,0 +1,42 @@
+<?php
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+include_once XOOPS_ROOT_PATH . '/modules/smartobject/class/basedurl.php';
+
+/**
+ * Class SmartobjectUrlLink
+ */
+class SmartobjectUrlLink extends SmartobjectBasedUrl
+{
+    /**
+     * SmartobjectUrlLink constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->quickInitVar('urllinkid', XOBJ_DTYPE_TXTBOX, true);
+        $this->quickInitVar('target', XOBJ_DTYPE_TXTBOX, true);
+
+        $this->setControl('target', array(
+            'options' => array(
+                '_self'  => _CO_SOBJECT_URLLINK_SELF,
+                '_blank' => _CO_SOBJECT_URLLINK_BLANK
+            )
+        ));
+    }
+}
+
+/**
+ * Class SmartobjectUrlLinkHandler
+ */
+class SmartobjectUrlLinkHandler extends SmartPersistableObjectHandler
+{
+    /**
+     * SmartobjectUrlLinkHandler constructor.
+     * @param object|XoopsDatabase $db
+     */
+    public function __construct($db)
+    {
+        parent::__construct($db, 'urllink', 'urllinkid', 'caption', 'desc', 'smartobject');
+    }
+}
