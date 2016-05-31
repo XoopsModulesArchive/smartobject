@@ -144,7 +144,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('createdcustomtags');
         echo '<br>';
 

@@ -24,10 +24,10 @@ class SmartFormImageElement extends XoopsFormElementTray
 
         $objectArray['image'] = str_replace('{XOOPS_URL}', XOOPS_URL, $objectArray['image']);
 
-        if ($object->getVar($key) != '' && (0 === strpos($object->getVar($key), 'http') || 0 === strpos($object->getVar($key), '{XOOPS_URL}'))) {
-            $this->addElement(new XoopsFormLabel('', "<img src='" . str_replace('{XOOPS_URL}', XOOPS_URL, $object->getVar($key)) . "' alt='' /><br/><br/>"));
-        } elseif ($object->getVar($key) != '') {
-            $this->addElement(new XoopsFormLabel('', "<img src='" . $object_imageurl . $object->getVar($key) . "' alt='' /><br/><br/>"));
+        if ($object->getVar($key) !== '' && (0 === strpos($object->getVar($key), 'http') || 0 === strpos($object->getVar($key), '{XOOPS_URL}'))) {
+            $this->addElement(new XoopsFormLabel('', "<img src='" . str_replace('{XOOPS_URL}', XOOPS_URL, $object->getVar($key)) . "' alt='' /><br><br>"));
+        } elseif ($object->getVar($key) !== '') {
+            $this->addElement(new XoopsFormLabel('', "<img src='" . $object_imageurl . $object->getVar($key) . "' alt='' /><br><br>"));
         }
 
         include_once SMARTOBJECT_ROOT_PATH . 'class/form/elements/smartformfileuploadelement.php';
@@ -37,9 +37,9 @@ class SmartFormImageElement extends XoopsFormElementTray
         include_once SMARTOBJECT_ROOT_PATH . 'class/form/elements/smartformtextelement.php';
         include_once SMARTOBJECT_ROOT_PATH . 'class/form/elements/smartformcheckelement.php';
 
-        $this->addElement(new XoopsFormLabel('', '<br />' . _CO_SOBJECT_URL_FILE));
+        $this->addElement(new XoopsFormLabel('', '<br>' . _CO_SOBJECT_URL_FILE));
         $this->addElement(new SmartFormTextElement($object, 'url_' . $key));
-        $this->addElement(new XoopsFormLabel('', '<br /><br />'));
+        $this->addElement(new XoopsFormLabel('', '<br><br>'));
         $delete_check = new SmartFormCheckElement('', 'delete_' . $key);
         $delete_check->addOption(1, '<span style="color:red;">' . _CO_SOBJECT_DELETE . '</span>');
         $this->addElement($delete_check);

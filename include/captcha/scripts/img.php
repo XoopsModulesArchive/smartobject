@@ -106,7 +106,7 @@ class XoopsCaptchaImageHandler
     }
 
     /**
-     * @param  string $file
+     * @param  string      $file
      * @return string|void
      */
     public function createImage($file = '')
@@ -376,12 +376,12 @@ class XoopsCaptchaImageHandler
         for ($i = 0; $i <= $this->height;) {
             $randomcolor = imagecolorallocate($this->oImage, mt_rand(190, 255), mt_rand(190, 255), mt_rand(190, 255));
             imageline($this->oImage, 0, $i, $this->width, $i, $randomcolor);
-            $i = $i + 2.5;
+            $i += 2.5;
         }
         for ($i = 0; $i <= $this->width;) {
             $randomcolor = imagecolorallocate($this->oImage, mt_rand(190, 255), mt_rand(190, 255), mt_rand(190, 255));
             imageline($this->oImage, $i, 0, $i, $this->height, $randomcolor);
-            $i = $i + 2.5;
+            $i += 2.5;
         }
     }
 
@@ -431,7 +431,7 @@ class XoopsCaptchaImageHandler
     }
 }
 
-$config        = @include '../config.php';
+$config       = @include dirname(__DIR__) . '/config.php';
 $imageHandler = new XoopsCaptchaImageHandler();
 $imageHandler->setConfig($config);
 $imageHandler->loadImage();

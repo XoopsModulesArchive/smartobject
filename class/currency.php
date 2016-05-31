@@ -126,7 +126,7 @@ class SmartobjectCurrency extends SmartObject
      */
     public function defaultCurrency()
     {
-        if ($this->getVar('default_currency', 'e') == true) {
+        if ($this->getVar('default_currency', 'e') === true) {
             return _YES;
         } else {
             return _NO;
@@ -155,9 +155,9 @@ class SmartObjectCurrencyHandler extends SmartPersistableObjectHandler
 {
     /**
      * SmartObjectCurrencyHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'currency', 'currencyid', 'name', '', 'smartobject');
     }

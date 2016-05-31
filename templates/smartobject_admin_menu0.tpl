@@ -23,8 +23,7 @@
     }
 
     #buttonbar ul {
-        margin: 0;
-        margin-top: 15px;
+        margin: 15px 0 0;
         padding: 10px 10px 0;
         list-style: none;
     }

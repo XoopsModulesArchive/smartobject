@@ -41,7 +41,7 @@ function xoops_debug_getQueryCount($msg = '')
  */
 function xoops_debug($msg, $exit = false)
 {
-    echo "<div style='padding: 5px; color: red; font-weight: bold'>debug:: $msg</div>";
+    echo "<div style='padding: 5px; color: red; font-weight: bold;'>debug:: $msg</div>";
     if ($exit) {
         die();
     }
@@ -52,7 +52,7 @@ function xoops_debug($msg, $exit = false)
  */
 function xoops_comment($msg)
 {
-    echo "<div style='padding: 5px; color: green; font-weight: bold'>=> $msg</div>";
+    echo "<div style='padding: 5px; color: green; font-weight: bold;'>=> $msg</div>";
 }
 
 /**

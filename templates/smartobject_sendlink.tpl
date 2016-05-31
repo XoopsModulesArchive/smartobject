@@ -30,10 +30,10 @@
         <{if $send_success}>
             <h2><{$smarty.const._CO_SOBJECT_SEND_SUCCESS}></h2>
             <{$smarty.const._CO_SOBJECT_SEND_SUCCESS_INFO}>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+            <br>
+            <br>
+            <br>
+            <br>
             <div><a href="javascript:window.close();"><{$smarty.const._CO_SOBJECT_CLOSE_WINDOW}></a></div>
         <{/if}>
 

@@ -143,14 +143,14 @@ class SmartObjectTable
     /**
      * Constructor
      *
-     * @param object      $objectHandler {@link SmartPersistableObjectHandler}
-     * @param bool|object $criteria
-     * @param array       $actions       array representing the actions to offer
+     * @param SmartPersistableObjectHandler $objectHandler {@link SmartPersistableObjectHandler}
+     * @param CriteriaElement          $criteria
+     * @param array                         $actions       array representing the actions to offer
      *
-     * @param bool        $userSide
+     * @param bool                          $userSide
      * @internal param array $columns array representing the columns to display in the table
      */
-    public function __construct($objectHandler, $criteria = false, $actions = array('edit', 'delete'), $userSide = false)
+    public function __construct(SmartPersistableObjectHandler $objectHandler, CriteriaElement $criteria = null, $actions = array('edit', 'delete'), $userSide = false)
     {
         $this->_id            = $objectHandler->className;
         $this->_objectHandler = $objectHandler;
@@ -776,7 +776,8 @@ class SmartObjectTable
             $new_get_array[] = 'limitsel=' . $this->_limitsel;
             $otherParams     = implode('&', $new_get_array);
 
-            $pagenav = new XoopsPageNav($this->_objectHandler->getCount($this->_criteria), $this->_criteria->getLimit(), $this->_criteria->getStart(), 'start' . $this->_objectHandler->keyName, $otherParams);
+            $pagenav =
+                new XoopsPageNav($this->_objectHandler->getCount($this->_criteria), $this->_criteria->getLimit(), $this->_criteria->getStart(), 'start' . $this->_objectHandler->keyName, $otherParams);
             $this->_tpl->assign('smartobject_pagenav', $pagenav->renderNav());
         }
         $this->renderOptionSelection($limitsArray, $params_of_the_options_sel);
@@ -812,14 +813,18 @@ class SmartObjectTable
             $aColumn['align'] = $column->getAlign();
             $aColumn['key']   = $column->getKeyName();
             if ($column->_keyname === 'checked') {
-                $aColumn['caption'] = '<input type ="checkbox" id="checkall_smartobjects" name="checkall_smartobjects"' . ' value="checkall_smartobjects" onclick="smartobject_checkall(window.document.form_' . $this->_id . ', \'selected_smartobjects\');" />';
+                $aColumn['caption'] = '<input type ="checkbox" id="checkall_smartobjects" name="checkall_smartobjects"'
+                                      . ' value="checkall_smartobjects" onclick="smartobject_checkall(window.document.form_'
+                                      . $this->_id
+                                      . ', \'selected_smartobjects\');" />';
             } elseif ($column->getCustomCaption()) {
                 $aColumn['caption'] = $column->getCustomCaption();
             } else {
                 $aColumn['caption'] = isset($this->_tempObject->vars[$column->getKeyName()]['form_caption']) ? $this->_tempObject->vars[$column->getKeyName()]['form_caption'] : $column->getKeyName();
             }
             // Are we doing a GET sort on this column ?
-            $getSort = (isset($_GET[$this->_objectHandler->_itemname . '_' . 'sortsel']) && $_GET[$this->_objectHandler->_itemname . '_' . 'sortsel'] == $column->getKeyName()) || ($this->_sortsel == $column->getKeyName());
+            $getSort = (isset($_GET[$this->_objectHandler->_itemname . '_' . 'sortsel']) && $_GET[$this->_objectHandler->_itemname . '_' . 'sortsel'] == $column->getKeyName())
+                       || ($this->_sortsel == $column->getKeyName());
             $order   = isset($_GET[$this->_objectHandler->_itemname . '_' . 'ordersel']) ? $_GET[$this->_objectHandler->_itemname . '_' . 'ordersel'] : 'DESC';
 
             if (isset($_REQUEST['quicksearch_' . $this->_id]) && $_REQUEST['quicksearch_' . $this->_id] != '') {
@@ -828,9 +833,45 @@ class SmartObjectTable
             if (!$this->_enableColumnsSorting || $column->_keyname === 'checked' || !$column->isSortable()) {
                 $aColumn['caption'] = $aColumn['caption'];
             } elseif ($getSort) {
-                $aColumn['caption'] = '<a href="' . $current_url . '?' . $this->_objectHandler->_itemname . '_' . 'sortsel=' . $column->getKeyName() . '&' . $this->_objectHandler->_itemname . '_' . 'ordersel=' . $orderArray[$order]['neworder'] . $qs_param . '&' . $new_query_string . '">' . $aColumn['caption'] . ' <img src="' . SMARTOBJECT_IMAGES_ACTIONS_URL . $orderArray[$order]['image'] . '" alt="ASC" /></a>';
+                $aColumn['caption'] = '<a href="'
+                                      . $current_url
+                                      . '?'
+                                      . $this->_objectHandler->_itemname
+                                      . '_'
+                                      . 'sortsel='
+                                      . $column->getKeyName()
+                                      . '&'
+                                      . $this->_objectHandler->_itemname
+                                      . '_'
+                                      . 'ordersel='
+                                      . $orderArray[$order]['neworder']
+                                      . $qs_param
+                                      . '&'
+                                      . $new_query_string
+                                      . '">'
+                                      . $aColumn['caption']
+                                      . ' <img src="'
+                                      . SMARTOBJECT_IMAGES_ACTIONS_URL
+                                      . $orderArray[$order]['image']
+                                      . '" alt="ASC" /></a>';
             } else {
-                $aColumn['caption'] = '<a href="' . $current_url . '?' . $this->_objectHandler->_itemname . '_' . 'sortsel=' . $column->getKeyName() . '&' . $this->_objectHandler->_itemname . '_' . 'ordersel=ASC' . $qs_param . '&' . $new_query_string . '">' . $aColumn['caption'] . '</a>';
+                $aColumn['caption'] = '<a href="'
+                                      . $current_url
+                                      . '?'
+                                      . $this->_objectHandler->_itemname
+                                      . '_'
+                                      . 'sortsel='
+                                      . $column->getKeyName()
+                                      . '&'
+                                      . $this->_objectHandler->_itemname
+                                      . '_'
+                                      . 'ordersel=ASC'
+                                      . $qs_param
+                                      . '&'
+                                      . $new_query_string
+                                      . '">'
+                                      . $aColumn['caption']
+                                      . '</a>';
             }
             $aColumns[] = $aColumn;
         }

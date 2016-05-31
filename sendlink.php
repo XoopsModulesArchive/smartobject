@@ -21,7 +21,7 @@ echo smart_get_css_link(SMARTOBJECT_URL . 'assets/css/module.css');
 echo '</head><body>';
 
 $smartobjectLinkHandler = xoops_getModuleHandler('link', 'smartobject');
-$linkObj                  = $smartobjectLinkHandler->create();
+$linkObj                = $smartobjectLinkHandler->create();
 
 $op = isset($_POST['op']) ? $_POST['op'] : '';
 
@@ -55,7 +55,7 @@ switch ($op) {
         $xoopsMailer->setSubject(sprintf(_CO_SOBJECT_SUBJECT_DEFAULT, $myts->oopsStripSlashesGPC($xoopsConfig['sitename'])));
 
         if (!$xoopsMailer->send(true)) {
-            $xoopsTpl->assign('send_error', sprintf(_CO_SOBJECT_SEND_ERROR, $xoopsConfig['adminmail']) . '<br />' . $xoopsMailer->getErrors(true));
+            $xoopsTpl->assign('send_error', sprintf(_CO_SOBJECT_SEND_ERROR, $xoopsConfig['adminmail']) . '<br>' . $xoopsMailer->getErrors(true));
         } else {
             $xoopsTpl->assign('send_success', _CO_SOBJECT_SEND_SUCCESS);
         }
@@ -87,7 +87,7 @@ switch ($op) {
 
         if (is_object($xoopsUser)) {
             $linkObj->setVar('from_uid', $xoopsUser->getVar('uid'));
-            $linkObj->setVar('from_name', $xoopsUser->getVar('name') != '' ? $xoopsUser->getVar('name') : $xoopsUser->getVar('uname'));
+            $linkObj->setVar('from_name', $xoopsUser->getVar('name') !== '' ? $xoopsUser->getVar('name') : $xoopsUser->getVar('uname'));
             $linkObj->setVar('from_email', $xoopsUser->getVar('email'));
         }
 

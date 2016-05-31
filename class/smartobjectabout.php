@@ -100,7 +100,7 @@ class SmartobjectAbout
         smart_xoops_cp_header();
 
         $moduleHandler = xoops_getHandler('module');
-        $versioninfo    = &$moduleHandler->get($xoopsModule->getVar('mid'));
+        $versioninfo   = $moduleHandler->get($xoopsModule->getVar('mid'));
 
         //smart_adminMenu(-1, $this->_aboutTitle . " " . $versioninfo->getInfo('name'));
 
@@ -119,7 +119,7 @@ class SmartobjectAbout
         $this->_tpl->assign('module_status_version', $versioninfo->getInfo('status_version'));
 
         // Left headings...
-        if ($versioninfo->getInfo('author_realname') != '') {
+        if ($versioninfo->getInfo('author_realname') !== '') {
             $author_name = $versioninfo->getInfo('author') . ' (' . $versioninfo->getInfo('author_realname') . ')';
         } else {
             $author_name = $versioninfo->getInfo('author');

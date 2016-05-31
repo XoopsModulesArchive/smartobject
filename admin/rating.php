@@ -55,7 +55,7 @@ include_once __DIR__ . '/admin_header.php';
 include_once SMARTOBJECT_ROOT_PATH . 'class/smartobjecttable.php';
 include_once SMARTOBJECT_ROOT_PATH . 'class/rating.php';
 $smartobjectRatingHandler = xoops_getModuleHandler('rating');
-$indexAdmin                 = new ModuleAdmin();
+$indexAdmin               = new ModuleAdmin();
 
 $op = '';
 
@@ -140,7 +140,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('createdratings');
         echo '<br>';
 

@@ -50,7 +50,7 @@ class SmartFormSet_passwordElement extends XoopsFormElementTray
         $var     = $object->vars[$key];
         $control = $object->controls[$key];
 
-        parent::__construct($var['form_caption'] . '<br />' . _US_TYPEPASSTWICE, ' ', $key . '_password_tray');
+        parent::__construct($var['form_caption'] . '<br>' . _US_TYPEPASSTWICE, ' ', $key . '_password_tray');
 
         $password_box1 = new XoopsFormPassword('', $key . '1', 10, 32);
         $this->addElement($password_box1);

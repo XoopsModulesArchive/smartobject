@@ -65,7 +65,7 @@ class SmartObject extends XoopsObject
     /**
      * Reference to the handler managing this object
      *
-     * @var object reference to {@link SmartPersistableObjectHandler}
+     * @var SmartPersistableObjectHandler reference to {@link SmartPersistableObjectHandler}
      */
     public $handler;
 
@@ -118,33 +118,34 @@ class SmartObject extends XoopsObject
 
     /**
      *
-     * @param string $key          key of this field. This needs to be the name of the field in the related database table
-     * @param int    $data_type    set to one of XOBJ_DTYPE_XXX constants (set to XOBJ_DTYPE_OTHER if no data type ckecking nor text sanitizing is required)
-     * @param mixed  $value        default value of this variable
-     * @param bool   $required     set to TRUE if this variable needs to have a value set before storing the object in the table
-     * @param int    $maxlength    maximum length of this variable, for XOBJ_DTYPE_TXTBOX type only
-     * @param string $options      does this data have any select options?
-     * @param bool   $multilingual is this field needs to support multilingual features (NOT YET IMPLEMENTED...)
-     * @param string $form_caption caption of this variable in a {@link SmartobjectForm} and title of a column in a  {@link SmartObjectTable}
-     * @param string $form_dsc     description of this variable in a {@link SmartobjectForm}
-     * @param bool   $sortby       set to TRUE to make this field used to sort objects in SmartObjectTable
-     * @param bool   $persistent   set to FALSE if this field is not to be saved in the database
+     * @param string $key           key of this field. This needs to be the name of the field in the related database table
+     * @param int    $data_type     set to one of XOBJ_DTYPE_XXX constants (set to XOBJ_DTYPE_OTHER if no data type ckecking nor text sanitizing is required)
+     * @param mixed  $value         default value of this variable
+     * @param bool   $required      set to TRUE if this variable needs to have a value set before storing the object in the table
+     * @param int    $maxlength     maximum length of this variable, for XOBJ_DTYPE_TXTBOX type only
+     * @param string $options       does this data have any select options?
+     * @param bool   $multilingual  is this field needs to support multilingual features (NOT YET IMPLEMENTED...)
+     * @param string $form_caption  caption of this variable in a {@link SmartobjectForm} and title of a column in a  {@link SmartObjectTable}
+     * @param string $form_dsc      description of this variable in a {@link SmartobjectForm}
+     * @param bool   $sortby        set to TRUE to make this field used to sort objects in SmartObjectTable
+     * @param bool   $persistent    set to FALSE if this field is not to be saved in the database
      * @param bool   $displayOnForm
      */
-    public function initVar($key, $data_type, $value = null, $required = false, $maxlength = null, $options = '', $multilingual = false, $form_caption = '', $form_dsc = '', $sortby = false, $persistent = true, $displayOnForm = true)
-    {
+    public function initVar($key, $data_type, $value = null, $required = false, $maxlength = null, $options = '', $multilingual = false, $form_caption = '', $form_dsc = '', $sortby = false,
+                            $persistent = true, $displayOnForm = true
+    ) {
         //url_ is reserved for files.
         if (0 === strpos($key, 'url_')) {
             trigger_error("Cannot use variable starting with 'url_'.");
         }
         parent::initVar($key, $data_type, $value, $required, $maxlength, $options);
-        if ($this->handler && (!$form_caption || $form_caption == '')) {
+        if ($this->handler && (!$form_caption || $form_caption === '')) {
             $dyn_form_caption = strtoupper('_CO_' . $this->handler->_moduleName . '_' . $this->handler->_itemname . '_' . $key);
             if (defined($dyn_form_caption)) {
                 $form_caption = constant($dyn_form_caption);
             }
         }
-        if ($this->handler && (!$form_dsc || $form_dsc == '')) {
+        if ($this->handler && (!$form_dsc || $form_dsc === '')) {
             $dyn_form_dsc = strtoupper('_CO_' . $this->handler->_moduleName . '_' . $this->handler->_itemname . '_' . $key . '_DSC');
             if (defined($dyn_form_dsc)) {
                 $form_dsc = constant($dyn_form_dsc);
@@ -369,7 +370,7 @@ class SmartObject extends XoopsObject
      *      - htmlarea: HTMLArea
      *      - textarea: basic textarea with no options
      *
-     * @param string $var name of the variable for which we want to set a control
+     * @param string $var     name of the variable for which we want to set a control
      * @param array  $options
      */
     public function setControl($var, $options = array())
@@ -386,7 +387,7 @@ class SmartObject extends XoopsObject
     /**
      * Get control information for an instance variable
      *
-     * @param  string $var
+     * @param  string     $var
      * @return bool|mixed
      */
     public function getControl($var)
@@ -426,7 +427,7 @@ class SmartObject extends XoopsObject
             $value     = $this->getVar($key);
             $ret[$key] = $value;
         }
-        if ($this->handler->identifierName != '') {
+        if ($this->handler->identifierName !== '') {
             $controller = new SmartObjectController($this->handler);
             /**
              * Addition of some automatic value
@@ -538,7 +539,7 @@ class SmartObject extends XoopsObject
         }
 
         $smartPermissionsHandler = new SmartobjectPermissionHandler($this->handler);
-        $ret                      = $smartPermissionsHandler->getGrantedGroups($group_perm, $this->id());
+        $ret                     = $smartPermissionsHandler->getGrantedGroups($group_perm, $this->id());
 
         if (count($ret) == 0) {
             return false;
@@ -548,7 +549,7 @@ class SmartObject extends XoopsObject
     }
 
     /**
-     * @param  bool $path
+     * @param  bool  $path
      * @return mixed
      */
     public function getImageDir($path = false)
@@ -561,7 +562,7 @@ class SmartObject extends XoopsObject
     }
 
     /**
-     * @param  bool $path
+     * @param  bool  $path
      * @return mixed
      */
     public function getUploadDir($path = false)
@@ -582,7 +583,7 @@ class SmartObject extends XoopsObject
     {
         if (isset($this->vars[$key][$info])) {
             return $this->vars[$key][$info];
-        } elseif ($info == '' && isset($this->vars[$key])) {
+        } elseif ($info === '' && isset($this->vars[$key])) {
             return $this->vars[$key];
         } else {
             return $this->vars;
@@ -627,7 +628,7 @@ class SmartObject extends XoopsObject
     /**
      * Retreive the object admin side link, displayijng a SingleView page
      *
-     * @param  bool $onlyUrl wether or not to return a simple URL or a full <a> link
+     * @param  bool   $onlyUrl wether or not to return a simple URL or a full <a> link
      * @return string user side link to the object
      */
     public function getAdminViewItemLink($onlyUrl = false)
@@ -640,7 +641,7 @@ class SmartObject extends XoopsObject
     /**
      * Retreive the object user side link
      *
-     * @param  bool $onlyUrl wether or not to return a simple URL or a full <a> link
+     * @param  bool   $onlyUrl wether or not to return a simple URL or a full <a> link
      * @return string user side link to the object
      */
     public function getItemLink($onlyUrl = false)
@@ -651,9 +652,9 @@ class SmartObject extends XoopsObject
     }
 
     /**
-     * @param  bool $onlyUrl
-     * @param  bool $withimage
-     * @param  bool $userSide
+     * @param  bool   $onlyUrl
+     * @param  bool   $withimage
+     * @param  bool   $userSide
      * @return string
      */
     public function getEditItemLink($onlyUrl = false, $withimage = true, $userSide = false)
@@ -664,9 +665,9 @@ class SmartObject extends XoopsObject
     }
 
     /**
-     * @param  bool $onlyUrl
-     * @param  bool $withimage
-     * @param  bool $userSide
+     * @param  bool   $onlyUrl
+     * @param  bool   $withimage
+     * @param  bool   $userSide
      * @return string
      */
     public function getDeleteItemLink($onlyUrl = false, $withimage = false, $userSide = false)
@@ -728,8 +729,8 @@ class SmartObject extends XoopsObject
     }
 
     /**
-     * @param       $key
-     * @param  bool $editor
+     * @param         $key
+     * @param  bool   $editor
      * @return string
      */
     public function getValueFor($key, $editor = true)
@@ -795,11 +796,11 @@ class SmartObject extends XoopsObject
                     case XOBJ_DTYPE_TXTBOX:
                         if ($v['required'] && $cleanv != '0' && $cleanv == '') {
                             $this->setErrors(sprintf(_XOBJ_ERR_REQUIRED, $k));
-                            continue;
+                            continue 2;
                         }
                         if (isset($v['maxlength']) && strlen($cleanv) > (int)$v['maxlength']) {
                             $this->setErrors(sprintf(_XOBJ_ERR_SHORTERTHAN, $k, (int)$v['maxlength']));
-                            continue;
+                            continue 2;
                         }
                         if (!$v['not_gpc']) {
                             $cleanv = $ts->stripSlashesGPC($ts->censorString($cleanv));
@@ -810,7 +811,7 @@ class SmartObject extends XoopsObject
                     case XOBJ_DTYPE_TXTAREA:
                         if ($v['required'] && $cleanv != '0' && $cleanv == '') {
                             $this->setErrors(sprintf(_XOBJ_ERR_REQUIRED, $k));
-                            continue;
+                            continue 2;
                         }
                         if (!$v['not_gpc']) {
                             $cleanv = $ts->stripSlashesGPC($ts->censorString($cleanv));
@@ -839,24 +840,24 @@ class SmartObject extends XoopsObject
                         break;
 
                     case XOBJ_DTYPE_EMAIL:
-                        if ($v['required'] && $cleanv == '') {
+                        if ($v['required'] && $cleanv === '') {
                             $this->setErrors(sprintf(_XOBJ_ERR_REQUIRED, $k));
-                            continue;
+                            continue 2;
                         }
-                        if ($cleanv != '' && !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+([\.][a-z0-9-]+)+$/i", $cleanv)) {
+                        if ($cleanv !== '' && !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+([\.][a-z0-9-]+)+$/i", $cleanv)) {
                             $this->setErrors('Invalid Email');
-                            continue;
+                            continue 2;
                         }
                         if (!$v['not_gpc']) {
                             $cleanv = $ts->stripSlashesGPC($cleanv);
                         }
                         break;
                     case XOBJ_DTYPE_URL:
-                        if ($v['required'] && $cleanv == '') {
+                        if ($v['required'] && $cleanv === '') {
                             $this->setErrors(sprintf(_XOBJ_ERR_REQUIRED, $k));
-                            continue;
+                            continue 2;
                         }
-                        if ($cleanv != '' && !preg_match("/^http[s]*:\/\//i", $cleanv)) {
+                        if ($cleanv !== '' && !preg_match("/^http[s]*:\/\//i", $cleanv)) {
                             $cleanv = 'http://' . $cleanv;
                         }
                         if (!$v['not_gpc']) {
@@ -1036,11 +1037,11 @@ class SmartObject extends XoopsObject
                     if (strlen($decimal_section) == 1) {
                         $decimal_section = '.00';
                     } elseif (strlen($decimal_section) == 2) {
-                        $decimal_section = $decimal_section . '0';
+                        $decimal_section .= '0';
                     }
                     $ret = str_replace($decimal_section_original, $decimal_section, $ret);
                 } else {
-                    $ret = $ret . '.00';
+                    $ret .= '.00';
                 }
                 break;
 
@@ -1132,7 +1133,7 @@ class SmartObject extends XoopsObject
                 }
                 break;
             default:
-                if ($this->vars[$key]['options'] != '' && $ret != '') {
+                if ($this->vars[$key]['options'] !== '' && $ret != '') {
                     switch (strtolower($format)) {
                         case 's':
                         case 'show':
@@ -1248,10 +1249,10 @@ class SmartObject extends XoopsObject
     /**
      * Display an automatic SingleView of the object, based on the displayOnSingleView param of each vars
      *
-     * @param  bool  $fetchOnly if set to TRUE, then the content will be return, if set to FALSE, the content will be outputed
-     * @param  bool  $userSide  for futur use, to do something different on the user side
-     * @param  array $actions
-     * @param  bool  $headerAsRow
+     * @param  bool    $fetchOnly   if set to TRUE, then the content will be return, if set to FALSE, the content will be outputed
+     * @param  bool    $userSide    for futur use, to do something different on the user side
+     * @param  array   $actions
+     * @param  bool    $headerAsRow
      * @return content of the template if $fetchOnly or nothing if !$fetchOnly
      */
     public function displaySingleObject($fetchOnly = false, $userSide = false, $actions = array(), $headerAsRow = true)
@@ -1361,7 +1362,7 @@ class SmartObject extends XoopsObject
     public function getUrlLinkObj($key)
     {
         $smartobjectLinkurlHandler = xoops_getModuleHandler('urllink', 'smartobject');
-        $urllinkid                   = $this->getVar($key) != null ? $this->getVar($key) : 0;
+        $urllinkid                 = $this->getVar($key) !== null ? $this->getVar($key) : 0;
         if ($urllinkid != 0) {
             return $smartobjectLinkurlHandler->get($urllinkid);
         } else {
@@ -1387,7 +1388,7 @@ class SmartObject extends XoopsObject
     public function getFileObj($key)
     {
         $smartobjectFileHandler = xoops_getModuleHandler('file', 'smartobject');
-        $fileid                   = $this->getVar($key) != null ? $this->getVar($key) : 0;
+        $fileid                 = $this->getVar($key) !== null ? $this->getVar($key) : 0;
         if ($fileid != 0) {
             return $smartobjectFileHandler->get($fileid);
         } else {

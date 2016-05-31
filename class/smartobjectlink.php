@@ -84,7 +84,7 @@ class SmartobjectLink extends SmartObject
     }
 
     /**
-     * @param  bool $withContact
+     * @param  bool   $withContact
      * @return string
      */
     public function to_uid($withContact = false)
@@ -105,7 +105,7 @@ class SmartobjectLink extends SmartObject
     }
 
     /**
-     * @param  bool $full
+     * @param  bool         $full
      * @return mixed|string
      */
     public function link($full = false)
@@ -128,7 +128,17 @@ class SmartobjectLink extends SmartObject
      */
     public function getViewItemLink()
     {
-        $ret = '<a href="' . SMARTOBJECT_URL . 'admin/link.php?op=view&linkid=' . $this->getVar('linkid') . '"><img src="' . SMARTOBJECT_IMAGES_ACTIONS_URL . 'mail_find.png" alt="' . _AM_SOBJECT_SENT_LINK_VIEW . '" title="' . _AM_SOBJECT_SENT_LINK_VIEW . '" /></a>';
+        $ret = '<a href="' .
+               SMARTOBJECT_URL .
+               'admin/link.php?op=view&linkid=' .
+               $this->getVar('linkid') .
+               '"><img src="' .
+               SMARTOBJECT_IMAGES_ACTIONS_URL .
+               'mail_find.png" alt="' .
+               _AM_SOBJECT_SENT_LINK_VIEW .
+               '" title="' .
+               _AM_SOBJECT_SENT_LINK_VIEW .
+               '" /></a>';
 
         return $ret;
     }
@@ -192,9 +202,9 @@ class SmartobjectLinkHandler extends SmartPersistableObjectHandler
 {
     /**
      * SmartobjectLinkHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'link', 'linkid', 'subject', 'body', 'smartobject');
     }

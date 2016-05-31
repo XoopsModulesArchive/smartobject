@@ -12,7 +12,7 @@ $path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
 $dirname         = basename(dirname(__DIR__));
-$moduleHandler  = xoops_getHandler('module');
+$moduleHandler   = xoops_getHandler('module');
 $module          = $moduleHandler->getByDirname($dirname);
 $pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
@@ -65,7 +65,7 @@ if (!defined('SMARTOBJECT_ROOT_PATH')) {
 
 $smartobjectConfig = smart_getModuleConfig('smartobject');
 
-if (isset($smartobjectConfig['enable_currencyman']) && $smartobjectConfig['enable_currencyman'] == true) {
+if (isset($smartobjectConfig['enable_currencyman']) && $smartobjectConfig['enable_currencyman'] === true) {
     ++$i;
     $adminmenu[$i]['title'] = _MI_SOBJECT_CURRENCIES;
     $adminmenu[$i]['link']  = 'admin/currency.php';

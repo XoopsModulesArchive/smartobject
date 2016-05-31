@@ -1,5 +1,5 @@
 .smart_infoMessage {
-	background: url(images/infomsg_icon.gif) no-repeat;
+	background: url(assets/images/infomsg_icon.gif) no-repeat;
 	border: 1px solid #99CC99;
 	background-color: #E2F9E3;
 	color: #3F663F;
@@ -10,7 +10,7 @@
 }
 
 .smart_errorMessage {
-	background: url(images/errormsg_icon.gif) no-repeat;
+	background: url(assets/images/errormsg_icon.gif) no-repeat;
 	border: 1px solid #CC9999;
 	background-color: #CC0000;
 	color: #ffffff;

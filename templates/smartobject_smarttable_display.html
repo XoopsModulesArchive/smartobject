@@ -167,7 +167,7 @@
     <{/if}>
 
     <{if $smartobject_introButtons}>
-    <div style="padding-top:15px; paddig-bottom: 5px;">
+    <div style="padding-top:15px; padding-bottom: 5px;">
         <form>
             <{foreach from=$smartobject_introButtons item=introButton}>
             <input type="button" name="<{$introButton.name}>" onclick="location='<{$introButton.location}>'" value="<{$introButton.value}>"/>
@@ -182,7 +182,7 @@
 
 </div>
 
-<br/>
+<br>
 
 <{if $smartobject_printer_friendly_page}>
 <a href="javascript:openWithSelfMain('<{$smartobject_printer_friendly_page}>', 'smartpopup', 700, 519);"><img src="<{$xoops_url}>/modules/smartobject/assets/images/actions/fileprint.png" alt=""/></a>
@@ -212,6 +212,6 @@ function Clickheretoprint()
    docprint.focus();
 }
 </script>
-<br />
+<br>
 <a href="javascript:Clickheretoprint();"><img  src="<{$xoops_url}>/modules/smartobject/assets/images/actions/fileprint.png" alt="" /></a>
 //-->

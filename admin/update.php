@@ -31,7 +31,7 @@ function update_tables_to_300()
 
         $table->setData(sprintf("'version', %s", round($GLOBALS['xoopsModule']->getVar('version') / 100, 2)));
         if ($dbupdater->updateTable($table)) {
-            echo 'wfdownloads_meta table created<br />';
+            echo 'wfdownloads_meta table created<br>';
         }
     }
 
@@ -79,15 +79,15 @@ function update_tables_to_300()
         'logourl' => 'screenshot'
     );
 
-    echo '<br /><B>Checking Download table</B><br />';
+    echo '<br><b>Checking Download table</b><br>';
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
-    $download_table   = new WfdownloadsTable('wfdownloads_downloads');
-    $fields           = get_table_info($downloadHandler->table, $download_fields);
+    $download_table  = new WfdownloadsTable('wfdownloads_downloads');
+    $fields          = get_table_info($downloadHandler->table, $download_fields);
     // Check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     update_table($download_fields, $fields, $download_table);
     if ($dbupdater->updateTable($download_table)) {
-        echo 'Downloads table updated<br />';
+        echo 'Downloads table updated<br>';
     }
     unset($fields);
 
@@ -136,14 +136,14 @@ function update_tables_to_300()
         'logourl' => 'screenshot'
     );
 
-    echo '<br /><B>Checking Modified Downloads table</B><br />';
+    echo '<br><b>Checking Modified Downloads table</b><br>';
     $modHandler = xoops_getModuleHandler('modification', 'wfdownloads');
-    $mod_table   = new WfdownloadsTable('wfdownloads_mod');
-    $fields      = get_table_info($modHandler->table, $mod_fields);
+    $mod_table  = new WfdownloadsTable('wfdownloads_mod');
+    $fields     = get_table_info($modHandler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
     if ($dbupdater->updateTable($mod_table)) {
-        echo 'Modified Downloads table updated <br />';
+        echo 'Modified Downloads table updated <br>';
     }
     unset($fields);
 
@@ -164,13 +164,13 @@ function update_tables_to_300()
         'dobr'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'weight'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true)
     );
-    echo '<br /><B>Checking Category table</B><br />';
+    echo '<br><b>Checking Category table</b><br>';
     $catHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $cat_table   = new WfdownloadsTable('wfdownloads_cat');
-    $fields      = get_table_info($catHandler->table, $cat_fields);
+    $cat_table  = new WfdownloadsTable('wfdownloads_cat');
+    $fields     = get_table_info($catHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
-        echo 'Category table updated<br />';
+        echo 'Category table updated<br>';
     }
     unset($fields);
 
@@ -183,13 +183,13 @@ function update_tables_to_300()
         'confirmed'    => array('Type' => "enum('0','1') NOT NULL default '0'", 'Default' => true),
         'acknowledged' => array('Type' => "enum('0','1') NOT NULL default '0'", 'Default' => true)
     );
-    echo '<br /><B>Checking Broken Report table</B><br />';
+    echo '<br><b>Checking Broken Report table</b><br>';
     $brokenHandler = xoops_getModuleHandler('report', 'wfdownloads');
-    $broken_table   = new WfdownloadsTable('wfdownloads_broken');
-    $fields         = get_table_info($brokenHandler->table, $broken_fields);
+    $broken_table  = new WfdownloadsTable('wfdownloads_broken');
+    $fields        = get_table_info($brokenHandler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
-        echo 'Broken Reports table updated<br />';
+        echo 'Broken Reports table updated<br>';
     }
     unset($fields);
 }
@@ -207,7 +207,7 @@ function invert_nohtm_dohtml_values()
     $ret = array();
     global $xoopsDB;
     $catHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $result      = $xoopsDB->query('SHOW COLUMNS FROM ' . $catHandler->table);
+    $result     = $xoopsDB->query('SHOW COLUMNS FROM ' . $catHandler->table);
     while ($existing_field = $xoopsDB->fetchArray($result)) {
         $fields[$existing_field['field']] = $existing_field['type'];
     }
@@ -264,14 +264,14 @@ function update_table($new_fields, $existing_fields, &$table)
             //Add field as it is missing
             $table->addNewField($field, $type);
             //$xoopsDB->query("ALTER TABLE ".$table." ADD ".$field." ".$type);
-            //echo $field."(".$type.") <FONT COLOR='##22DD51'>Added</FONT><br />";
+            //echo $field."(".$type.") <FONT COLOR='##22DD51'>Added</FONT><br>";
         } elseif ($existing_fields[$field] != $type) {
             $table->addAlteredField($field, $field . ' ' . $type);
             // check $fields[$field]['type'] for things like "int(10) unsigned"
             //$xoopsDB->query("ALTER TABLE ".$table." CHANGE ".$field." ".$field." ".$type);
-            //echo $field." <FONT COLOR='#FF6600'>Changed to</FONT> ".$type."<br />";
+            //echo $field." <FONT COLOR='#FF6600'>Changed to</FONT> ".$type."<br>";
         } else {
-            //echo $field." <FONT COLOR='#0033FF'>Uptodate</FONT><br />";
+            //echo $field." <FONT COLOR='#0033FF'>Uptodate</FONT><br>";
         }
     }
 }
@@ -321,7 +321,7 @@ function rename_fields(&$table, $renamed_fields, &$fields, $new_fields)
             $new_field_type = $new_fields[$new_field_name]['Type'];
             $table->addAltered($field, $new_field_name . ' ' . $new_field_type);
             //$xoopsDB->query("ALTER TABLE ".$table." CHANGE ".$field." ".$new_field_name." ".$new_field_type);
-            //echo $field." Renamed to ".$new_field_name."<br />";
+            //echo $field." Renamed to ".$new_field_name."<br>";
             $fields[$new_field_name] = $new_field_type;
         }
     }
@@ -351,7 +351,7 @@ switch ($op) {
         $form = new XoopsThemeForm('Upgrade WF-Downloads', 'form', $_SERVER['REQUEST_URI']);
 
         //Is MyDownloads installed?
-        $moduleHandler    = xoops_getHandler('module');
+        $moduleHandler     = xoops_getHandler('module');
         $mydownloadsModule = $moduleHandler->getByDirname('mydownloads');
         if (is_object($mydownloadsModule)) {
             $mydownloadsButton = new XoopsFormButton('Import data from MyDownloads', 'myd_button', 'Import', 'submit');

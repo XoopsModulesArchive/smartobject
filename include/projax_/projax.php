@@ -14,8 +14,8 @@
  */
 
 include __DIR__ . '/classes/JavaScript.php';
-include 'classes/Prototype.php';
-include 'classes/Scriptaculous.php';
+__DIR__ . '/classes/Prototype.php';
+__DIR__ . '/classes/Scriptaculous.php';
 
 // For $projax = new Projax();
 /**

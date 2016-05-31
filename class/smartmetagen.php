@@ -60,7 +60,7 @@ class SmartMetaGen
      *
      * @credit psylove
      *
-     * @var    string $string Chaine de caract�re
+     * @var    string  $string Chaine de caract�re
      * @return boolean
      */
     public function emptyString($var)
@@ -84,14 +84,58 @@ class SmartMetaGen
         $title = rawurlencode(strtolower($title));
 
         // Transformation des ponctuations
-        //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /       :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-        $pattern = array('/%09/', '/%20/', '/%21/', '/%22/', '/%23/', '/%25/', '/%26/', '/%27/', '/%28/', '/%29/', '/%2C/', '/%2F/', '/%3A/', '/%3B/', '/%3C/', '/%3D/', '/%3E/', '/%3F/', '/%40/', '/%5B/', '/%5C/', '/%5D/', '/%5E/', '/%7B/', '/%7C/', '/%7D/', '/%7E/', "/\./");
+        $pattern = array(
+            '/%09/', // Tab
+            '/%20/', // Space
+            '/%21/', // !
+            '/%22/', // "
+            '/%23/', // #
+            '/%25/', // %
+            '/%26/', // &
+            '/%27/', // '
+            '/%28/', // (
+            '/%29/', // )
+            '/%2C/', // ,
+            '/%2F/', // /
+            '/%3A/', // :
+            '/%3B/', // ;
+            '/%3C/', // <
+            '/%3D/', // =
+            '/%3E/', // >
+            '/%3F/', // ?
+            '/%40/', // @
+            '/%5B/', // [
+            '/%5C/', // \
+            '/%5D/', // ]
+            '/%5E/', // ^
+            '/%7B/', // {
+            '/%7C/', // |
+            '/%7D/', // }
+            '/%7E/', // ~
+            "/\./" // .
+        );
         $rep_pat = array('-', '-', '-', '-', '-', '-100', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-at-', '-', '-', '-', '-', '-', '-', '-', '-', '-');
         $title   = preg_replace($pattern, $rep_pat, $title);
 
         // Transformation des caract�res accentu�s
-        //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-        $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+        $pattern = array(
+            '/%B0/', // °
+            '/%E8/', // è
+            '/%E9/', // é
+            '/%EA/', // ê
+            '/%EB/', // ë
+            '/%E7/', // ç
+            '/%E0/', // à
+            '/%E2/', // â
+            '/%E4/', // ä
+            '/%EE/', // î
+            '/%EF/', // ï
+            '/%F9/', // ù
+            '/%FC/', // ü
+            '/%FB/', // û
+            '/%F4/', // ô
+            '/%F6/', // ö
+        );        
         $rep_pat = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
         $title   = preg_replace($pattern, $rep_pat, $title);
 
@@ -139,24 +183,24 @@ class SmartMetaGen
             $titleTag['module'] = $moduleName;
         }
 
-        if (isset($this->_title) && ($this->_title != '') && (strtoupper($this->_title) != strtoupper($moduleName))) {
+        if (isset($this->_title) && ($this->_title !== '') && (strtoupper($this->_title) != strtoupper($moduleName))) {
             $titleTag['title'] = $this->_title;
         }
 
-        if (isset($this->_categoryPath) && ($this->_categoryPath != '')) {
+        if (isset($this->_categoryPath) && ($this->_categoryPath !== '')) {
             $titleTag['category'] = $this->_categoryPath;
         }
 
         $ret = isset($titleTag['title']) ? $titleTag['title'] : '';
 
-        if (isset($titleTag['category']) && $titleTag['category'] != '') {
-            if ($ret != '') {
+        if (isset($titleTag['category']) && $titleTag['category'] !== '') {
+            if ($ret !== '') {
                 $ret .= ' - ';
             }
             $ret .= $titleTag['category'];
         }
         if (isset($titleTag['module']) && $titleTag['module'] !== '') {
-            if ($ret != '') {
+            if ($ret !== '') {
                 $ret .= ' - ';
             }
             $ret .= $titleTag['module'];
@@ -210,8 +254,8 @@ class SmartMetaGen
     }
 
     /**
-     * @param       $text
-     * @param  bool $keyword
+     * @param               $text
+     * @param  bool         $keyword
      * @return mixed|string
      */
     public function purifyText($text, $keyword = false)
@@ -220,7 +264,7 @@ class SmartMetaGen
     }
 
     /**
-     * @param  int $maxWords
+     * @param  int    $maxWords
      * @return string
      */
     public function createMetaDescription($maxWords = 100)
@@ -282,7 +326,7 @@ class SmartMetaGen
     {
         global $xoopsModuleConfig;
         $keywords = $this->findMetaKeywords($this->_original_title . ' ' . $this->_description, $this->_minChar);
-        if (isset($xoopsModuleConfig) && isset($xoopsModuleConfig['moduleMetaKeywords']) && $xoopsModuleConfig['moduleMetaKeywords'] != '') {
+        if (isset($xoopsModuleConfig) && isset($xoopsModuleConfig['moduleMetaKeywords']) && $xoopsModuleConfig['moduleMetaKeywords'] !== '') {
             $moduleKeywords = explode(',', $xoopsModuleConfig['moduleMetaKeywords']);
             $keywords       = array_merge($keywords, $moduleKeywords);
         }

@@ -23,8 +23,8 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/formelement.php';
  * 2 Add form element where proper: $xoopsform->addElement(new XoopsFormCaptcha($caption, $name, $skipmember, ...);
  *
  * For verification:
- *   if (@include_once XOOPS_ROOT_PATH."/Frameworks/captcha/captcha.php") {
- *      $xoopsCaptcha = XoopsCaptcha::instance();
+ *   if (@include_once XOOPS_ROOT_PATH."/class/captcha/xoopscaptcha.php") {
+ *      $xoopsCaptcha = XoopsCaptcha::getInstance();
  *      if (! $xoopsCaptcha->verify() ) {
  *          echo $xoopsCaptcha->getMessage();
  *          ...
@@ -57,7 +57,7 @@ class XoopsFormCaptcha extends XoopsFormElement
             require_once SMARTOBJECT_ROOT_PATH . '/include/captcha/captcha.php';
         }
 
-        $this->_captchaHandler = XoopsCaptcha::instance();
+        $this->_captchaHandler = XoopsCaptcha::getInstance();
         $this->_captchaHandler->init($name, $skipmember, $numchar, $minfontsize, $maxfontsize, $backgroundtype, $backgroundnum);
         if (!$this->_captchaHandler->active) {
             $this->setHidden();

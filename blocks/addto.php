@@ -31,7 +31,7 @@ function smartobject_addto_edit($options)
     $layout_select->addOption(1, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION1);
     $layout_select->addOption(2, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION2);
     $layout_select->addOption(3, _MB_SOBJECT_BLOCKS_ADDTO_LAYOUT_OPTION3);
-    $form .= $layout_select->getCaption() . ' ' . $layout_select->render() . '<br />';
+    $form .= $layout_select->getCaption() . ' ' . $layout_select->render() . '<br>';
 
     return $form;
 }

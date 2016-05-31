@@ -79,7 +79,7 @@ switch ($op) {
 
     case 'addadsense':
         if (@include_once SMARTOBJECT_ROOT_PATH . 'include/captcha/captcha.php') {
-            $xoopsCaptcha = XoopsCaptcha::instance();
+            $xoopsCaptcha = XoopsCaptcha::getInstance();
             if (!$xoopsCaptcha->verify()) {
                 redirect_header('javascript:history.go(-1);', 3, $xoopsCaptcha->getMessage());
                 exit;
@@ -145,7 +145,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('createdadsenses');
         echo '<br>';
 

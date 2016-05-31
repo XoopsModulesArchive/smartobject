@@ -9,5 +9,5 @@
 
 <script language="JavaScript" src="<{$block.smartobject_addto_url}>addto.js" type="text/javascript"></script>
 <!-- End AddToBookmarks.com Version: 1.2-->
-<br/>
-<br/>
+<br>
+<br>

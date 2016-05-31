@@ -62,12 +62,11 @@ switch ($op) {
 
         if (!isset($_POST['SmartobjectCurrency_objects']) || count($_POST['SmartobjectCurrency_objects']) == 0) {
             redirect_header($smart_previous_page, 3, _AM_SOBJECT_NO_RECORDS_TO_UPDATE);
-            exit;
         }
 
         if (isset($_POST['default_currency'])) {
             $newDefaultCurrency = $_POST['default_currency'];
-            $sql                  = 'UPDATE ' . $smartobjectCurrencyHandler->table . ' SET default_currency=0';
+            $sql                = 'UPDATE ' . $smartobjectCurrencyHandler->table . ' SET default_currency=0';
             $smartobjectCurrencyHandler->query($sql);
             $sql = 'UPDATE ' . $smartobjectCurrencyHandler->table . ' SET default_currency=1 WHERE currencyid=' . $newDefaultCurrency;
             $smartobjectCurrencyHandler->query($sql);
@@ -84,8 +83,6 @@ switch ($op) {
         }
         */
         redirect_header($smart_previous_page, 3, _AM_SOBJECT_RECORDS_UPDATED);
-        exit;
-
         break;
 
     case 'addcurrency':
@@ -123,7 +120,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('createdcurrencies');
         echo '<br>';
 

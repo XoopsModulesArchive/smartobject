@@ -63,10 +63,10 @@ class SmartobjectMemberHandler extends XoopsMemberHandler
      * @param  bool $password
      * @return bool
      */
-    public function addAndActivateUser(&$userObj, $groups = false, $notifyUser = true, &$password = false)
+    public function addAndActivateUser($userObj, $groups = false, $notifyUser = true, &$password = false)
     {
         $email = $userObj->getVar('email');
-        if (!$userObj->getVar('email') || $email == '') {
+        if (!$userObj->getVar('email') || $email === '') {
             $userObj->setErrors(_CO_SOBJECT_USER_NEED_EMAIL);
 
             return false;
@@ -82,11 +82,11 @@ class SmartobjectMemberHandler extends XoopsMemberHandler
         // if no username is set, let's generate one
         $unamecount = 20;
         $uname      = $userObj->getVar('uname');
-        if (!$uname || $uname == '') {
+        if (!$uname || $uname === '') {
             $usernames = $this->genUserNames($email, $unamecount);
             $newuser   = false;
             $i         = 0;
-            while ($newuser == false) {
+            while ($newuser === false) {
                 $crit  = new Criteria('uname', $usernames[$i]);
                 $count = $this->getUserCount($crit);
                 if ($count == 0) {
@@ -105,7 +105,7 @@ class SmartobjectMemberHandler extends XoopsMemberHandler
 
         global $xoopsConfig;
 
-        $configHandler  = xoops_getHandler('config');
+        $configHandler   = xoops_getHandler('config');
         $xoopsConfigUser = $configHandler->getConfigsByCat(XOOPS_CONF_USER);
         switch ($xoopsConfigUser['activation_type']) {
             case 0:
@@ -236,7 +236,7 @@ class SmartobjectMemberHandler extends XoopsMemberHandler
     /**
      * Creates a random number with a specified number of $digits
      *
-     * @param  int $digits number of digits
+     * @param  int    $digits number of digits
      * @return return int random number
      * @author xHelp Team
      *

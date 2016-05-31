@@ -20,7 +20,7 @@
                         <input name="smartobject_rating_submit" value="<{$smarty.const._SOBJECT_RATING_RATE}>" type="submit">
                     </div>
                 </form>
-                <br/>
+                <br>
             </div>
         <{/if}>
         <div class="odd" style="display: block;">

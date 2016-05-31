@@ -64,7 +64,7 @@ class SmartObjectForm extends XoopsThemeForm
             $form_action = xoops_getenv('PHP_SELF');
         }
 
-        $this->XoopsForm($form_caption, $form_name, $form_action);
+        parent::__construct($form_caption, $form_name, $form_action);
         $this->setExtra('enctype="multipart/form-data"');
 
         $this->createElements();
@@ -102,12 +102,12 @@ class SmartObjectForm extends XoopsThemeForm
     /**
      * Add an element to the form
      *
-     * @param object      &$formElement reference to a {@link XoopsFormElement}
+     * @param string|XoopsFormElement      &$formElement reference to a {@link XoopsFormElement}
      * @param bool        $key
      * @param bool        $var
      * @param bool|string $required     is this a "required" element?
      */
-    public function addElement(&$formElement, $key = false, $var = false, $required = 'notset')
+    public function addElement($formElement, $key = false, $var = false, $required = 'notset')
     {
         if ($key) {
             if ($this->targetObject->vars[$key]['readonly']) {
@@ -286,7 +286,7 @@ class SmartObjectForm extends XoopsThemeForm
 
         if ($permissions) {
             $memberHandler = xoops_getHandler('member');
-            $group_list     = $memberHandler->getGroupList();
+            $group_list    = $memberHandler->getGroupList();
             asort($group_list);
             foreach ($permissions as $permission) {
                 if ($this->targetObject->isNew()) {
@@ -650,9 +650,9 @@ class SmartObjectForm extends XoopsThemeForm
     }
 
     /**
-     * @param       $key
-     * @param       $var
-     * @param  bool $multiple
+     * @param                  $key
+     * @param                  $var
+     * @param  bool            $multiple
      * @return XoopsFormSelect
      */
     public function getThemeSelect($key, $var, $multiple = false)
@@ -701,9 +701,23 @@ class SmartObjectForm extends XoopsThemeForm
     {
         $required = $this->getRequired();
         $ret      = "
-            <form name='" . $this->getName() . "' id='" . $this->getName() . "' action='" . $this->getAction() . "' method='" . $this->getMethod() . "' onsubmit='return xoopsFormValidate_" . $this->getName() . "(this);'" . $this->getExtra() . ">
+            <form name='" .
+                    $this->getName() .
+                    "' id='" .
+                    $this->getName() .
+                    "' action='" .
+                    $this->getAction() .
+                    "' method='" .
+                    $this->getMethod() .
+                    "' onsubmit='return xoopsFormValidate_" .
+                    $this->getName() .
+                    "(this);'" .
+                    $this->getExtra() .
+                    ">
             <table width='100%' class='outer' cellspacing='1'>
-            <tr><th colspan='2'>" . $this->getTitle() . '</th></tr>
+            <tr><th colspan='2'>" .
+                    $this->getTitle() .
+                    '</th></tr>
         ';
         $hidden   = '';
         $class    = 'even';
@@ -713,8 +727,8 @@ class SmartObjectForm extends XoopsThemeForm
             } elseif (!$ele->isHidden()) {
                 //$class = ( $class == 'even' ) ? 'odd': 'even';
                 $ret .= "<tr id='" . $ele->getName() . "' valign='top' align='left'><td class='head'>" . $ele->getCaption();
-                if ($ele->getDescription() != '') {
-                    $ret .= '<br /><br /><span style="font-weight: normal;">' . $ele->getDescription() . '</span>';
+                if ($ele->getDescription() !== '') {
+                    $ret .= '<br><br><span style="font-weight: normal;">' . $ele->getDescription() . '</span>';
                 }
                 $ret .= "</td><td class='$class'>" . $ele->render() . "</td></tr>\n";
             } else {
@@ -730,16 +744,16 @@ class SmartObjectForm extends XoopsThemeForm
     /**
      * assign to smarty form template instead of displaying directly
      *
-     * @param object &$tpl reference to a {@link Smarty} object
+     * @param XoopsTpl &$tpl       reference to a {@link Smarty} object
      * @param bool   $smartyName
      * @see     Smarty
      */
-    public function assign(&$tpl, $smartyName = false)
+    public function assign(XoopsTpl $tpl, $smartyName = false)
     {
         $i        = 0;
         $elements = array();
         foreach ($this->getElements() as $ele) {
-            $n                             = ($ele->getName() != '') ? $ele->getName() : $i;
+            $n                             = ($ele->getName() !== '') ? $ele->getName() : $i;
             $elements[$n]['name']          = $ele->getName();
             $elements[$n]['caption']       = $ele->getCaption();
             $elements[$n]['body']          = $ele->render();
@@ -747,7 +761,7 @@ class SmartObjectForm extends XoopsThemeForm
             $elements[$n]['section']       = strtolower(get_class($ele)) == strtolower('SmartFormSection');
             $elements[$n]['section_close'] = get_class($ele) === 'SmartFormSectionClose';
             $elements[$n]['hide']          = isset($this->targetObject->vars[$n]['hide']) ? $this->targetObject->vars[$n]['hide'] : false;
-            if ($ele->getDescription() != '') {
+            if ($ele->getDescription() !== '') {
                 $elements[$n]['description'] = $ele->getDescription();
             }
             ++$i;
@@ -769,7 +783,7 @@ class SmartObjectForm extends XoopsThemeForm
     }
 
     /**
-     * @param  bool $withtags
+     * @param  bool   $withtags
      * @return string
      */
     public function renderValidationJS($withtags = true)
@@ -782,7 +796,7 @@ class SmartObjectForm extends XoopsThemeForm
         $formname = $this->getName();
         $js .= "function xoopsFormValidate_{$formname}(myform) {";
         // First, output code to check required elements
-        $elements =& $this->getRequired();
+        $elements = $this->getRequired();
         foreach ($elements as $elt) {
             $eltname    = $elt->getName();
             $eltcaption = trim($elt->getCaption());

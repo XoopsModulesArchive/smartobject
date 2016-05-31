@@ -44,7 +44,7 @@ class SmartobjectCategory extends SmartSeoObject
         ));
 
         // call parent constructor to get SEO fields initiated
-        parent::__construct;
+        parent::__construct();
     }
 
     /**
@@ -105,8 +105,8 @@ class SmartobjectCategory extends SmartSeoObject
      * Create the complete path of a category
      *
      * @todo this could be improved as it uses multiple queries
-     * @param  bool $withAllLink make all name clickable
-     * @param  bool $currentCategory
+     * @param  bool   $withAllLink     make all name clickable
+     * @param  bool   $currentCategory
      * @return string complete path (breadcrumb)
      */
     public function getCategoryPath($withAllLink = true, $currentCategory = false)
@@ -147,19 +147,19 @@ class SmartobjectCategoryHandler extends SmartPersistableObjectHandler
 
     /**
      * SmartobjectCategoryHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      * @param                      $modulename
      */
-    public function __construct($db, $modulename)
+    public function __construct(XoopsDatabase $db, $modulename)
     {
         parent::__construct($db, 'category', 'categoryid', 'name', 'description', $modulename);
     }
 
     /**
-     * @param  int    $parentid
-     * @param  bool   $perm_name
-     * @param  string $sort
-     * @param  string $order
+     * @param  int        $parentid
+     * @param  bool       $perm_name
+     * @param  string     $sort
+     * @param  string     $order
      * @return array|bool
      */
     public function getAllCategoriesArray($parentid = 0, $perm_name = false, $sort = 'parentid', $order = 'ASC')
@@ -195,8 +195,8 @@ class SmartobjectCategoryHandler extends SmartPersistableObjectHandler
     }
 
     /**
-     * @param       $parentid
-     * @param  bool $asString
+     * @param               $parentid
+     * @param  bool         $asString
      * @return array|string
      */
     public function getParentIds($parentid, $asString = true)

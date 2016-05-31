@@ -35,7 +35,19 @@ class SmartAutocompleteElement extends XoopsFormText
      */
     public function render()
     {
-        $ret = "<input type='text' name='" . $this->getName() . "' id='" . $this->getName() . "' size='" . $this->getSize() . "' maxlength='" . $this->getMaxlength() . "' value='" . $this->getValue() . "'" . $this->getExtra() . ' />';
+        $ret = "<input type='text' name='" .
+               $this->getName() .
+               "' id='" .
+               $this->getName() .
+               "' size='" .
+               $this->getSize() .
+               "' maxlength='" .
+               $this->getMaxlength() .
+               "' value='" .
+               $this->getValue() .
+               "'" .
+               $this->getExtra() .
+               ' />';
 
         $ret .= '   <div class="smartobject_autocomplete_hint" id="smartobject_autocomplete_hint' . $this->getName() . '"></div>
 

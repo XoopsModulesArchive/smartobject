@@ -57,9 +57,9 @@ class SmartobjectTagHandler extends SmartPersistableMlObjectHandler
 {
     /**
      * SmartobjectTagHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'tag', 'tagid', 'name', 'description', 'smartobject');
     }

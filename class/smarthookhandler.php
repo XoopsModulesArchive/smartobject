@@ -16,7 +16,7 @@ class SmartHookHandler
     /**
      * Access the only instance of this class
      *
-     * @return object
+     * @return XoopsObject
      *
      * @static
      * @staticvar   object
@@ -24,8 +24,8 @@ class SmartHookHandler
     public static function getInstance()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new SmartHookHandler();
+        if (null === $instance) {
+            $instance = new static();
         }
 
         return $instance;

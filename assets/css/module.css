@@ -47,7 +47,7 @@
 
 .smartobject_autocomplete_hint li {
     list-style: none;
-    color: default;
+    color: #000000;
 }
 
 .smartobject_autocomplete_hint li:hover {

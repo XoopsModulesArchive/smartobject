@@ -101,9 +101,11 @@ define('_CO_SOBJECT_LINK_TO_UID', 'To user');
 define('_CO_SOBJECT_LINK_TO_UID_DSC', '');
 define('_CO_SOBJECT_MAKE_SELECTION', 'Make a selection...');
 define('_CO_SOBJECT_META_DESCRIPTION', 'Meta Description');
-define('_CO_SOBJECT_META_DESCRIPTION_DSC', 'In order to help Search Engines, you can customize the meta description you would like to use for this article. If you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
+define('_CO_SOBJECT_META_DESCRIPTION_DSC',
+       'In order to help Search Engines, you can customize the meta description you would like to use for this article. If you leave this field empty when creating a category, it will automatically be populated with the Summary field of this article.');
 define('_CO_SOBJECT_META_KEYWORDS', 'Meta Keywords');
-define('_CO_SOBJECT_META_KEYWORDS_DSC', 'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
+define('_CO_SOBJECT_META_KEYWORDS_DSC',
+       'In order to help Search Engines, you can customize the keywords you would like to use for this article. If you leave this field empty when creating an article, it will automatically be populated with words from the Summary field of this article.');
 define('_CO_SOBJECT_MODIFY', 'Edit');
 define('_CO_SOBJECT_MODULE_BUG', 'Report a bug for this module');
 define('_CO_SOBJECT_MODULE_DEMO', 'Demo Site');
@@ -151,9 +153,12 @@ define('_CO_SOBJECT_TAG_VALUE_DSC', 'Value of this tag, ie what will be displaye
 define('_CO_SOBJECT_UPDATE_MODULE', 'Update module');
 define('_CO_SOBJECT_UPLOAD_IMAGE', 'Upload a new image:');
 define('_CO_SOBJECT_VERSION_HISTORY', 'Version History');
-define('_CO_SOBJECT_WARNING_BETA', 'This module comes as is, without any guarantees whatsoever. This module is BETA, meaning it is still under active development. This release is meant for <b>testing purposes only</b> and we <b>strongly</b> recommend that you do not use it on a live website or in a production environment.');
-define('_CO_SOBJECT_WARNING_FINAL', 'This module comes as is, without any guarantees whatsoever. Although this module is not beta, it is still under active development. This release can be used in a live website or a production environment, but its use is under your own responsibility, which means the author is not responsible.');
-define('_CO_SOBJECT_WARNING_RC', 'This module comes as is, without any guarantees whatsoever. This module is a Release Candidate and should not be used on a production web site. The module is still under active development and its use is under your own responsibility, which means the author is not responsible.');
+define('_CO_SOBJECT_WARNING_BETA',
+       'This module comes as is, without any guarantees whatsoever. This module is BETA, meaning it is still under active development. This release is meant for <b>testing purposes only</b> and we <b>strongly</b> recommend that you do not use it on a live website or in a production environment.');
+define('_CO_SOBJECT_WARNING_FINAL',
+       'This module comes as is, without any guarantees whatsoever. Although this module is not beta, it is still under active development. This release can be used in a live website or a production environment, but its use is under your own responsibility, which means the author is not responsible.');
+define('_CO_SOBJECT_WARNING_RC',
+       'This module comes as is, without any guarantees whatsoever. This module is a Release Candidate and should not be used on a production web site. The module is still under active development and its use is under your own responsibility, which means the author is not responsible.');
 define('_CO_SOBJECT_WEIGHT_FORM_CAPTION', 'Weight');
 define('_CO_SOBJECT_WEIGHT_FORM_DSC', '');
 
@@ -177,7 +182,7 @@ define('_CO_SOBJECT_URL_FILE_DSC', "Alternatively, you can use an URL. If you se
 define('_CO_SOBJECT_URL_FILE', 'URL: ');
 define('_CO_SOBJECT_UPLOAD', 'Select a file to upload: ');
 
-define('_CO_SOBJECT_CHANGE_FILE', '<hr/><b>Change File</b><br/>');
+define('_CO_SOBJECT_CHANGE_FILE', '<hr/><b>Change File</b><br>');
 define('_CO_SOBJECT_CAPTION', 'Caption: ');
 define('_CO_SOBJECT_URLLINK_URL', 'URL: ');
 define('_CO_SOBJECT_DESC', 'Description');

@@ -171,7 +171,7 @@ class SmartobjectRatingHandler extends SmartPersistableObjectHandler
      * SmartobjectRatingHandler constructor.
      * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'rating', 'ratingid', 'rate', '', 'smartobject');
         $this->generalSQL = 'SELECT * FROM ' . $this->table . ' AS ' . $this->_itemname . ' INNER JOIN ' . $this->db->prefix('users') . ' AS user ON ' . $this->_itemname . '.uid=user.uid';

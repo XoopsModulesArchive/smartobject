@@ -44,12 +44,12 @@ function xoops_module_update_smartobject($module)
 
     $dbupdater = new SmartobjectDbupdater();
 
-    echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br />';
+    echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br>';
 
     // db migrate version = 1
     $newDbVersion = 1;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
 
         // Create table smartobject_link
         $table = new SmartDbTable('smartobject_link');
@@ -152,7 +152,7 @@ function xoops_module_update_smartobject($module)
     // db migrate version = 2
     $newDbVersion = 2;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
 
         // Create table smartobject_rating
         $table = new SmartDbTable('smartobject_rating');
@@ -192,7 +192,7 @@ function xoops_module_update_smartobject($module)
     // db migrate version = 3
     $newDbVersion = 3;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
 
         // Create table smartobject_customtag
         $table = new SmartDbTable('smartobject_customtag');
@@ -217,7 +217,7 @@ function xoops_module_update_smartobject($module)
     // db migrate version = 4
     $newDbVersion = 4;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
 
         // Create table smartobject_currency
         $table = new SmartDbTable('smartobject_currency');
@@ -243,12 +243,12 @@ function xoops_module_update_smartobject($module)
     // db migrate version = 6
     $newDbVersion = 6;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
     }
 
     $newDbVersion = 7;
     if ($dbVersion < $newDbVersion) {
-        echo 'Database migrate to version ' . $newDbVersion . '<br />';
+        echo 'Database migrate to version ' . $newDbVersion . '<br>';
 
         // Create table smartobject_file
         $table = new SmartDbTable('smartobject_file');

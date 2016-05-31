@@ -33,11 +33,11 @@ class XoopsCaptcha
     /**
      * @return XoopsCaptcha
      */
-    public static function instance()
+    public static function getInstance()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new XoopsCaptcha();
+        if (null === $instance) {
+            $instance = new static();
         }
 
         return $instance;
@@ -174,7 +174,7 @@ class XoopsCaptcha
      */
     public function getMessage()
     {
-        return implode('<br />', $this->message);
+        return implode('<br>', $this->message);
     }
 
     /**
@@ -185,7 +185,7 @@ class XoopsCaptcha
     public function destroyGarbage($clearSession = false)
     {
         require_once __DIR__ . '/' . $this->mode . '.php';
-        $class           = 'XoopsCaptcha' . ucfirst($this->mode);
+        $class          = 'XoopsCaptcha' . ucfirst($this->mode);
         $captchaHandler = new $class();
         if (method_exists($captchaHandler, 'destroyGarbage')) {
             $captchaHandler->loadConfig($this->config);
@@ -240,7 +240,7 @@ class XoopsCaptcha
     public function loadForm()
     {
         require_once __DIR__ . '/' . $this->mode . '.php';
-        $class           = 'XoopsCaptcha' . ucfirst($this->mode);
+        $class          = 'XoopsCaptcha' . ucfirst($this->mode);
         $captchaHandler = new $class();
         $captchaHandler->loadConfig($this->config);
 

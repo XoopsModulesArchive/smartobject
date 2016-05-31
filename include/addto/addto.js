@@ -46,16 +46,16 @@ switch (addtoLayout) {
     case 1:     // horizontal, 2 rows
         document.write('<div class="addToContent"><div class="addTo2Row"><div class="addToHeader" onclick="addto(0)">ADD THIS TO YOUR SOCIAL BO');
         document.write('OKMARKS</div><div class="addToFloat"><span title="Add this page to Blink"  onclick="addto(1)"><img src="' + addToScriptUrl + 'AddTo_Bl');
-        document.write('ink.gif" width="16" height="16" border="0" /> Blink</span><br /><span title="Add this page to Delicious" onclick="addto');
+        document.write('ink.gif" width="16" height="16" border="0" /> Blink</span><br><span title="Add this page to Delicious" onclick="addto');
         document.write('(2)"><img src="' + addToScriptUrl + 'AddTo_Delicious.gif" width="16" height="16" border="0" /> Del.icio.us</span></div><div class="add');
         document.write('ToFloat"><span title="Add this page to Digg" onclick="addto(3)"><img src="' + addToScriptUrl + 'AddTo_Digg.gif" width="16" height="16" ');
-        document.write('border="0" /> Digg</span><br /><span title="Add this page to Furl" onclick="addto(4)"><img src="' + addToScriptUrl + 'AddTo_Furl.gif" ');
+        document.write('border="0" /> Digg</span><br><span title="Add this page to Furl" onclick="addto(4)"><img src="' + addToScriptUrl + 'AddTo_Furl.gif" ');
         document.write('width="16" height="16" border="0" /> Furl</span></div><div class="addToFloat"><span title="Add this page to Google" onc');
-        document.write('lick="addto(5)"><img src="' + addToScriptUrl + 'AddTo_Google.gif" width="16" height="16" border="0" /> Google</span><br /><span title=');
+        document.write('lick="addto(5)"><img src="' + addToScriptUrl + 'AddTo_Google.gif" width="16" height="16" border="0" /> Google</span><br><span title=');
         document.write('"Add this page to Simpy" onclick="addto(6)"><img src="' + addToScriptUrl + 'AddTo_Simpy.gif" width="16" height="16" border="0" />Simpy<');
         document.write('/span></div><div class="addToFloat"><span title="Add this page to Spurl" onclick="addto(8)"><img src="' + addToScriptUrl + 'AddTo_Spur');
-        document.write('l.gif" width="16" height="16" border="0" />Spurl</span><br /><span title="Add this page to Yahoo! MyWeb" onclick="addto');
-        document.write('(7)"><img src="' + addToScriptUrl + 'AddTo_Yahoo.gif" width="16" height="16" border="0" /> Y! MyWeb</span><br /></div>');
+        document.write('l.gif" width="16" height="16" border="0" />Spurl</span><br><span title="Add this page to Yahoo! MyWeb" onclick="addto');
+        document.write('(7)"><img src="' + addToScriptUrl + 'AddTo_Yahoo.gif" width="16" height="16" border="0" /> Y! MyWeb</span><br></div>');
         document.write('<div class="addToFloat"><span title="Add this page to Facebook!" onclick="addto(9)"><img src="' + addToScriptUrl + 'AddTo_Facebook.gif" border="0" height="16" width="16">Facebook</span></div>');
         document.write('</div></div>');
         break

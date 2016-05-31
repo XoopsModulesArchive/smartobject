@@ -29,7 +29,7 @@ class SmartFormFileElement extends XoopsFormFile
     public function render()
     {
         $ret = '';
-        if ($this->object->getVar($this->key) != '') {
+        if ($this->object->getVar($this->key) !== '') {
             $ret .= '<div>' . _CO_SOBJECT_CURRENT_FILE . $this->object->getVar($this->key) . '</div>';
         }
 

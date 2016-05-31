@@ -31,15 +31,15 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      * @return array
      */
     /**
-     * @param       $gperm_name
-     * @param  null $id
+     * @param        $gperm_name
+     * @param  null  $id
      * @return array
      */
     public function getGrantedGroups($gperm_name, $id = null)
     {
         static $groups;
 
-        if (!isset($groups[$gperm_name]) || ($id != null && !isset($groups[$gperm_name][$id]))) {
+        if (!isset($groups[$gperm_name]) || ($id !== null && !isset($groups[$gperm_name][$id]))) {
             $smartModule = $this->handler->getModuleInfo();
             //Get group permissions handler
             $gpermHandler = xoops_getHandler('groupperm');
@@ -53,8 +53,8 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
     }
 
     /**
-     * @param       $item_ids_array
-     * @param  bool $gperm_name
+     * @param        $item_ids_array
+     * @param  bool  $gperm_name
      * @return array
      */
     public function getGrantedGroupsForIds($item_ids_array, $gperm_name = false)
@@ -105,8 +105,8 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      * @return array
      */
     /**
-     * @param       $gperm_name
-     * @param  null $id
+     * @param        $gperm_name
+     * @param  null  $id
      * @return array
      */
     public function getGrantedItems($gperm_name, $id = null)
@@ -114,7 +114,7 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
         global $xoopsUser;
         static $permissions;
 
-        if (!isset($permissions[$gperm_name]) || ($id != null && !isset($permissions[$gperm_name][$id]))) {
+        if (!isset($permissions[$gperm_name]) || ($id !== null && !isset($permissions[$gperm_name][$id]))) {
             $smartModule = $this->handler->getModuleInfo();
 
             if (is_object($smartModule)) {
@@ -149,10 +149,10 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      *
      *  saveCategory_Permissions()
      *
-     * @param array   $groups    : group with granted permission
+     * @param  array  $groups    : group with granted permission
      * @param         $itemid
      * @param  string $perm_name : name of the permission
-     * @return bool  : TRUE if the no errors occured
+     * @return bool   : TRUE if the no errors occured
      * @internal param int $categoryID: categoryID on which we are setting permissions for Categories and Forums
      */
 
@@ -160,8 +160,8 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
     {
         $smartModule = $this->handler->getModuleInfo();
 
-        $result        = true;
-        $module_id     = $smartModule->getVar('mid');
+        $result       = true;
+        $module_id    = $smartModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
 
         // First, if the permissions are already there, delete them
@@ -184,9 +184,9 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
      *
      *  deletePermissions()
      *
-     * @param integer $itemid : id of the item for which to delete the permissions
-     * @param         $gperm_name
-     * @return bool: TRUE if the no errors occured
+     * @param  integer $itemid     : id of the item for which to delete the permissions
+     * @param          $gperm_name
+     * @return bool:   TRUE if the no errors occured
      */
     public function deletePermissions($itemid, $gperm_name)
     {
@@ -194,8 +194,8 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
 
         $smartModule =& smartsection_getModuleInfo();
 
-        $result        = true;
-        $module_id     = $smartModule->getVar('mid');
+        $result       = true;
+        $module_id    = $smartModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
 
         $gpermHandler->deleteByModule($module_id, $gperm_name, $itemid);
@@ -206,8 +206,8 @@ class SmartobjectPermissionHandler extends XoopsObjectHandler
     /**
      * Checks if the user has access to a specific permission on a given object
      *
-     * @param  string $gperm_name   name of the permission to test
-     * @param  int    $gperm_itemid id of the object to check
+     * @param  string   $gperm_name   name of the permission to test
+     * @param  int      $gperm_itemid id of the object to check
      * @return boolean: TRUE if user has access, FALSE if not
      **/
     public function accessGranted($gperm_name, $gperm_itemid)

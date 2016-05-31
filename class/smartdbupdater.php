@@ -132,7 +132,7 @@ class SmartDbTable
             if ($existing_field['Extra']) {
                 $fields[$existing_field['Field']] .= ' ' . $existing_field['Extra'];
             }
-            if (!($existing_field['Default'] === null) && ($existing_field['Default'] || $existing_field['Default'] == '' || $existing_field['Default'] == 0)) {
+            if (!($existing_field['Default'] === null) && ($existing_field['Default'] || $existing_field['Default'] === '' || $existing_field['Default'] == 0)) {
                 $fields[$existing_field['Field']] .= " default '" . $existing_field['Default'] . "'";
             }
         }
@@ -219,9 +219,9 @@ class SmartDbTable
             $query = sprintf('INSERT INTO %s VALUES (%s)', $this->name(), $data);
             $ret   = $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br>';
             }
         }
 
@@ -247,7 +247,7 @@ class SmartDbTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name name of the field
+     * @param string $name     name of the field
      * @param        $newValue
      * @param        $oldValue
      * @internal param string $old old propertie
@@ -377,9 +377,9 @@ class SmartDbTable
         //xoops_debug($query);
         $ret = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br>';
         }
 
         return $ret;
@@ -397,11 +397,11 @@ class SmartDbTable
         $query = sprintf('DROP TABLE %s', $this->name());
         $ret   = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
 
             return false;
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
 
             return true;
         }
@@ -427,9 +427,9 @@ class SmartDbTable
             $ret   = $ret && $xoopsDB->query($query);
             if ($alteredField['showerror']) {
                 if (!$ret) {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
                 } else {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br />';
+                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br>';
                 }
             }
         }
@@ -452,9 +452,9 @@ class SmartDbTable
             //echo $query;
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br>';
             }
         }
 
@@ -475,9 +475,9 @@ class SmartDbTable
             $query = sprintf('UPDATE %s SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
             $ret   = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -498,9 +498,9 @@ class SmartDbTable
             //echo $query."<br>";
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -521,9 +521,9 @@ class SmartDbTable
             $query = sprintf('ALTER TABLE %s DROP %s', $this->name(), $droppedField);
             $ret   = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . ' (' . $xoopsDB->error() . ')<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . ' (' . $xoopsDB->error() . ')<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br>';
             }
         }
 
@@ -584,11 +584,11 @@ class SmartobjectDbupdater
         global $xoopsDB;
         $ret = $xoopsDB->query($query);
         if (!$ret) {
-            echo "&nbsp;&nbsp;$badmsg<br />";
+            echo "&nbsp;&nbsp;$badmsg<br>";
 
             return false;
         } else {
-            echo "&nbsp;&nbsp;$goodmsg<br />";
+            echo "&nbsp;&nbsp;$goodmsg<br>";
 
             return true;
         }
@@ -610,11 +610,11 @@ class SmartobjectDbupdater
         $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
         $ret   = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
 
             return false;
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
 
             return true;
         }
@@ -697,8 +697,8 @@ class SmartobjectDbupdater
     }
 
     /**
-     * @param       $var
-     * @param  bool $key
+     * @param         $var
+     * @param  bool   $key
      * @return string
      */
     public function getFieldDefaultFromVar($var, $key = false)
@@ -834,8 +834,8 @@ class SmartobjectDbupdater
             $dbVersion = 0;
         }
         $newDbVersion = constant(strtoupper($dirname . '_db_version')) ?: 0;
-        echo 'Database version: ' . $dbVersion . '<br />';
-        echo 'New database version: ' . $newDbVersion . '<br />';
+        echo 'Database version: ' . $dbVersion . '<br>';
+        echo 'New database version: ' . $newDbVersion . '<br>';
 
         if ($newDbVersion > $dbVersion) {
             for ($i = $dbVersion + 1; $i <= $newDbVersion; ++$i) {
@@ -846,7 +846,7 @@ class SmartobjectDbupdater
             }
         }
 
-        echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br />';
+        echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br>';
 
         // if there is a function to execute for this DB version, let's do it
         //$function_

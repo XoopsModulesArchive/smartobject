@@ -29,7 +29,7 @@ function smart_get_page_before_form()
 /**
  * Checks if a user is admin of $module
  *
- * @param  bool $module
+ * @param  bool  $module
  * @return bool: true if user is admin
  */
 function smart_userIsAdmin($module = false)
@@ -74,9 +74,9 @@ function smart_isXoops22()
 }
 
 /**
- * @param  bool $withLink
- * @param  bool $forBreadCrumb
- * @param  bool $moduleName
+ * @param  bool   $withLink
+ * @param  bool   $forBreadCrumb
+ * @param  bool   $moduleName
  * @return string
  */
 function smart_getModuleName($withLink = true, $forBreadCrumb = false, $moduleName = false)
@@ -112,7 +112,7 @@ function smart_getModuleName($withLink = true, $forBreadCrumb = false, $moduleNa
 }
 
 /**
- * @param  bool $moduleName
+ * @param  bool   $moduleName
  * @return string
  */
 function smart_getModuleNameForSEO($moduleName = false)
@@ -309,7 +309,7 @@ function smart_SetMeta($key, $value, $moduleName = false)
 function smart_substr($str, $start, $length, $trimmarker = '...')
 {
     // if the string is empty, let's get out ;-)
-    if ($str == '') {
+    if ($str === '') {
         return $str;
     }
     // reverse a string that is shortened with '' as trimmarker
@@ -325,9 +325,9 @@ function smart_substr($str, $start, $length, $trimmarker = '...')
 }
 
 /**
- * @param         $key
- * @param  bool   $moduleName
- * @param  string $default
+ * @param              $key
+ * @param  bool        $moduleName
+ * @param  string      $default
  * @return null|string
  */
 function smart_getConfig($key, $moduleName = false, $default = 'default_is_undefined')
@@ -416,8 +416,8 @@ function smart_admin_mkdir($target)
 
 /**
  * Thanks to the NewBB2 Development Team
- * @param      $target
- * @param  int $mode
+ * @param       $target
+ * @param  int  $mode
  * @return bool
  */
 function smart_admin_chmod($target, $mode = 0777)
@@ -461,7 +461,7 @@ function smart_imageResize($src, $maxWidth, $maxHeight)
 }
 
 /**
- * @param  bool $moduleName
+ * @param  bool  $moduleName
  * @return mixed
  */
 function smart_getModuleInfo($moduleName = false)
@@ -551,14 +551,14 @@ function smart_deleteFile($dirname)
 }
 
 /**
- * @param  array $errors
+ * @param  array  $errors
  * @return string
  */
 function smart_formatErrors($errors = array())
 {
     $ret = '';
     foreach ($errors as $key => $value) {
-        $ret .= '<br /> - ' . $value;
+        $ret .= '<br> - ' . $value;
     }
 
     return $ret;
@@ -567,8 +567,8 @@ function smart_formatErrors($errors = array())
 /**
  * smart_getLinkedUnameFromId()
  *
- * @param  integer $userid Userid of poster etc
- * @param  integer $name   :  0 Use Usenamer 1 Use realname
+ * @param  integer $userid      Userid of poster etc
+ * @param  integer $name        :  0 Use Usenamer 1 Use realname
  * @param  array   $users
  * @param  bool    $withContact
  * @return string
@@ -583,7 +583,7 @@ function smart_getLinkedUnameFromId($userid = 0, $name = 0, $users = array(), $w
         if ($users == array()) {
             //fetching users
             $memberHandler = xoops_getHandler('member');
-            $user           =& $memberHandler->getUser($userid);
+            $user          =& $memberHandler->getUser($userid);
         } else {
             if (!isset($users[$userid])) {
                 return $GLOBALS['xoopsConfig']['anonymous'];
@@ -605,9 +605,27 @@ function smart_getLinkedUnameFromId($userid = 0, $name = 0, $users = array(), $w
             }
             // add contact info: email + PM
             if ($withContact) {
-                $linkeduser .= ' <a href="mailto:' . $user->getVar('email') . '"><img style="vertical-align: middle;" src="' . XOOPS_URL . '/images/icons/email.gif' . '" alt="' . _CO_SOBJECT_SEND_EMAIL . '" title="' . _CO_SOBJECT_SEND_EMAIL . '"/></a>';
+                $linkeduser .= ' <a href="mailto:' .
+                               $user->getVar('email') .
+                               '"><img style="vertical-align: middle;" src="' .
+                               XOOPS_URL .
+                               '/images/icons/email.gif' .
+                               '" alt="' .
+                               _CO_SOBJECT_SEND_EMAIL .
+                               '" title="' .
+                               _CO_SOBJECT_SEND_EMAIL .
+                               '"/></a>';
                 $js = "javascript:openWithSelfMain('" . XOOPS_URL . '/pmlite.php?send2=1&to_userid=' . $userid . "', 'pmlite',450,370);";
-                $linkeduser .= ' <a href="' . $js . '"><img style="vertical-align: middle;" src="' . XOOPS_URL . '/images/icons/pm.gif' . '" alt="' . _CO_SOBJECT_SEND_PM . '" title="' . _CO_SOBJECT_SEND_PM . '"/></a>';
+                $linkeduser .= ' <a href="' .
+                               $js .
+                               '"><img style="vertical-align: middle;" src="' .
+                               XOOPS_URL .
+                               '/images/icons/pm.gif' .
+                               '" alt="' .
+                               _CO_SOBJECT_SEND_PM .
+                               '" title="' .
+                               _CO_SOBJECT_SEND_PM .
+                               '"/></a>';
             }
 
             return $linkeduser;
@@ -665,7 +683,7 @@ function smart_collapsableBar($id = '', $title = '', $dsc = '')
     echo "<h3 style=\"color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; \"><a href='javascript:;' onclick=\"togglecollapse('" . $id . "'); toggleIcon('" . $id . "_icon')\";>";
     echo "<img id='" . $id . "_icon' src=" . SMARTOBJECT_URL . "assets/images/close12.gif alt='' /></a>&nbsp;" . $title . '</h3>';
     echo "<div id='" . $id . "'>";
-    if ($dsc != '') {
+    if ($dsc !== '') {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $dsc . '</span>';
     }
 }
@@ -683,7 +701,7 @@ function smart_ajaxCollapsableBar($id = '', $title = '', $dsc = '')
     echo '<h3 style="border: 1px solid; color: #2F5376; font-weight: bold; font-size: 14px; margin: 6px 0 0 0; " onclick="' . $onClick . '">';
     echo "<img id='" . $id . "_icon' src=" . SMARTOBJECT_URL . "assets/images/close12.gif alt='' /></a>&nbsp;" . $title . '</h3>';
     echo "<div id='" . $id . "'>";
-    if ($dsc != '') {
+    if ($dsc !== '') {
         echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $dsc . '</span>';
     }
 }
@@ -743,7 +761,7 @@ function smart_close_collapsable($name)
 {
     echo '</div>';
     smart_openclose_collapsable($name);
-    echo '<br />';
+    echo '<br>';
 }
 
 /**
@@ -785,7 +803,7 @@ function smart_getCurrentUrls()
     $phpself     = $_SERVER['PHP_SELF'];
     $httphost    = $_SERVER['HTTP_HOST'];
     $querystring = $_SERVER['QUERY_STRING'];
-    if ($querystring != '') {
+    if ($querystring !== '') {
         $querystring = '?' . $querystring;
     }
     $currenturl           = $http . $httphost . $phpself . $querystring;
@@ -837,8 +855,24 @@ function smart_getCurrentPage()
  $title   = preg_replace($pattern, $rep_pat, $title);
 
  // Transformation des caract�res accentu�s
- //                  �        �        �        �        �        �        �        �        �        �        �        �        �        �        �
- $pattern = array("/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
+    $pattern = array(
+        '/%B0/', // °
+        '/%E8/', // è
+        '/%E9/', // é
+        '/%EA/', // ê
+        '/%EB/', // ë
+        '/%E7/', // ç
+        '/%E0/', // à
+        '/%E2/', // â
+        '/%E4/', // ä
+        '/%EE/', // î
+        '/%EF/', // ï
+        '/%F9/', // ù
+        '/%FC/', // ü
+        '/%FB/', // û
+        '/%F4/', // ô
+        '/%F6/', // ö
+    );
  $rep_pat = array(  "e"  ,   "e"  ,   "e"  ,   "e"  ,   "c"  ,   "a"  ,   "a"  ,   "a"  ,   "i"  ,   "i"  ,   "u"  ,   "u"  ,   "u"  ,   "o"  ,   "o"  );
  $title   = preg_replace($pattern, $rep_pat, $title);
 
@@ -863,11 +897,21 @@ function smart_modFooter()
     $hModule      = xoops_getHandler('module');
     $versioninfo  =& $hModule->get($xoopsModule->getVar('mid'));
     $modfootertxt = 'Module ' . $versioninfo->getInfo('name') . ' - Version ' . $versioninfo->getInfo('version') . '';
-    $modfooter    = "<a href='" . $versioninfo->getInfo('support_site_url') . "' target='_blank'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/assets/images/cssbutton.gif' title='" . $modfootertxt . "' alt='" . $modfootertxt . "'/></a>";
+    $modfooter    = "<a href='" .
+                    $versioninfo->getInfo('support_site_url') .
+                    "' target='_blank'><img src='" .
+                    XOOPS_URL .
+                    '/modules/' .
+                    $xoopsModule->getVar('dirname') .
+                    "/assets/images/cssbutton.gif' title='" .
+                    $modfootertxt .
+                    "' alt='" .
+                    $modfootertxt .
+                    "'/></a>";
     $tpl->assign('modfooter', $modfooter);
 
     if (!defined('_AM_SOBJECT_XOOPS_PRO')) {
-        define('_AM_SOBJECT_XOOPS_PRO', 'Do you need help with this module ?<br />Do you need new features not yet available?');
+        define('_AM_SOBJECT_XOOPS_PRO', 'Do you need help with this module ?<br>Do you need new features not yet available?');
     }
     $smartobjectConfig = smart_getModuleConfig('smartobject');
     $tpl->assign('smartobject_enable_admin_footer', $smartobjectConfig['enable_admin_footer']);
@@ -980,8 +1024,8 @@ function smart_htmlnumericentities($str)
 }
 
 /**
- * @param       $name
- * @param  bool $optional
+ * @param        $name
+ * @param  bool  $optional
  * @return mixed
  */
 function smart_getcorehandler($name, $optional = false)
@@ -998,7 +1042,7 @@ function smart_getcorehandler($name, $optional = false)
         }
     }
     if (!isset($handlers[$name]) && !$optional) {
-        trigger_error('Class <b>' . $class . '</b> does not exist<br />Handler Name: ' . $name, E_USER_ERROR);
+        trigger_error('Class <b>' . $class . '</b> does not exist<br>Handler Name: ' . $name, E_USER_ERROR);
     }
     if (isset($handlers[$name])) {
         return $handlers[$name];
@@ -1093,16 +1137,16 @@ function smart_loadCommonLanguageFile()
 }
 
 /**
- * @param       $text
- * @param  bool $keyword
+ * @param               $text
+ * @param  bool         $keyword
  * @return mixed|string
  */
 function smart_purifyText($text, $keyword = false)
 {
     global $myts;
     $text = str_replace('&nbsp;', ' ', $text);
-    $text = str_replace('<br />', ' ', $text);
-    $text = str_replace('<br/>', ' ', $text);
+    $text = str_replace('<br>', ' ', $text);
+    $text = str_replace('<br>', ' ', $text);
     $text = str_replace('<br', ' ', $text);
     $text = strip_tags($text);
     $text = html_entity_decode($text);
@@ -1186,8 +1230,8 @@ function smart_html2text($document)
  *
  * Use this snippet to extract any float out of a string. You can choose how a single dot is treated with the (bool) 'single_dot_as_decimal' directive.
  * This function should be able to cover almost all floats that appear in an european environment.
- * @param       $str
- * @param  bool $set
+ * @param            $str
+ * @param  bool      $set
  * @return float|int
  */
 function smart_getfloat($str, $set = false)
@@ -1207,7 +1251,7 @@ function smart_getfloat($str, $set = false)
                 // Treat single dot as decimal separator
                 return (float)$str;
             } else {
-                //echo "str: ".$str; echo "ret: ".str_replace('.', '', $str); echo "<br/><br/> ";
+                //echo "str: ".$str; echo "ret: ".str_replace('.', '', $str); echo "<br><br> ";
                 // Else, treat all dots as thousand seps
                 $str = str_replace('.', '', $str);    // Erase thousand seps
 
@@ -1221,8 +1265,8 @@ function smart_getfloat($str, $set = false)
 }
 
 /**
- * @param       $var
- * @param  bool $currencyObj
+ * @param                         $var
+ * @param  bool                   $currencyObj
  * @return float|int|mixed|string
  */
 function smart_currency($var, $currencyObj = false)
@@ -1236,11 +1280,11 @@ function smart_currency($var, $currencyObj = false)
         if (strlen($decimal_section) == 1) {
             $decimal_section = '.00';
         } elseif (strlen($decimal_section) == 2) {
-            $decimal_section = $decimal_section . '0';
+            $decimal_section .= '0';
         }
         $ret = str_replace($decimal_section_original, $decimal_section, $ret);
     } else {
-        $ret = $ret . '.00';
+        $ret .= '.00';
     }
     if ($currencyObj) {
         $ret = $ret . ' ' . $currencyObj->getCode();
@@ -1259,7 +1303,7 @@ function smart_float($var)
 }
 
 /**
- * @param  bool $moduleName
+ * @param  bool   $moduleName
  * @return string
  */
 function smart_getModuleAdminLink($moduleName = false)
@@ -1287,8 +1331,8 @@ function smart_getEditors()
     }
     include_once $filename;
     $xoopseditorHandler = XoopsEditorHandler::getInstance();
-    $aList               = $xoopseditorHandler->getList();
-    $ret                 = array();
+    $aList              = $xoopseditorHandler->getList();
+    $ret                = array();
     foreach ($aList as $k => $v) {
         $ret[$v] = $k;
     }

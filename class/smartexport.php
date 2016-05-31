@@ -32,15 +32,15 @@ class SmartObjectExport
     /**
      * Constructor
      *
-     * @param object      $objectHandler SmartObjectHandler handling the data we want to export
-     * @param object      $criteria      containing the criteria of the query fetching the objects to be exported
+     * @param SmartPersistableObjectHandler $objectHandler SmartObjectHandler handling the data we want to export
+     * @param CriteriaElement      $criteria      containing the criteria of the query fetching the objects to be exported
      * @param array|bool  $fields        fields to be exported. If FALSE then all fields will be exported
      * @param bool|string $filename      name of the file to be created
      * @param bool|string $filepath      path where the file will be saved
      * @param string      $format        format of the ouputed export. Currently only supports CSV
      * @param array|bool  $options       options of the format to be exported in
      */
-    public function __construct($objectHandler, $criteria = null, $fields = false, $filename = false, $filepath = false, $format = 'csv', $options = false)
+    public function __construct(SmartPersistableObjectHandler $objectHandler, CriteriaElement $criteria = null, $fields = false, $filename = false, $filepath = false, $format = 'csv', $options = false)
     {
         $this->handler          = $objectHandler;
         $this->criteria         = $criteria;
@@ -282,7 +282,7 @@ class SmartExportRenderer
             $mimeType  = 'text/csv';
             $file      = strrev($this->filename);
             $temp_name = strtolower(strrev(substr($file, 0, strpos($file, '--'))));
-            if ($temp_name == '') {
+            if ($temp_name === '') {
                 $file_name = $this->filename;
             } else {
                 $file_name = $temp_name;

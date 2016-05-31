@@ -61,7 +61,7 @@ switch ($op) {
         $xoopsTpl->assign('link', $linkObj->toArray());
         $xoopsTpl->display('db:smartobject_sentlink_display.tpl');
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('sentlinks');
         echo '<br>';
 
@@ -91,7 +91,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('sentlinks');
         echo '<br>';
 

@@ -33,9 +33,9 @@ class SmartobjectUrlLinkHandler extends SmartPersistableObjectHandler
 {
     /**
      * SmartobjectUrlLinkHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'urllink', 'urllinkid', 'caption', 'desc', 'smartobject');
     }

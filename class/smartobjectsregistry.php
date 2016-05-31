@@ -18,16 +18,16 @@ class SmartObjectsRegistry
     /**
      * Access the only instance of this class
      *
-     * @return object
+     * @return XoopsObject
      *
      * @static
      * @staticvar   object
      */
-    public function getInstance()
+    public static function getInstance()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new SmartObjectsRegistry();
+        if (null === $instance) {
+            $instance = new static();
         }
 
         return $instance;
@@ -74,7 +74,7 @@ class SmartObjectsRegistry
         $objectHandler = xoops_getModuleHandler($item, $modulename);
 
         if (method_exists($objectHandler, 'getObjects')) {
-            $objects                                                                                   = $objectHandler->getObjects($criteria, true);
+            $objects                                                                                 = $objectHandler->getObjects($criteria, true);
             $this->_registryArray['objects'][$objectHandler->_moduleName][$objectHandler->_itemname] = $objects;
 
             return $objects;
@@ -153,7 +153,7 @@ class SmartObjectsRegistry
      * @param string $itemname
      * @param string $key
      *
-     * @param  bool  $modulename
+     * @param  bool $modulename
      * @return the  requestd object or FALSE if they don't exists in the registry
      */
     public function getSingleObject($itemname, $key, $modulename = false)

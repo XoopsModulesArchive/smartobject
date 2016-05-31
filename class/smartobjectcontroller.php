@@ -50,7 +50,7 @@ class SmartObjectController
         foreach (array_keys($smartObj->vars) as $key) {
             switch ($smartObj->vars[$key]['data_type']) {
                 case XOBJ_DTYPE_IMAGE:
-                    if (isset($_POST['url_' . $key]) && $_POST['url_' . $key] != '') {
+                    if (isset($_POST['url_' . $key]) && $_POST['url_' . $key] !== '') {
                         $oldFile = $smartObj->getUploadDir(true) . $smartObj->getVar($key, 'e');
                         $smartObj->setVar($key, $_POST['url_' . $key]);
                         if (file_exists($oldFile)) {
@@ -72,7 +72,7 @@ class SmartObjectController
                     $linkObj->setVar('description', $_POST['desc_' . $key]);
                     $linkObj->setVar('target', $_POST['target_' . $key]);
                     $linkObj->setVar('url', $_POST['url_' . $key]);
-                    if ($linkObj->getVar('url') != '') {
+                    if ($linkObj->getVar('url') !== '') {
                         $smartObj->storeUrlLinkObj($linkObj);
                     }
                     //todo: catch errors
@@ -80,12 +80,12 @@ class SmartObjectController
                     break;
 
                 case XOBJ_DTYPE_FILE:
-                    if (!isset($_FILES['upload_' . $key]['name']) || $_FILES['upload_' . $key]['name'] == '') {
+                    if (!isset($_FILES['upload_' . $key]['name']) || $_FILES['upload_' . $key]['name'] === '') {
                         $fileObj = $smartObj->getFileObj($key);
                         $fileObj->setVar('caption', $_POST['caption_' . $key]);
                         $fileObj->setVar('description', $_POST['desc_' . $key]);
                         $fileObj->setVar('url', $_POST['url_' . $key]);
-                        if (!($fileObj->getVar('url') == '' && $fileObj->getVar('url') == '' && $fileObj->getVar('url') == '')) {
+                        if (!($fileObj->getVar('url') === '' && $fileObj->getVar('url') === '' && $fileObj->getVar('url') === '')) {
                             $res = $smartObj->storeFileObj($fileObj);
                             if ($res) {
                                 $smartObj->setVar($key, $fileObj->getVar('fileid'));
@@ -122,12 +122,12 @@ class SmartObjectController
     }
 
     /**
-     * @param       $smartObj
-     * @param       $objectid
-     * @param       $created_success_msg
-     * @param       $modified_success_msg
-     * @param  bool $redirect_page
-     * @param  bool $debug
+     * @param        $smartObj
+     * @param        $objectid
+     * @param        $created_success_msg
+     * @param        $modified_success_msg
+     * @param  bool  $redirect_page
+     * @param  bool  $debug
      * @return mixed
      */
     public function doStoreFromDefaultForm(&$smartObj, $objectid, $created_success_msg, $modified_success_msg, $redirect_page = false, $debug = false)
@@ -147,7 +147,7 @@ class SmartObjectController
             include_once XOOPS_ROOT_PATH . '/modules/smartobject/class/smartuploader.php';
             $uploaderObj = new SmartUploader($smartObj->getImageDir(true), $this->handler->_allowedMimeTypes, $this->handler->_maxFileSize, $this->handler->_maxWidth, $this->handler->_maxHeight);
             foreach ($_FILES as $name => $file_array) {
-                if (isset($file_array['name']) && $file_array['name'] != '' && in_array(str_replace('upload_', '', $name), array_keys($smartObj->vars))) {
+                if (isset($file_array['name']) && $file_array['name'] !== '' && in_array(str_replace('upload_', '', $name), array_keys($smartObj->vars))) {
                     if ($uploaderObj->fetchMedia($name)) {
                         $uploaderObj->setTargetFileName(time() . '_' . $uploaderObj->getMediaName());
                         if ($uploaderObj->upload()) {
@@ -320,7 +320,8 @@ class SmartObjectController
                 $confirm_msg = _CO_SOBJECT_DELETE_CONFIRM;
             }
 
-            xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'), sprintf($confirm_msg, $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
+            xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'),
+                          sprintf($confirm_msg, $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
 
             xoops_cp_footer();
         }
@@ -357,7 +358,8 @@ class SmartObjectController
             }
 
             ob_start();
-            xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'), sprintf($confirm_msg, $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
+            xoops_confirm(array('op' => $op, $this->handler->keyName => $smartObj->getVar($this->handler->keyName), 'confirm' => 1, 'redirect_page' => $smart_previous_page), xoops_getenv('PHP_SELF'),
+                          sprintf($confirm_msg, $smartObj->getVar($this->handler->identifierName)), _CO_SOBJECT_DELETE);
             $smartobjectDeleteConfirm = ob_get_clean();
             $xoopsTpl->assign('smartobject_delete_confirm', $smartobjectDeleteConfirm);
         }
@@ -366,18 +368,26 @@ class SmartObjectController
     /**
      * Retreive the object admin side link for a {@link SmartObjectSingleView} page
      *
-     * @param  object $smartObj reference to the object from which we want the user side link
-     * @param  bool   $onlyUrl  wether or not to return a simple URL or a full <a> link
+     * @param  SmartObject $smartObj  reference to the object from which we want the user side link
+     * @param  bool   $onlyUrl   wether or not to return a simple URL or a full <a> link
      * @param  bool   $withimage
      * @return string admin side link to the object
      */
-    public function getAdminViewItemLink($smartObj, $onlyUrl = false, $withimage = false)
+    public function getAdminViewItemLink(SmartObject $smartObj, $onlyUrl = false, $withimage = false)
     {
         $ret = $this->handler->_moduleUrl . 'admin/' . $this->handler->_page . '?op=view&' . $this->handler->keyName . '=' . $smartObj->getVar($this->handler->keyName);
         if ($onlyUrl) {
             return $ret;
         } elseif ($withimage) {
-            return "<a href='" . $ret . "'><img src='" . SMARTOBJECT_IMAGES_ACTIONS_URL . "viewmag.png' style='vertical-align: middle;' alt='" . _CO_SOBJECT_ADMIN_VIEW . "'  title='" . _CO_SOBJECT_ADMIN_VIEW . "'/></a>";
+            return "<a href='" .
+                   $ret .
+                   "'><img src='" .
+                   SMARTOBJECT_IMAGES_ACTIONS_URL .
+                   "viewmag.png' style='vertical-align: middle;' alt='" .
+                   _CO_SOBJECT_ADMIN_VIEW .
+                   "'  title='" .
+                   _CO_SOBJECT_ADMIN_VIEW .
+                   "'/></a>";
         }
 
         return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . '</a>';
@@ -386,11 +396,11 @@ class SmartObjectController
     /**
      * Retreive the object user side link
      *
-     * @param  object $smartObj reference to the object from which we want the user side link
+     * @param  SmartObject $smartObj reference to the object from which we want the user side link
      * @param  bool   $onlyUrl  wether or not to return a simple URL or a full <a> link
      * @return string user side link to the object
      */
-    public function getItemLink(&$smartObj, $onlyUrl = false)
+    public function getItemLink(SmartObject $smartObj, $onlyUrl = false)
     {
         $seoMode       = smart_getModuleModeSEO($this->handler->_moduleName);
         $seoModuleName = smart_getModuleNameForSEO($this->handler->_moduleName);
@@ -402,9 +412,25 @@ class SmartObjectController
         $seoIncludeId = true;
 
         if ($seoMode === 'rewrite') {
-            $ret = XOOPS_URL . '/' . $seoModuleName . '.' . $this->handler->_itemname . ($seoIncludeId ? '.' . $smartObj->getVar($this->handler->keyName) : '') . '/' . $smartObj->getVar('short_url') . '.html';
+            $ret = XOOPS_URL .
+                   '/' .
+                   $seoModuleName .
+                   '.' .
+                   $this->handler->_itemname .
+                   ($seoIncludeId ? '.' . $smartObj->getVar($this->handler->keyName) : '') .
+                   '/' .
+                   $smartObj->getVar('short_url') .
+                   '.html';
         } elseif ($seoMode === 'pathinfo') {
-            $ret = SMARTOBJECT_URL . 'seo.php/' . $seoModuleName . '.' . $this->handler->_itemname . ($seoIncludeId ? '.' . $smartObj->getVar($this->handler->keyName) : '') . '/' . $smartObj->getVar('short_url') . '.html';
+            $ret = SMARTOBJECT_URL .
+                   'seo.php/' .
+                   $seoModuleName .
+                   '.' .
+                   $this->handler->_itemname .
+                   ($seoIncludeId ? '.' . $smartObj->getVar($this->handler->keyName) : '') .
+                   '/' .
+                   $smartObj->getVar('short_url') .
+                   '.html';
         } else {
             $ret = $this->handler->_moduleUrl . $this->handler->_page . '?' . $this->handler->keyName . '=' . $smartObj->getVar($this->handler->keyName);
         }
@@ -417,28 +443,44 @@ class SmartObjectController
     }
 
     /**
-     * @param       $smartObj
-     * @param  bool $onlyUrl
-     * @param  bool $withimage
+     * @param         $smartObj
+     * @param  bool   $onlyUrl
+     * @param  bool   $withimage
      * @return string
      */
     public function getEditLanguageLink($smartObj, $onlyUrl = false, $withimage = true)
     {
-        $ret = $this->handler->_moduleUrl . 'admin/' . $this->handler->_page . '?op=mod&' . $this->handler->keyName . '=' . $smartObj->getVar($this->handler->keyName) . '&language=' . $smartObj->getVar('language');
+        $ret = $this->handler->_moduleUrl .
+               'admin/' .
+               $this->handler->_page .
+               '?op=mod&' .
+               $this->handler->keyName .
+               '=' .
+               $smartObj->getVar($this->handler->keyName) .
+               '&language=' .
+               $smartObj->getVar('language');
         if ($onlyUrl) {
             return $ret;
         } elseif ($withimage) {
-            return "<a href='" . $ret . "'><img src='" . SMARTOBJECT_IMAGES_ACTIONS_URL . "wizard.png' style='vertical-align: middle;' alt='" . _CO_SOBJECT_LANGUAGE_MODIFY . "'  title='" . _CO_SOBJECT_LANGUAGE_MODIFY . "'/></a>";
+            return "<a href='" .
+                   $ret .
+                   "'><img src='" .
+                   SMARTOBJECT_IMAGES_ACTIONS_URL .
+                   "wizard.png' style='vertical-align: middle;' alt='" .
+                   _CO_SOBJECT_LANGUAGE_MODIFY .
+                   "'  title='" .
+                   _CO_SOBJECT_LANGUAGE_MODIFY .
+                   "'/></a>";
         }
 
         return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . '</a>';
     }
 
     /**
-     * @param       $smartObj
-     * @param  bool $onlyUrl
-     * @param  bool $withimage
-     * @param  bool $userSide
+     * @param         $smartObj
+     * @param  bool   $onlyUrl
+     * @param  bool   $withimage
+     * @param  bool   $userSide
      * @return string
      */
     public function getEditItemLink($smartObj, $onlyUrl = false, $withimage = true, $userSide = false)
@@ -448,17 +490,25 @@ class SmartObjectController
         if ($onlyUrl) {
             return $ret;
         } elseif ($withimage) {
-            return "<a href='" . $ret . "'><img src='" . SMARTOBJECT_IMAGES_ACTIONS_URL . "edit.png' style='vertical-align: middle;' alt='" . _CO_SOBJECT_MODIFY . "'  title='" . _CO_SOBJECT_MODIFY . "'/></a>";
+            return "<a href='" .
+                   $ret .
+                   "'><img src='" .
+                   SMARTOBJECT_IMAGES_ACTIONS_URL .
+                   "edit.png' style='vertical-align: middle;' alt='" .
+                   _CO_SOBJECT_MODIFY .
+                   "'  title='" .
+                   _CO_SOBJECT_MODIFY .
+                   "'/></a>";
         }
 
         return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . '</a>';
     }
 
     /**
-     * @param       $smartObj
-     * @param  bool $onlyUrl
-     * @param  bool $withimage
-     * @param  bool $userSide
+     * @param         $smartObj
+     * @param  bool   $onlyUrl
+     * @param  bool   $withimage
+     * @param  bool   $userSide
      * @return string
      */
     public function getDeleteItemLink($smartObj, $onlyUrl = false, $withimage = true, $userSide = false)
@@ -468,7 +518,15 @@ class SmartObjectController
         if ($onlyUrl) {
             return $ret;
         } elseif ($withimage) {
-            return "<a href='" . $ret . "'><img src='" . SMARTOBJECT_IMAGES_ACTIONS_URL . "editdelete.png' style='vertical-align: middle;' alt='" . _CO_SOBJECT_DELETE . "'  title='" . _CO_SOBJECT_DELETE . "'/></a>";
+            return "<a href='" .
+                   $ret .
+                   "'><img src='" .
+                   SMARTOBJECT_IMAGES_ACTIONS_URL .
+                   "editdelete.png' style='vertical-align: middle;' alt='" .
+                   _CO_SOBJECT_DELETE .
+                   "'  title='" .
+                   _CO_SOBJECT_DELETE .
+                   "'/></a>";
         }
 
         return "<a href='" . $ret . "'>" . $smartObj->getVar($this->handler->identifierName) . '</a>';
@@ -489,7 +547,19 @@ class SmartObjectController
         $smartModule = smart_getModuleInfo($smartObj->handler->_moduleName);
         $link        = smart_getCurrentPage();
         $mid         = $smartModule->getVar('mid');
-        $friendlink  = "<a href=\"javascript:openWithSelfMain('" . SMARTOBJECT_URL . 'sendlink.php?link=' . $link . '&amp;mid=' . $mid . "', ',',',',',','sendmessage', 674, 500);\"><img src=\"" . SMARTOBJECT_IMAGES_ACTIONS_URL . "mail_send.png\"  alt=\"" . _CO_SOBJECT_EMAIL . "\" title=\"" . _CO_SOBJECT_EMAIL . "\" style=\"vertical-align: middle;\"/></a>";
+        $friendlink  = "<a href=\"javascript:openWithSelfMain('" .
+                       SMARTOBJECT_URL .
+                       'sendlink.php?link=' .
+                       $link .
+                       '&amp;mid=' .
+                       $mid .
+                       "', ',',',',',','sendmessage', 674, 500);\"><img src=\"" .
+                       SMARTOBJECT_IMAGES_ACTIONS_URL .
+                       "mail_send.png\"  alt=\"" .
+                       _CO_SOBJECT_EMAIL .
+                       "\" title=\"" .
+                       _CO_SOBJECT_EMAIL .
+                       "\" style=\"vertical-align: middle;\"/></a>";
 
         $ret = '<span id="smartobject_print_button">' . $printlink . '&nbsp;</span>' . '<span id="smartobject_mail_button">' . $friendlink . '</span>';
 

@@ -129,7 +129,7 @@ switch ($op) {
 
         $objectTable->render();
 
-        echo '<br />';
+        echo '<br>';
         smart_close_collapsable('tags');
         echo '<br>';
 

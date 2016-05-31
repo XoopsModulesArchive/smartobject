@@ -25,9 +25,9 @@ class SmartobjectFileHandler extends SmartPersistableObjectHandler
 {
     /**
      * SmartobjectFileHandler constructor.
-     * @param object|XoopsDatabase $db
+     * @param XoopsDatabase $db
      */
-    public function __construct($db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'file', 'fileid', 'caption', 'desc', 'smartobject');
     }

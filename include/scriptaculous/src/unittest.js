@@ -132,7 +132,7 @@ Test.Unit.Logger.prototype = {
         this.loglines = $('loglines');
     },
     _toHTML: function (txt) {
-        return txt.escapeHTML().replace(/\n/g, "<br/>");
+        return txt.escapeHTML().replace(/\n/g, "<br>");
     }
 }
 

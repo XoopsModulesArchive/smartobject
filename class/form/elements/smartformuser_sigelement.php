@@ -22,7 +22,7 @@ class SmartFormUser_sigElement extends XoopsFormElementTray
         $var     = $object->vars[$key];
         $control = $object->controls[$key];
 
-        parent::__construct($var['form_caption'], '<br /><br />', $key . '_signature_tray');
+        parent::__construct($var['form_caption'], '<br><br>', $key . '_signature_tray');
 
         $signature_textarea = new XoopsFormDhtmlTextArea('', $key, $object->getVar($key, 'e'));
         $this->addElement($signature_textarea);

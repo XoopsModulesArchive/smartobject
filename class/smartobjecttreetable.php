@@ -24,12 +24,12 @@ class SmartObjectTreeTable extends SmartObjectTable
 {
     /**
      * SmartObjectTreeTable constructor.
-     * @param object $objectHandler
+     * @param SmartPersistableObjectHandler $objectHandler
      * @param bool   $criteria
      * @param array  $actions
      * @param bool   $userSide
      */
-    public function __construct(&$objectHandler, $criteria = false, $actions = array('edit', 'delete'), $userSide = false)
+    public function __construct(SmartPersistableObjectHandler $objectHandler, $criteria = false, $actions = array('edit', 'delete'), $userSide = false)
     {
         $this->SmartObjectTable($objectHandler, $criteria, $actions, $userSide);
         $this->_isTree = true;
@@ -38,7 +38,7 @@ class SmartObjectTreeTable extends SmartObjectTable
     /**
      * Get children objects given a specific parentid
      *
-     * @var    int $parentid id of the parent which children we want to retreive
+     * @var    int   $parentid id of the parent which children we want to retreive
      * @return array of SmartObject
      */
     public function getChildrenOf($parentid = 0)
@@ -87,11 +87,11 @@ class SmartObjectTreeTable extends SmartObjectTable
             $space = '';
             if ($column->getKeyName() == $this->_objectHandler->identifierName) {
                 for ($i = 0; $i < $level; ++$i) {
-                    $space = $space . '--';
+                    $space .= '--';
                 }
             }
 
-            if ($space != '') {
+            if ($space !== '') {
                 $space .= '&nbsp;';
             }
 

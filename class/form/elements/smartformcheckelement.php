@@ -26,7 +26,7 @@ class SmartFormCheckElement extends XoopsFormCheckBox
             if (count($this->getValue()) > 0 && in_array($value, $this->getValue())) {
                 $ret .= " checked='checked'";
             }
-            $ret .= $this->getExtra() . ' />' . $name . '<br/>';
+            $ret .= $this->getExtra() . ' />' . $name . '<br>';
         }
 
         return $ret;

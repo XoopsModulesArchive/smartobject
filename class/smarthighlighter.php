@@ -41,7 +41,7 @@ class SmartHighlighter
     /**
      * Main constructor
      *
-     * This is the main constructor of keyhighlighter class. <br />
+     * This is the main constructor of keyhighlighter class. <br>
      * It's the only public method of the class.
      * @param string   $keywords         the keywords you want to highlight
      * @param boolean  $singlewords      specify if it has to highlight also the single words.
@@ -87,7 +87,7 @@ class SmartHighlighter
         $result = $replace_matches[0];
 
         foreach ($patterns as $pattern) {
-            if (null !== ($this->replace_callback)) {
+            if (null !== $this->replace_callback) {
                 $result = preg_replace_callback($pattern, $this->replace_callback, $result);
             } else {
                 $result = preg_replace($pattern, '<span class="highlightedkey">\\0</span>', $result);
