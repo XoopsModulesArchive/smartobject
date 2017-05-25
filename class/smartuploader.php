@@ -1,9 +1,9 @@
 <?php
-// $Id: smartuploader.php 159 2007-12-17 16:44:05Z malanciault $
+// 
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
+// Copyright (c) 2000-2016 XOOPS.org                           //
+// <http://xoops.org/>                             //
 // ------------------------------------------------------------------------ //
 // This program is free software; you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------ //
 // Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
+// URL: http://www.myweb.ne.jp/, http://xoops.org/, http://jp.xoops.org/ //
+// Project: XOOPS Project                                                    //
 // ------------------------------------------------------------------------- //
 /**
  * !
@@ -43,7 +43,7 @@
  * echo $uploader->getErrors();
  * } else {
  * echo '<h4>File uploaded successfully!</h4>'
- * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  * echo 'Full path: ' . $uploader->getSavedDestination();
  * }
  * } else {
@@ -67,7 +67,7 @@
  *               echo $uploader->getErrors();
  *            } else {
  *               echo '<h4>File uploaded successfully!</h4>'
- *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  *               echo 'Full path: ' . $uploader->getSavedDestination();
  *            }
  * } else {
@@ -76,43 +76,48 @@
  * </code>
  *
  * @license GNU
- * @author Kazumi Ono <onokazu@xoops.org>
- * @version $Id: smartuploader.php 159 2007-12-17 16:44:05Z malanciault $
- * @link http://smartfactory.ca The SmartFactory
+ * @author  Kazumi Ono <onokazu@xoops.org>
+ * @link    http://smartfactory.ca The SmartFactory
  * @package SmartObject
  */
-mt_srand((double) microtime() * 1000000);
+mt_srand((double)microtime() * 1000000);
 
-include_once XOOPS_ROOT_PATH."/class/uploader.php";
+include_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
+/**
+ * Class SmartUploader
+ */
 class SmartUploader extends XoopsMediaUploader
 {
-
-    var $ext;
-    var $dimension;
+    public $ext;
+    public $dimension;
 
     /**
      * No admin check for uploads
      */
-    var $noadmin_sizecheck;
+    public $noAdminSizeCheck;
+
     /**
      * Constructor
      *
-     * @param string $uploadDir
-     * @param array $allowedMimeTypes
-     * @param int $maxFileSize
-     * @param int $maxWidth
-     * @param int $maxHeight
-     * @param int $cmodvalue
+     * @param string    $uploadDir
+     * @param array|int $allowedMimeTypes
+     * @param int       $maxFileSize
+     * @param int       $maxWidth
+     * @param int       $maxHeight
+     * @internal param int $cmodvalue
      */
-    function SmartUploader($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
+    public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {
-        $this->XoopsMediaUploader($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
+        parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
     }
 
-    function noAdminSizeCheck($value)
+    /**
+     * @param $value
+     */
+    public function noAdminSizeCheck($value)
     {
-        $this->noadmin_sizecheck = $value;
+        $this->noAdminSizeCheck = $value;
     }
 
     /**
@@ -120,17 +125,15 @@ class SmartUploader extends XoopsMediaUploader
      *
      * @return bool
      */
-    function checkMaxFileSize()
+    public function checkMaxFileSize()
     {
-        if ($this->noadmin_sizecheck)
-        {
+        if ($this->noAdminSizeCheck) {
             return true;
         }
-        if ($this->mediaSize > $this->maxFileSize)
-        {
+        if ($this->mediaSize > $this->maxFileSize) {
             return false;
         }
+
         return true;
     }
 }
-?>
